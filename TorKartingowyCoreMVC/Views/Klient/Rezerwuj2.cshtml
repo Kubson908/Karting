@@ -1,0 +1,62 @@
+﻿@model Rezerwacja
+
+<form method="post" asp-action="Rezerwuj">
+    <input hidden asp-for="Numer" class="form-control" />
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2 class="text-primary">Utwórz rezerwację</h2>
+            <hr />
+        </div>
+        <div class="mb-3">
+            <label asp-for="Data"></label>
+            <input type="date" asp-for="Data" class="form-control" />
+            <span asp-validation-for="Data" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <select disabled asp-for="TorId" class="form-control">
+                <option value="">--Tor--</option>
+                <option value="1">Kryty</option>
+                <option value="2">Odkryty</option>
+            </select>
+            <input hidden asp-for="TorId"/>
+            <span asp-validation-for="TorId" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="LiczbaOsob"></label>
+            <input disabled type="number" asp-for="LiczbaOsob" class="form-control" />
+            <input hidden type="number" asp-for="LiczbaOsob" class="form-control" />
+            <span asp-validation-for="LiczbaOsob" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Godzina"></label>
+            <input type="time" step="3600" asp-for="Godzina" class="form-control" />
+            <span asp-validation-for="Godzina" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Czas"></label>
+            <input asp-for="Czas" class="form-control" />
+            <span asp-validation-for="Czas" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            Czy chcesz wykupić dodatkowe szkolenia?
+            <input class="form-check-input" type="checkbox" asp-for="DodatkoweSzkolenia" />
+        </div><div class="mb-3">
+            Chcę wpłacić zaliczkę zamiast pełnej kwoty &nbsp;
+            <input class="form-check-input" type="checkbox" asp-for="Zaliczka" />
+        </div>
+        <div class="mb-3">
+            <input asp-for="KlientNumer" class="form-control" hidden value=@User.Claims.FirstOrDefault(c => c.Type == "Numer").Value />
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary" style="width:150px">Zapisz</button>
+    <a asp-controller=@User.Claims.FirstOrDefault(c => c.Type == "Role").Value asp-action="Rezerwuj1" class="btn btn-secondary" style="width:150px">
+        Wróć
+    </a>
+    </div>
+</form>
+
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}

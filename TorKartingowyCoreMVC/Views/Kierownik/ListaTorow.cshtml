@@ -1,0 +1,55 @@
+﻿@model IEnumerable<Tor>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">Lista torów</h2>
+        </div>
+        <div class="col-6 text-end">
+            <a asp-controller="Kierownik" asp-action="CreateTor" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i> &nbsp; Dodaj tor
+            </a>
+        </div>
+    </div>
+</div>
+
+<table class="table m-3 w-75 table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Numer toru</th>
+            <th>Rodzaj</th>
+            <th>Pojemność</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var obj in Model)
+        {
+            <tr>
+                <td width="5%">
+                    @obj.Id
+                </td>
+                <td>
+                    @obj.Rodzaj
+                </td>
+                <td>
+                    @obj.Pojemnosc
+                </td>
+                <td width="40%" class="m-0">
+                    <div class="w-75 btn-group" role="group">
+                        <a asp-controller="Kierownik" asp-action="EditTor" asp-route-id="@obj.Id" class="btn btn-secondary p-1">
+                            <i class="bi bi-pen"></i>Edytuj
+                        </a>
+                        &nbsp;
+                        <a asp-controller="Kierownik" asp-action="DeleteTor" asp-route-id="@obj.Id" class="btn btn-danger p-1">
+                            <i class="bi bi-trash3"></i>Usuń
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

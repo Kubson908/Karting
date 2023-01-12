@@ -1,0 +1,107 @@
+﻿@using System.Security.Claims;
+<!DOCTYPE html>
+<html lang="en" class="h-100">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - TorKartingowyCoreMVC</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/bootswatchTheme.css"/>
+    <link rel="stylesheet" href="~/TorKartingowyCoreMVC.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+</head>
+<body class="h-100">
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">Navbar</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarColor01">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index" style="font-size: 2vh">
+                                Home
+                                <span class="visually-hidden">(current)</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Klient" asp-action="Index" style="font-size: 2vh">Klient</a>
+                        </li>
+                        
+                        @*<li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="#">Action</a>
+                                <a class="dropdown-item" href="#">Another action</a>
+                                <a class="dropdown-item" href="#">Something else here</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">Separated link</a>
+                            </div>
+                        </li>*@
+                    </ul>
+                    <div class="d-flex">
+                        <ul class="navbar-nav me-auto">
+                            @if(User.Identity.IsAuthenticated)
+                            {
+                                <span class="text-white" style="padding: var(--bs-nav-link-padding-y) var(--bs-nav-link-padding-x);font-size: 2vh;">Witaj @User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value</span>
+                                <li class="nav-item dropdown">
+                                    <a data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                                        <svg width="38" height="38" fill="White" class="bi bi-person-fill" viewBox="0 0 16 16" style="margin: 0 20">
+                                            <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+                                        </svg>
+                                    </a>
+                                    <div class="dropdown-menu" style="left: -112%;top: 105%;">
+                                        <a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="LogOut">Wyloguj</a>
+                                        <a class="dropdown-item" href="#">Another action</a>
+                                        <a class="dropdown-item" href="#">Something else here</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="#">Separated link</a>
+                                    </div>
+                                </li>
+                            }
+                            else{
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="Access" asp-action="Login" style="font-size: 2vh">Zaloguj</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="Access" asp-action="Register" style="font-size: 2vh">Zarejestruj</a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container h-100 w-75">
+        <main role="main" class="p-3 d-flex justify-content-center bg-secondary border border-dark mt-3">
+            <partial name="_Notification" />
+            <div class="">
+                @RenderBody()
+            </div>
+        </main>
+    </div>
+
+    <footer class="footer text-light bg-primary p-3">
+        <div class="nav-item d-inline-block">
+            &copy; 2023 - TorKartingowyCoreMVC - <a asp-area="" asp-controller="Home" asp-action="Privacy" class="nav-link d-inline">Privacy</a>
+        </div>
+        @if(!User.Identity.IsAuthenticated)
+        {
+        <div class="nav-item dropdown d-inline-block dropup" style="float: right">
+            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Panel pracownika</a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" asp-area="" asp-controller="PracownikAccess" asp-action="Login">Zaloguj</a>
+            </div>
+        </div>
+        }
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

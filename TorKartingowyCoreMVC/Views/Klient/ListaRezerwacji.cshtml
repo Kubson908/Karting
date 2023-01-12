@@ -1,0 +1,67 @@
+﻿@model List<Rezerwacja>
+@{
+    ViewData["Title"] = "Lista rezerwacji";
+}
+<div>
+    <div class="container p-3">
+        <div class="row pt-4">
+            <div class="col-6">
+                <h2 class="text-primary">Twoje rezerwacje</h2>
+            </div>
+            <div class="col-6 text-end">
+                <a asp-controller="Klient" asp-action="Rezerwuj" class="btn btn-primary">
+                    <i class="bi bi-plus-circle"></i> &nbsp; Rezerwuj
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <table class="table table-bordered table-striped" style="width:100%">
+        <thead>
+            <tr>
+                <th>Data</th>
+                <th>Godzina</th>
+                <th>Liczba osób</th>
+                <th>Tor</th>
+                <th>Czas</th>
+                <th>Dodatkowe szkolenia</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var obj in Model)
+            {
+                <tr>
+                    <td>
+                        @obj.Data
+                    </td>
+                    <td>
+                        @obj.Godzina
+                    </td>
+                    <td width="15%" class="m-0">
+                        @obj.LiczbaOsob
+                    </td>
+                    <td>
+                        @if(obj.TorId == 1) {
+                            <div>Kryty</div>
+                        }
+                        else {
+                            <div>Odkryty</div>
+                        }
+                    </td>
+                    <td>
+                        @obj.Czas godziny
+                    </td>
+                    <td>
+                        @if(obj.DodatkoweSzkolenia == true) {
+                            <div>Tak</div>
+                        }
+                        else {
+                            <div>Nie</div>
+                        }
+                    </td>
+                    
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

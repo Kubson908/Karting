@@ -1,0 +1,46 @@
+﻿@model Klient
+
+<form method="post" asp-action="Edit">
+    <input asp-for="Numer" hidden />
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2 class="text-primary">Zmiana danych klienta</h2>
+            <hr />
+        </div>
+        <div class="mb-3">
+            <label asp-for="Email"></label>
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Imie"></label>
+            <input asp-for="Imie" class="form-control" />
+            <span asp-validation-for="Imie" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Nazwisko"></label>
+            <input asp-for="Nazwisko" class="form-control" />
+            <span asp-validation-for="Nazwisko" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Telefon"></label>
+            <input asp-for="Telefon" class="form-control" />
+            <span asp-validation-for="Telefon" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Haslo"></label>
+            <input asp-for="Haslo" class="form-control" />
+            <span asp-validation-for="Haslo" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:150px">Aktualizuj</button>
+        <a asp-controller="Klient" asp-action="Index" class="btn btn-secondary" style="width:150px">
+            Wróć
+        </a>
+    </div>
+</form>
+
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}

@@ -1,0 +1,48 @@
+﻿@model Rezerwacja
+
+<table>
+    <tr>
+        <td>Numer rezerwacji</td>
+        <td>@Model.Numer</td>
+    </tr>
+    <tr>
+        <td>Numer klienta</td>
+        <td>@Model.KlientNumer</td>
+    </tr>
+    <tr>
+        <td>Tor</td>
+        <td>@Model.Tor</td>
+    </tr>
+    <tr>
+        <td>Termin</td>
+        <td>@Model.Data @Model.Godzina</td>
+    </tr>
+    <tr>
+        <td>Czas jazdy</td>
+        <td>@Model.Czas h</td>
+    </tr>
+    <tr>
+        <td>Status płatności</td>
+        @if (Model.Zaliczka == true)
+        {
+            <td>Zaliczka</td>
+        } else
+        {
+            <td>Cała kwota</td>
+        }
+    </tr>
+    <tr>
+        <td>Pozostała kwota</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Gokarty</td>
+        <td></td>
+    </tr>
+</table>
+
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}

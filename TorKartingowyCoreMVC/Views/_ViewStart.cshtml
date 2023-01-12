@@ -1,0 +1,11 @@
+﻿@{
+    if (User.Claims.FirstOrDefault(c => c.Type == "Role") == null || User.Claims.FirstOrDefault(c => c.Type == "Role").Value == "Klient")
+    {
+        Layout = "_Layout";
+    }
+    else
+    {
+        Layout = "_PracownikLayout";
+    }
+
+}
