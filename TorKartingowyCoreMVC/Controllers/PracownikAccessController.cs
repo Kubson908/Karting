@@ -48,6 +48,7 @@ namespace TorKartingowyCoreMVC.Controllers
                 List<Claim> claims = new List<Claim>()
                 {
                     new Claim(ClaimTypes.NameIdentifier, modelLogin.Imie),
+                    new Claim("Numer", PracownikFromDb.Id.ToString()),
                     new Claim("Role", modelLogin.Stanowisko)
                 };
 
