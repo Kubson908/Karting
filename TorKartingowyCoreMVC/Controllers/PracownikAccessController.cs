@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using TorKartingowyCoreMVC.Models;
 using TorKartingowyCoreMVC.Data;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace TorKartingowyCoreMVC.Controllers
 {
@@ -23,7 +25,7 @@ namespace TorKartingowyCoreMVC.Controllers
 
             if (claimUser.Identity != null && 
                 claimUser.Identity.IsAuthenticated && 
-                @User.Claims.FirstOrDefault(c => c.Type == "Role").Value != "Klient")
+                User.Claims.FirstOrDefault(c => c.Type == "Role").Value != "Klient")
                 return RedirectToAction("Index", User.Claims.FirstOrDefault(c => c.Type == "Role").Value);
 
             return View();
@@ -48,6 +50,7 @@ namespace TorKartingowyCoreMVC.Controllers
                 List<Claim> claims = new List<Claim>()
                 {
                     new Claim(ClaimTypes.NameIdentifier, modelLogin.Imie),
+                    new Claim("Numer", PracownikFromDb.Id.ToString()),
                     new Claim("Role", modelLogin.Stanowisko)
                 };
 
@@ -62,7 +65,6 @@ namespace TorKartingowyCoreMVC.Controllers
 
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
                     new ClaimsPrincipal(claimsIdentity), properties);
-
                 return RedirectToAction("Index", modelLogin.Stanowisko);
             }
 

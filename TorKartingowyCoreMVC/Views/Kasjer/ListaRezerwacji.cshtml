@@ -1,0 +1,75 @@
+﻿@model IEnumerable<Rezerwacja>
+@{
+    ViewData["Title"] = "Lista rezerwacji";
+}
+
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">Lista rezerwacji</h2>
+            <b>@ViewData["DaneKlienta"] <br />
+            @ViewData["NumerKlienta"]</b>
+        </div>
+    </div>
+</div>
+<div class="w-100 d-flex justify-content-center">
+    <table class="table table-bordered table-striped bg-white" style="width: 90%;">
+        <thead>
+            <tr>
+                <th width="7%">Numer rezerwacji</th>
+                <th>Data</th>
+                <th>Godzina</th>
+                <th width="5%">Liczba osób</th>
+                <th>Tor</th>
+                <th>Czas</th>
+                <th width="7%" >Dodatkowe szkolenie</th>
+                <th>Wpłacono</th>
+                <th width="10%">Status</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var obj in Model)
+            {
+                <tr style="font-size: 20px;" class="align-middle text-center">
+                    <td>
+                        @obj.Numer
+                    </td>
+                    <td>
+                        @obj.Data
+                    </td>
+                    <td>
+                        @obj.Godzina
+                    </td>
+                    <td>
+                        @obj.LiczbaOsob
+                    </td>
+                    <td>
+                        @obj.TorId
+                    </td>
+                    <td>
+                        @obj.Czas h
+                    </td>
+                    @if(obj.DodatkoweSzkolenia) {
+                        <td>&#10004;</td>
+                    } else {
+                        <td>&#10060;</td>
+                    }
+                    @if(obj.Zaliczka) {
+                        <td>Zaliczka</td>
+                    } else {
+                        <td>Cała kwota</td>
+                    }
+                    @if(obj.PracownikId != null) {
+                        <td class="bg-success">Zrealizowana</td>
+                    } else {
+                        <td class="bg-danger">Niezrealizowana</td>
+                    }
+                    <td>
+                        <a asp-action="UpdateRezerwacja" asp-route-id="@obj.Numer" class="btn btn-info">Aktualizuj</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
