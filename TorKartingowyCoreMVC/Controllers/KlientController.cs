@@ -15,29 +15,44 @@ namespace TorKartingowyCoreMVC.Controllers
             _db = db;
         }
 
+        public bool permission()
+        {
+            if (HttpContext.User.Identity != null &&
+               HttpContext.User.Identity.IsAuthenticated &&
+               User.Claims.FirstOrDefault(c => c.Type == "Role").Value == "Klient") return true;
+            else return false;
+        }
+
         public IActionResult Index()
         {
-            IEnumerable<Klient> objKlientList = _db.Klienci;
-            return View(objKlientList);
+            if (permission())
+            {
+                IEnumerable<Klient> objKlientList = _db.Klienci;
+                return View(objKlientList);
+            }
+            else return RedirectToAction("Index", "Home");
         }
 
         public IActionResult ListaRezerwacji()
         {
-            var klientId = Int32.Parse(User.Claims.FirstOrDefault(c => c.Type == "Numer").Value);
-            IEnumerable<Rezerwacja> rezerwacje = _db.Rezerwacje.Where(r => r.KlientNumer == klientId).AsNoTracking().ToList(); ;
-            return View(rezerwacje);
+            if (permission())
+            {
+                var klientId = Int32.Parse(User.Claims.FirstOrDefault(c => c.Type == "Numer").Value);
+                IEnumerable<Rezerwacja> rezerwacje = _db.Rezerwacje.Where(r => r.KlientNumer == klientId).AsNoTracking().ToList(); ;
+                return View(rezerwacje);
+            }
+            else return RedirectToAction("Login", "Access");
         }
 
         //GET
         public IActionResult Rezerwuj1()
         {
-            ClaimsPrincipal claimUser = HttpContext.User;
-
-            if (claimUser.Identity != null &&
-                claimUser.Identity.IsAuthenticated &&
-                @User.Claims.FirstOrDefault(c => c.Type == "Role").Value == "Klient")
+            if (permission())
+            {
                 return View();
-            return RedirectToAction("Login", "Access");
+            }
+            else return RedirectToAction("Login", "Access");
+            
         }
 
         //POST
@@ -64,91 +79,6 @@ namespace TorKartingowyCoreMVC.Controllers
                 return RedirectToAction("Index", "Home");
             }
             return Rezerwuj2(obj);
-        }
-
-        //GET
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        //POST
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Create(Klient obj)
-        {
-            if (ModelState.IsValid)
-            {
-                _db.Klienci.Add(obj);
-                _db.SaveChanges();
-                TempData["success"] = "Dodano klienta";
-                return RedirectToAction("Index");
-            }
-            return View(obj);
-        }
-
-        //GET
-        public IActionResult Edit(int? id)
-        {
-            if(id == null || id == 0)
-            {
-                return NotFound();
-            }
-            var klientFromDb = _db.Klienci.Find(id);
-            
-            if (klientFromDb == null)
-            {
-                return NotFound();
-            }
-
-            return View(klientFromDb);
-        }
-
-        //POST
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Edit(Klient obj)
-        {
-            if (ModelState.IsValid)
-            {
-                _db.Klienci.Update(obj);
-                _db.SaveChanges();
-                TempData["success"] = "Zaktualizowano dane klienta";
-                return RedirectToAction("Index");
-            }
-            return View(obj);
-        }
-
-        //GET
-        public IActionResult Delete(int? id)
-        {
-            if (id == null || id == 0)
-            {
-                return NotFound();
-            }
-            var klientFromDb = _db.Klienci.Find(id);
-
-            if (klientFromDb == null)
-            {
-                return NotFound();
-            }
-
-            return View(klientFromDb);
-        }
-
-        //POST
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult DeletePOST(Klient obj)
-        {
-            if(obj == null)
-            {
-                return NotFound();
-            }
-            _db.Klienci.Remove(obj);
-            _db.SaveChanges();
-            TempData["success"] = "Usunięto klienta";
-            return RedirectToAction("Index");
         }
     }
 }
