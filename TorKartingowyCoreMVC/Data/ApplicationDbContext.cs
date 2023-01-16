@@ -16,4 +16,5 @@ public class ApplicationDbContext :IdentityDbContext
 	public DbSet<Tor> Tory { get; set; }
 	public DbSet<Gokart> Gokarty { get; set; }
 	public DbSet<Serwis> Serwisy { get; set; }
+	public DbSet<RejestrPrac> RejestrPrac { get; set; }
 }

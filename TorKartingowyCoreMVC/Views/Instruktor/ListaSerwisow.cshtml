@@ -15,11 +15,19 @@
         </div>
     </div>
 </div>
+<div class="w-100 text-center">
+    <form method="get" asp-action="ListaSerwisow">
+        <input type="search" placeholder="Wyszukaj" value="@ViewData["GetSerwis"]" name="searchFilter" class="form-control d-inline mt-3 w-25" />
+        <input type="submit" value="Wyszukaj" class="btn btn-primary" />
+        <a asp-action="ListaSerwisow">Wszystkie serwisy</a>
+    </form>
+</div>
 <div class="w-100 d-flex justify-content-center">
     <table class="table table-bordered table-striped bg-white" style="width: 90%;">
         <thead>
             <tr>
                 <th width="7%">Numer serwisu</th>
+                <th width="7%">Numer gokarta</th>
                 <th>Data utworzenia</th>
                 <th>Usterka</th>
                 <th>Wykonano</th>
@@ -32,6 +40,9 @@
                 <tr style="font-size: 20px;" class="align-middle text-center">
                     <td>
                         @obj.Id
+                    </td>
+                    <td>
+                        @obj.GokartNumer
                     </td>
                     <td>
                         @obj.DataUtworzenia
