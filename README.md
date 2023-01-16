@@ -1,1 +1,1 @@
-XD
+Tutaj męczymy się z projektem
