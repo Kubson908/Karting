@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using TorKartingowyCoreMVC.Data;
 using TorKartingowyCoreMVC.Models;
 
@@ -12,21 +13,43 @@ namespace TorKartingowyCoreMVC.Controllers
         {
             _db = db;
         }
+
+        public bool permission()
+        {
+            if (HttpContext.User.Identity != null &&
+               HttpContext.User.Identity.IsAuthenticated &&
+               User.Claims.FirstOrDefault(c => c.Type == "Role").Value == "Kierownik") return true;
+            else return false;
+        }
+
         public IActionResult Index()
         {
-            return View();
+            if (permission())
+            {
+                return View();
+            }
+            else return RedirectToAction("Index", "Home");
         }
 
         public IActionResult ListaPracownikow()
         {
-            IEnumerable<Pracownik> objPracownikList = _db.Pracownicy;
-            return View(objPracownikList);
+            if (permission())
+            {
+                IEnumerable<Pracownik> objPracownikList = _db.Pracownicy;
+                return View(objPracownikList);
+            }
+            else return RedirectToAction("Index", "Home");
+            
         }
 
         //GET
         public IActionResult CreatePracownik()
         {
-            return View();
+            if (permission())
+            {
+                return View();
+            }
+            else return RedirectToAction("Index", "Home");
         }
 
         //POST
@@ -47,18 +70,22 @@ namespace TorKartingowyCoreMVC.Controllers
         //GET
         public IActionResult EditPracownik(int? id)
         {
-            if (id == null || id == 0)
+            if (permission())
             {
-                return NotFound();
-            }
-            var pracownikFromDb = _db.Pracownicy.Find(id);
+                if (id == null || id == 0)
+                {
+                    return NotFound();
+                }
+                var pracownikFromDb = _db.Pracownicy.Find(id);
 
-            if (pracownikFromDb == null)
-            {
-                return NotFound();
-            }
+                if (pracownikFromDb == null)
+                {
+                    return NotFound();
+                }
 
-            return View(pracownikFromDb);
+                return View(pracownikFromDb);
+            }
+            else return RedirectToAction("Index", "Home");
         }
 
         //POST
@@ -79,18 +106,23 @@ namespace TorKartingowyCoreMVC.Controllers
         //GET
         public IActionResult DeletePracownik(int? id)
         {
-            if (id == null || id == 0)
+            if (permission())
             {
-                return NotFound();
-            }
-            var pracownikFromDb = _db.Pracownicy.Find(id);
+                if (id == null || id == 0)
+                {
+                    return NotFound();
+                }
+                var pracownikFromDb = _db.Pracownicy.Find(id);
 
-            if (pracownikFromDb == null)
-            {
-                return NotFound();
-            }
+                if (pracownikFromDb == null)
+                {
+                    return NotFound();
+                }
 
-            return View(pracownikFromDb);
+                return View(pracownikFromDb);
+            }
+            else return RedirectToAction("Index", "Home");
+            
         }
 
         //POST
@@ -111,14 +143,22 @@ namespace TorKartingowyCoreMVC.Controllers
         //GOKART----------------------------------------------------------------------
         public IActionResult ListaGokartow()
         {
-            IEnumerable<Gokart> objGokartList = _db.Gokarty;
-            return View(objGokartList);
+            if (permission())
+            {
+                IEnumerable<Gokart> objGokartList = _db.Gokarty;
+                return View(objGokartList);
+            }
+            else return RedirectToAction("Index", "Home");
         }
 
         //GET
         public IActionResult CreateGokart()
         {
-            return View();
+            if (permission())
+            {
+                return View();
+            }
+            else return RedirectToAction("Index", "Home");
         }
 
         //POST
@@ -139,18 +179,21 @@ namespace TorKartingowyCoreMVC.Controllers
         //GET
         public IActionResult EditGokart(int? id)
         {
-            if (id == null || id == 0)
+            if (permission())
             {
-                return NotFound();
-            }
-            var gokartFromDb = _db.Gokarty.Find(id);
+                if (id == null || id == 0)
+                {
+                    return NotFound();
+                }
+                var gokartFromDb = _db.Gokarty.Find(id);
 
-            if (gokartFromDb == null)
-            {
-                return NotFound();
+                if (gokartFromDb == null)
+                {
+                    return NotFound();
+                }
+                return View(gokartFromDb);
             }
-
-            return View(gokartFromDb);
+            else return RedirectToAction("Index", "Home"); 
         }
 
         //POST
@@ -171,18 +214,21 @@ namespace TorKartingowyCoreMVC.Controllers
         //GET
         public IActionResult DeleteGokart(int? id)
         {
-            if (id == null || id == 0)
+            if (permission())
             {
-                return NotFound();
-            }
-            var gokartFromDb = _db.Gokarty.Find(id);
+                if (id == null || id == 0)
+                {
+                    return NotFound();
+                }
+                var gokartFromDb = _db.Gokarty.Find(id);
 
-            if (gokartFromDb == null)
-            {
-                return NotFound();
+                if (gokartFromDb == null)
+                {
+                    return NotFound();
+                }
+                return View(gokartFromDb);
             }
-
-            return View(gokartFromDb);
+            else return RedirectToAction("Index", "Home");
         }
 
         //POST
@@ -203,14 +249,22 @@ namespace TorKartingowyCoreMVC.Controllers
         //TOR----------------------------------------------------------------------
         public IActionResult ListaTorow()
         {
-            IEnumerable<Tor> objTorList = _db.Tory;
-            return View(objTorList);
+            if (permission())
+            {
+                IEnumerable<Tor> objTorList = _db.Tory;
+                return View(objTorList);
+            }
+            else return RedirectToAction("Index", "Home");
         }
 
         //GET
         public IActionResult CreateTor()
         {
-            return View();
+            if (permission())
+            {
+                return View();
+            }
+            else return RedirectToAction("Index", "Home");
         }
 
         //POST
@@ -231,18 +285,23 @@ namespace TorKartingowyCoreMVC.Controllers
         //GET
         public IActionResult EditTor(int? id)
         {
-            if (id == null || id == 0)
+            if (permission())
             {
-                return NotFound();
-            }
-            var TorFromDb = _db.Tory.Find(id);
+                if (id == null || id == 0)
+                {
+                    return NotFound();
+                }
+                var TorFromDb = _db.Tory.Find(id);
 
-            if (TorFromDb == null)
-            {
-                return NotFound();
-            }
+                if (TorFromDb == null)
+                {
+                    return NotFound();
+                }
 
-            return View(TorFromDb);
+                return View(TorFromDb);
+            }
+            else return RedirectToAction("Index", "Home");
+            
         }
 
         //POST
@@ -263,18 +322,22 @@ namespace TorKartingowyCoreMVC.Controllers
         //GET
         public IActionResult DeleteTor(int? id)
         {
-            if (id == null || id == 0)
+            if (permission())
             {
-                return NotFound();
-            }
-            var torFromDb = _db.Tory.Find(id);
+                if (id == null || id == 0)
+                {
+                    return NotFound();
+                }
+                var torFromDb = _db.Tory.Find(id);
 
-            if (torFromDb == null)
-            {
-                return NotFound();
-            }
+                if (torFromDb == null)
+                {
+                    return NotFound();
+                }
 
-            return View(torFromDb);
+                return View(torFromDb);
+            }
+            else return RedirectToAction("Index", "Home");
         }
 
         //POST
