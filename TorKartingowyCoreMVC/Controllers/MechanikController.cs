@@ -11,6 +11,15 @@ namespace TorKartingowyCoreMVC.Controllers
         {
             _db = db;
         }
+
+        public bool permission()
+        {
+            if (HttpContext.User.Identity != null &&
+               HttpContext.User.Identity.IsAuthenticated &&
+               User.Claims.FirstOrDefault(c => c.Type == "Role").Value == "Mechanik") return true;
+            else return false;
+        }
+
         public IActionResult Index()
         {
             return View();

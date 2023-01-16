@@ -91,5 +91,78 @@ namespace TorKartingowyCoreMVC.Controllers
             }
             return View(obj);
         }
+
+        public IActionResult ListaSerwisow()
+        {
+            if (permission())
+            {
+                var instruktorId = Int32.Parse(User.Claims.FirstOrDefault(c => c.Type == "Numer").Value);
+                IEnumerable<Serwis> objSerwisList = _db.Serwisy.Where(r => r.InstruktorId == instruktorId).AsNoTracking().ToList(); ;
+                return View(objSerwisList);
+            }
+            else return RedirectToAction("Index", "Home");
+        }
+
+        //GET
+        public IActionResult CreateSerwis()
+        {
+            if (permission())
+            {
+                return View();
+            }
+            else return RedirectToAction("Index", "Home");
+        }
+
+        //POST
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CreateSerwis(Serwis obj)
+        {
+            if (ModelState.IsValid)
+            {
+                _db.Serwisy.Add(obj);
+                _db.SaveChanges();
+                TempData["success"] = "Dodano serwis dla gokarta " + obj.GokartNumer;
+                return RedirectToAction("ListaSerwisow");
+            }
+            return View(obj);
+        }
+
+        //GET
+        public IActionResult UpdateSerwis(int? id)
+        {
+            if (permission())
+            {
+                if (id == null || id == 0)
+                {
+                    return NotFound();
+                }
+                var serwisFromDb = _db.Serwisy.Find(id);
+                
+                if (serwisFromDb == null)
+                {
+                    return NotFound();
+                }
+                var temp = serwisFromDb.DataUtworzenia.ToString();
+                ViewData["Data"] = temp.Substring(0, 10) ;
+                return View(serwisFromDb);
+            }
+            else return RedirectToAction("Index", "Home");
+        }
+
+        //POST
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult UpdateSerwis(Serwis obj)
+        {
+            if (ModelState.IsValid)
+            {
+                _db.Serwisy.Update(obj);
+                _db.SaveChanges();
+                TempData["success"] = "Zaktualizowano serwis";
+                return RedirectToAction("ListaSerwisow", "Instruktor");
+            }
+            return View(obj);
+        }
     }
 }
