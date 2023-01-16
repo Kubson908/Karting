@@ -1,0 +1,72 @@
+﻿@model List<Klient>
+@{
+    ViewData["Title"] = "Lista klientów";
+}
+
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">Lista klientów</h2>
+        </div>
+        <div class="col-6 text-end">
+        </div>
+    </div>
+</div>
+<div class="w-100 text-center">
+    <form method="get" asp-action="ListaKlientow">
+        <input type="search" placeholder="Wyszukaj" value="@ViewData[" GetKlient"]" name="searchFilter" class="form-control d-inline mt-3 w-25" />
+        <input type="submit" value="Wyszukaj" class="btn btn-primary" />
+        <a asp-action="ListaKlientow">Wszyscy klienci</a>
+    </form>
+</div>
+<br />
+<div class="w-100 d-flex justify-content-center">
+    <table class="table table-bordered table-striped bg-white w-75">
+        <thead>
+            <tr>
+                <th>Numer klienta</th>
+                <th>Imię</th>
+                <th>Nazwisko</th>
+                <th>E-mail</th>
+                <th>Telefon</th>
+                <th width="5%">Odbyte szkolenie</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var obj in Model)
+            {
+
+                <tr>
+                    <td width="7%">
+                        @obj.Numer
+                    </td>
+                    <td>
+                        @obj.Imie
+                    </td>
+                    <td>
+                        @obj.Nazwisko
+                    </td>
+                    <td>
+                        @obj.Email
+                    </td>
+                    <td>
+                        @obj.Telefon
+                    </td>
+                    @if (obj.Szkolenie == true)
+                    {
+                        <td class="text-center">&#10004;</td>
+                    }
+                    else
+                    {
+                        <td class="text-center">&#10060;</td>
+                    }
+                    <td class="text-center">
+                        <a class="btn btn-secondary" asp-controller="Instruktor" asp-action="UpdateSzkolenie" asp-route-idKlienta="@obj.Numer">Zrealizuj szkolenie</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
