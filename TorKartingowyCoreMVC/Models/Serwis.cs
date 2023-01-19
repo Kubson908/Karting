@@ -10,22 +10,25 @@ namespace TorKartingowyCoreMVC.Models
         [Key]
         public int Id { get; set; }
 
+        [Required(ErrorMessage = "Podaj usterkę")]
+        public string Usterka { get; set; } = string.Empty;
         public string? Notatka { get; set; } = "";
+
+        [DisplayName("Data utworzenia")]
+        public DateTime? DataUtworzenia { get; set; } = DateTime.Now;
 
         public bool Wykonano { get; set; } = false;
 
         //Navigation Properties
-        [Required]
+        [Required(ErrorMessage = "Podaj numer gokarta"), DisplayName("Numer gokarta")]
         [ForeignKey("Gokart")]
         public int GokartNumer { get; set; }
         public virtual Gokart? Gokart { get; set; }
 
-        [Required]
         [ForeignKey("Pracownik")]
-        public int InstruktorId { get; set; }
+        public int? InstruktorId { get; set; } = null;
         public virtual Pracownik? Intruktor { get; set; } = null;
 
-        [Required]
         [ForeignKey("Pracownik")]
         public int? MechanikId { get; set; }
         public virtual Pracownik? Mechanik { get; set; } = null;

@@ -1,0 +1,60 @@
+﻿@model IEnumerable<RejestrPrac>
+@{
+    ViewData["Title"] = "Lista wpisów w rejestrze prac";
+}
+
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">Rejestr prac</h2>
+        </div>
+        <div class="col-6 text-end">
+            <a asp-controller="Kasjer" asp-action="Index" class="btn btn-secondary" style="width:150px">
+                Wróć
+            </a>
+            <a asp-controller=@User.Claims.FirstOrDefault(c => c.Type == "Role").Value asp-action="CreateRejestr" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i> &nbsp; Dodaj wpis w rejestrze
+            </a>
+        </div>
+    </div>
+</div>
+<div class="w-100 text-center">
+    <form method="get" asp-action="ListaRejestr">
+        <label>Data wpisu:</label>
+        <input type="date" value="@ViewData["GetRejestr"]" name="searchFilter" class="form-control d-inline mt-3 w-25" />
+        <input type="submit" value="Wyszukaj" class="btn btn-primary" />
+        <a asp-action="ListaRejestr">Wszystkie wpisy</a>
+    </form>
+</div>
+<div class="w-100 d-flex justify-content-center">
+    <table class="table table-bordered table-striped bg-white" style="width: 90%;">
+        <thead>
+            <tr>
+                <th width="7%">Numer wpisu</th>
+                <th>Data</th>
+                <th>Wykonana praca</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var obj in Model)
+            {
+                <tr style="font-size: 20px;" class="align-middle text-center">
+                    <td>
+                        @obj.Id
+                    </td>
+                    <td>
+                        @obj.Data
+                    </td>
+                    <td>
+                        @{var text = obj.WykonanaPraca.Substring(0, 20) + "...";}
+                        @text
+                    </td>
+                    <td>
+                        <a asp-controller=@User.Claims.FirstOrDefault(c => c.Type == "Role").Value asp-action="RejestrDetails" asp-route-id="@obj.Id" class="btn btn-info">Szczegóły</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,40 @@
+﻿@model Serwis
+
+<form method="post" asp-action="UpdateSerwis">
+    <input asp-for="Id" hidden />
+    <input asp-for="Wykonano" hidden />
+    <input asp-for="InstruktorId" hidden />
+    <input asp-for="MechanikId" hidden />
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2 class="text-primary">Aktualizacja serwisu</h2>
+            <hr />
+        </div>
+        <div class="mb-3">
+            <label asp-for="GokartNumer"></label>
+            <input asp-for="GokartNumer" class="form-control" />
+            <span asp-validation-for="GokartNumer" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Usterka"></label>
+            <input asp-for="Usterka" class="form-control" />
+            <span asp-validation-for="Usterka" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="DataUtworzenia"></label>
+            <input value="@ViewData["Data"]" disabled class="form-control" />
+            <input asp-for="DataUtworzenia" hidden class="form-control" />
+        </div>
+        <input asp-for="Notatka" hidden />
+        <button type="submit" class="btn btn-primary" style="width:150px">Aktualizuj</button>
+        <a asp-controller="Instruktor" asp-action="ListaSerwisow" class="btn btn-secondary" style="width:150px">
+            Wróć
+        </a>
+    </div>
+</form>
+
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}
