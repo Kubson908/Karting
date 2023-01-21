@@ -45,7 +45,7 @@ namespace TorKartingowyCoreMVC.Controllers
         {
             if (permission())
             {
-                IEnumerable<Pracownik> objPracownikList = _db.Pracownicy.Where(x => x.Stanowisko != "Kierownik").ToList();
+                IEnumerable<Pracownik> objPracownikList = _db.Pracownicy;
                 return View(objPracownikList);
             }
             else return RedirectToAction("Index", "Home");
@@ -106,17 +106,8 @@ namespace TorKartingowyCoreMVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                var pracownikFromDb = _db.Pracownicy.Find(obj.Id);
-                if (pracownikFromDb != null)
-                {
-                    pracownikFromDb.Email = obj.Email;
-                    pracownikFromDb.Imie = obj.Imie;
-                    pracownikFromDb.Nazwisko = obj.Nazwisko;
-                    pracownikFromDb.Telefon = obj.Telefon;
-                    pracownikFromDb.Stanowisko = obj.Stanowisko;
-                    pracownikFromDb.Pensja = obj.Pensja;
-                    _db.SaveChanges();
-                }
+                _db.Pracownicy.Update(obj);
+                _db.SaveChanges();
                 TempData["success"] = "Zaktualizowano dane pracownika";
                 return RedirectToAction("ListaPracownikow", "Kierownik");
             }
@@ -375,6 +366,7 @@ namespace TorKartingowyCoreMVC.Controllers
             return RedirectToAction("ListaTorow");
         }
 
+
         //----------------REJESTR PRAC------------------------------
         public IActionResult ListaRejestr()
         {
@@ -488,6 +480,18 @@ namespace TorKartingowyCoreMVC.Controllers
             return View(obj);
         }
 
+        //----------------------Klient------------------------------
+
+        public IActionResult ListaKlientow()
+        {
+            if (permission())
+            {
+                IEnumerable<Klient> objKlientList = _db.Klienci;
+                return View(objKlientList);
+            }
+            else return RedirectToAction("Index", "Home");
+        }
 
     }
+
 }

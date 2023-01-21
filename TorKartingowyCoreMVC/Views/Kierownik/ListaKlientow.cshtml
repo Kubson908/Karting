@@ -1,0 +1,47 @@
+﻿@model IEnumerable<Klient>
+@{
+    ViewData["Title"] = "ListaKlientow";
+}
+
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">Lista klientów</h2>
+        </div>
+        
+    </div>
+</div>
+<div class="w-100 d-flex justify-content-center text-center">
+    <table class="table table-bordered table-striped" style="width: 90%">
+        <thead>
+            <tr>
+                <th>Imię</th>
+                <th>Nazwisko</th>
+                <th width="20%">E-mail</th>
+                <th width="15%">Telefon</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var obj in Model)
+            {
+                <tr>
+                    <td>
+                        @obj.Imie
+                    </td>
+                    <td>
+                        @obj.Nazwisko
+                    </td>
+                    <td>
+                        @obj.Email
+                    </td>
+                    <td>
+                        @obj.Telefon
+                    </td>
+                    
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
