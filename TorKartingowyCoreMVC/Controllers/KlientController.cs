@@ -23,15 +23,6 @@ namespace TorKartingowyCoreMVC.Controllers
             else return false;
         }
 
-        public IActionResult Index()
-        {
-            if (permission())
-            {
-                IEnumerable<Klient> objKlientList = _db.Klienci;
-                return View(objKlientList);
-            }
-            else return RedirectToAction("Index", "Home");
-        }
 
         public IActionResult ListaRezerwacji()
         {
@@ -134,34 +125,7 @@ namespace TorKartingowyCoreMVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                obj.Godzina = obj.Godzina.Substring(1) + ":00";
                 _db.Rezerwacje.Add(obj);
-                _db.SaveChanges();
-                string key = "T" + obj.TorId.ToString() + "_" + obj.Data.Replace('-', '_');
-                string godzina = obj.Godzina.Substring(0, 2);
-                if (!_db.DostepneGodziny.Any(o => o.TorData == key))
-                {
-                    _db.Database.ExecuteSqlRaw("INSERT INTO DostepneGodziny (TorData, G" + godzina +") VALUES ('"+ key +"', '" + obj.LiczbaOsob + "');");
-                    int hour = Int32.Parse(godzina);
-                    for (int i = hour+1; i < hour + obj.Czas; i++)
-                    {
-                        string name;
-                        if (i < 10) name = "G0" + i.ToString();
-                        else name = "G" + i.ToString();
-                        _db.Database.ExecuteSqlRaw("UPDATE DostepneGodziny SET " + name + " = " + name + " + " + obj.LiczbaOsob + " WHERE TorData = '" + key + "';");
-                    }
-                } else
-                {
-                    _db.Database.ExecuteSqlRaw("UPDATE DostepneGodziny SET G" + godzina + " = G" + godzina + " + " + obj.LiczbaOsob + " WHERE TorData = '"+ key +"';");
-                    int hour = Int32.Parse(godzina);
-                    for (int i = hour; i < hour + obj.Czas; i++)
-                    {
-                        string name;
-                        if (i < 10) name = "G0" + i.ToString();
-                        else name = "G" + i.ToString();
-                        _db.Database.ExecuteSqlRaw("UPDATE DostepneGodziny SET " + name + " = " + name + " + " + obj.LiczbaOsob + " WHERE TorData = '" + key + "';");
-                    }
-                }
                 _db.SaveChanges();
                 TempData["success"] = "Pomyślnie zarezerwowano";
                 return RedirectToAction("Index", "Home");
