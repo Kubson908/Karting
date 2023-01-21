@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@{
+    ViewData["Title"] = "Panel kierownika";
+}
+<!DOCTYPE html>
 
 <html>
 <head>
@@ -16,6 +19,9 @@
         </a> 
         <a class="btn btn-primary" asp-area="" asp-controller="Kierownik" asp-action="ListaTorow">
             Lista torów
+        </a>
+        <a class="btn btn-primary" asp-area="" asp-controller="Kierownik" asp-action="ListaRejestr">
+            Rejestr prac
         </a>
     </div>
 </body>

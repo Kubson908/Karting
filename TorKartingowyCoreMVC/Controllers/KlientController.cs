@@ -62,6 +62,19 @@ namespace TorKartingowyCoreMVC.Controllers
         {
             if (ModelState.IsValid)
             {
+                ViewData["ListaGodzin"] = new List<string>();
+                //if(_db.DostepneGodziny.Any(o => o.TorData == obj.Tor.ToString() + "_" + obj.Data))
+                //{
+                //    var termin = _db.DostepneGodziny.Find(obj.Tor.ToString() + "_" + obj.Data);
+                //    foreach(var col in termin.GetType().GetProperties().Where(p => p.Name.StartsWith("G")))
+                //    {
+                //        int value = col.GetValue(this, null);
+                //        if(value <= 20)
+                //        {
+
+                //        }
+                //    }
+                //}
                 return View(obj);
             }
             return RedirectToAction("Rezerwuj1");

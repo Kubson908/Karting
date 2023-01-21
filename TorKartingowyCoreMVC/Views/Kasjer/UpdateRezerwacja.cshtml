@@ -1,4 +1,7 @@
 ﻿@model Rezerwacja
+@{
+    ViewData["Title"] = "Rezerwacja nr" + Model.Numer;
+}
 <form method="post" asp-action="UpdateRezerwacja" class="row">
     <div class="col-md-6 p-0">
         <table class="table table-bordered table-striped border-5 border-dark m-4" style="width: 80%;">
