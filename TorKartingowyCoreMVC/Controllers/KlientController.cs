@@ -101,6 +101,11 @@ namespace TorKartingowyCoreMVC.Controllers
                         lista.Add(col.Name);
                     }
                 }
+                if (lista.Count == 0)
+                {
+                    TempData["error"] = "Termin niedostępny dla wskazanej liczby godzin i osób";
+                    return RedirectToAction("Rezerwuj1");
+                }
                 ViewData["Godziny"] = lista;
                 return View(obj);
             }
