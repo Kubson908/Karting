@@ -365,8 +365,7 @@ namespace TorKartingowyCoreMVC.Controllers
             TempData["success"] = "Usunięto tor";
             return RedirectToAction("ListaTorow");
         }
-<<<<<<< Updated upstream
-=======
+
 
         //----------------REJESTR PRAC------------------------------
         public IActionResult ListaRejestr()
@@ -492,7 +491,7 @@ namespace TorKartingowyCoreMVC.Controllers
             }
             else return RedirectToAction("Index", "Home");
         }
->>>>>>> Stashed changes
+
     }
 
 }
