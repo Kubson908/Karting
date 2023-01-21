@@ -1,0 +1,37 @@
+﻿@model RejestrPrac
+@{
+    ViewData["Title"] = "Edycja wpisu w rejestrze";
+}
+<form method="post" asp-action="EditRejestr" class="row">
+    <div class="p-0 justify-content-center">
+        <h1>Edytuj wpis</h1>
+        <table class="table table-bordered table-striped border-5 border-dark m-auto mb-2 text-center" style="width: 80%;left:auto">
+            <tr>
+                <th width="20%">Numer wpisu</th>
+                <th width="30%">Numer pracownika</th>
+                <th>Data</th>
+            </tr>
+            <tr>
+                
+                <td>@Model.Id</td>
+                <input asp-for="Id" hidden />
+                <td><input asp-for="PracownikId" disabled class="form-control-plaintext p-0 m-0" style="line-height: 1; font-size: 16px" /></td>
+                <input asp-for="PracownikId" hidden/>
+                <td>@Model.Data</td>
+            </tr>
+        </table>
+        <div class="w-75 d-block m-auto">
+            <textarea asp-for="WykonanaPraca" class="form-control"></textarea>
+            <button type="submit" class="btn btn-primary m-2 le" style="width:150px">Aktualizuj</button>
+        </div>
+    </div>
+
+</form>
+
+
+
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}

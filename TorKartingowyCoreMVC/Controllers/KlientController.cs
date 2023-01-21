@@ -23,15 +23,6 @@ namespace TorKartingowyCoreMVC.Controllers
             else return false;
         }
 
-        public IActionResult Index()
-        {
-            if (permission())
-            {
-                IEnumerable<Klient> objKlientList = _db.Klienci;
-                return View(objKlientList);
-            }
-            else return RedirectToAction("Index", "Home");
-        }
 
         public IActionResult ListaRezerwacji()
         {

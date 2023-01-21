@@ -15,7 +15,7 @@ namespace TorKartingowyCoreMVC.Models
         [Required(ErrorMessage = "Wybierz godzinę")]
         public string Godzina { get; set; }
 
-        [Required(ErrorMessage = "Wybierz długość trwania rezerwacji")]
+        [Required(ErrorMessage = "Wybierz długość trwania rezerwacji"), DisplayName("Czas jazdy")]
         public int Czas { get; set; }
 
         public bool DodatkoweSzkolenia { get; set; } = false;
@@ -31,7 +31,7 @@ namespace TorKartingowyCoreMVC.Models
         public int KlientNumer { get; set; }
         public virtual Klient? Klient { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Wybierz tor")]
         [ForeignKey("Tor")]
         public int TorId { get; set; }
         public virtual Tor? Tor { get; set; }

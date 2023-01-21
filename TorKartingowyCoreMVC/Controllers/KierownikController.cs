@@ -365,5 +365,134 @@ namespace TorKartingowyCoreMVC.Controllers
             TempData["success"] = "Usunięto tor";
             return RedirectToAction("ListaTorow");
         }
+<<<<<<< Updated upstream
+=======
+
+        //----------------REJESTR PRAC------------------------------
+        public IActionResult ListaRejestr()
+        {
+            if (permission())
+            {
+                var pracownikId = Int32.Parse(User.Claims.FirstOrDefault(c => c.Type == "Numer").Value);
+                IEnumerable<RejestrPrac> objRejestrList = _db.RejestrPrac.Where(r => r.PracownikId == pracownikId).AsNoTracking().ToList(); ;
+                return View(objRejestrList);
+            }
+            else return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ListaRejestr(string searchFilter)
+        {
+            if (permission())
+            {
+                ViewData["GetRejestr"] = searchFilter;
+                int pracownikId = Int32.Parse(User.Claims.FirstOrDefault(c => c.Type == "Numer").Value);
+                var query = from x in _db.RejestrPrac select x;
+                if (!String.IsNullOrEmpty(searchFilter))
+                {
+                    query = query.Where(x => x.Data.ToString().Contains(searchFilter));
+                }
+                return View(await query.AsNoTracking().ToListAsync());
+            }
+            else return RedirectToAction("Index", "Home");
+        }
+
+        //GET
+        public IActionResult CreateRejestr()
+        {
+            if (permission())
+            {
+                return View();
+            }
+            else return RedirectToAction("Index", "Home");
+        }
+
+        //POST
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CreateRejestr(RejestrPrac obj)
+        {
+            if (ModelState.IsValid)
+            {
+                _db.RejestrPrac.Add(obj);
+                _db.SaveChanges();
+                TempData["success"] = "Dodano wpis w rejestrze";
+                return RedirectToAction("ListaRejestr");
+            }
+            return View(obj);
+        }
+
+        //GET
+        public IActionResult RejestrDetails(int? id)
+        {
+            if (permission())
+            {
+                if (id == null || id == 0)
+                {
+                    return NotFound();
+                }
+                var RejestrFromDb = _db.RejestrPrac.Find(id);
+                
+                if (RejestrFromDb == null)
+                {
+                    return NotFound();
+                }
+                var Pracownik = _db.Pracownicy.Where(x => x.Id == RejestrFromDb.PracownikId).First();
+                ViewData["Pracownik"] = Pracownik.Imie + " " + Pracownik.Nazwisko;
+                return View(RejestrFromDb);
+            }
+            else return RedirectToAction("Index", "Home");
+        }
+
+        //GET
+        public IActionResult EditRejestr(int? id)
+        {
+            if (permission())
+            {
+                if (id == null || id == 0)
+                {
+                    return NotFound();
+                }
+                var WpisFromDb = _db.RejestrPrac.Find(id);
+
+                if (WpisFromDb == null)
+                {
+                    return NotFound();
+                }
+
+                return View(WpisFromDb);
+            }
+            else return RedirectToAction("Index", "Home");
+
+        }
+
+        //POST
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditRejestr(RejestrPrac obj)
+        {
+            if (ModelState.IsValid)
+            {
+                _db.RejestrPrac.Update(obj);
+                _db.SaveChanges();
+                TempData["success"] = "Zaktualizowano wpis";
+                return RedirectToAction("ListaRejestr", "Kierownik");
+            }
+            return View(obj);
+        }
+
+        //----------------------Klient------------------------------
+
+        public IActionResult ListaKlientow()
+        {
+            if (permission())
+            {
+                IEnumerable<Klient> objKlientList = _db.Klienci;
+                return View(objKlientList);
+            }
+            else return RedirectToAction("Index", "Home");
+        }
+>>>>>>> Stashed changes
     }
+
 }
