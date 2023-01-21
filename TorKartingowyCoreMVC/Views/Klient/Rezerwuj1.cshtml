@@ -1,5 +1,4 @@
-﻿@model Rezerwacja
-
+@model Rezerwacja
 <form method="post" asp-action="Rezerwuj2" class="w-75">
     <div class="border p-3 mt-4">
         <div class="row pb-2">
@@ -12,7 +11,7 @@
             <span asp-validation-for="Data" class="text-danger"></span>
         </div>
         <div class="mb-3">
-            <select asp-for="TorId" class="form-control">
+            <select asp-for="TorId" class="form-select">
                 <option value="">--Tor--</option>
                 <option value="1">Kryty</option>
                 <option value="2">Odkryty</option>
