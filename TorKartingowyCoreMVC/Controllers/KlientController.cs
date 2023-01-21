@@ -60,7 +60,7 @@ namespace TorKartingowyCoreMVC.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Rezerwuj2(Rezerwacja obj)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && DateOnly.Parse(obj.Data) > DateOnly.FromDateTime(DateTime.Now))
             {
                 var lista = new List<string>();
                 string key = "T" + obj.TorId.ToString() + "_" + obj.Data.Replace('-', '_');
@@ -93,12 +93,27 @@ namespace TorKartingowyCoreMVC.Controllers
                             lista.Add(col.Name);
                         }
                     }
-                } else
+                } else 
                 {
                     DostepneGodziny temp = new DostepneGodziny();
                     foreach (var col in temp.GetType().GetProperties().Where(p => p.Name != "TorData"))
                     {
-                        lista.Add(col.Name);
+                        int hour = Int32.Parse(col.Name.Substring(1));
+
+                        bool available = true;
+                        for (int i = hour; i < hour + obj.Czas; i++)
+                        {
+                            if (i > 20) break;
+                            if (obj.LiczbaOsob > 20)
+                            {
+                                available = false;
+                                break;
+                            }
+                        }
+                        if (available && hour + obj.Czas <= 21)
+                        {
+                            lista.Add(col.Name);
+                        }
                     }
                 }
                 if (lista.Count == 0)
@@ -109,6 +124,7 @@ namespace TorKartingowyCoreMVC.Controllers
                 ViewData["Godziny"] = lista;
                 return View(obj);
             }
+            TempData["error"] = "Wprowadź prawidłowe dane";
             return RedirectToAction("Rezerwuj1");
         }
 
