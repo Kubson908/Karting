@@ -10,7 +10,6 @@
         <div class="mb-3">
             <label asp-for="Data"></label>
             <input type="date" asp-for="Data" class="form-control" />
-            <span asp-validation-for="Data" class="text-danger"></span>
         </div>
         <div class="mb-3">
             <select disabled asp-for="TorId" class="form-control">
@@ -19,23 +18,28 @@
                 <option value="2">Odkryty</option>
             </select>
             <input hidden asp-for="TorId"/>
-            <span asp-validation-for="TorId" class="text-danger"></span>
         </div>
         <div class="mb-3">
             <label asp-for="LiczbaOsob"></label>
             <input disabled type="number" asp-for="LiczbaOsob" class="form-control" />
             <input hidden type="number" asp-for="LiczbaOsob" class="form-control" />
-            <span asp-validation-for="LiczbaOsob" class="text-danger"></span>
         </div>
         <div class="mb-3">
             <label asp-for="Godzina"></label>
-            <input type="time" step="3600" asp-for="Godzina" class="form-control" />
+            <select asp-for="Godzina" class="form-select">
+                <option value="">--Godzina--</option>
+                @foreach (var g in (IEnumerable<string>)ViewData["Godziny"])
+                {
+                    <option value=@g>@g.Substring(1):00</option>
+                }
+            </select>
+            @*<input type="time" step="3600" asp-for="Godzina" class="form-control" />*@
             <span asp-validation-for="Godzina" class="text-danger"></span>
         </div>
         <div class="mb-3">
             <label asp-for="Czas"></label>
-            <input asp-for="Czas" class="form-control" />
-            <span asp-validation-for="Czas" class="text-danger"></span>
+            <input disabled asp-for="Czas" class="form-control" />
+            <input asp-for="Czas" hidden />
         </div>
         <div class="mb-3">
             Czy chcesz wykupić dodatkowe szkolenia?

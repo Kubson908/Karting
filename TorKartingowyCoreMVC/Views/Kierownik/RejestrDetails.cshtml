@@ -1,0 +1,26 @@
+﻿@model RejestrPrac
+@{
+    ViewData["Title"] = "Szczegóły wpisu w rejestrze prac";
+}
+
+<div class="border p-3 mt-4 m-auto w-75">
+    <div class="row pb-2">
+        <h2 class="text-primary">Wpis numer @Model.Id</h2>
+        <hr />
+    </div>
+    <div class="mb-3">
+        <b>Data:</b> @Model.Data <br />
+        <b>Pracownik:</b> @ViewData["Pracownik"]
+    </div>
+    <div>
+        <b>Wykonana praca:</b><br />
+        <div style="margin-left: 3em;">
+            @Model.WykonanaPraca
+        </div>
+        
+    </div>
+    <br />
+    <a asp-controller="Kierownik" asp-action="ListaRejestr" class="btn btn-secondary" style="width:150px">
+        Wróć
+    </a>
+</div>
