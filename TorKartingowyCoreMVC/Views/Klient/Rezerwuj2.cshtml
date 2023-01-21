@@ -26,7 +26,14 @@
         </div>
         <div class="mb-3">
             <label asp-for="Godzina"></label>
-            <input type="time" step="3600" asp-for="Godzina" class="form-control" />
+            <select asp-for="Godzina" class="form-select">
+                <option value="">--Godzina--</option>
+                @foreach (var g in (IEnumerable<string>)ViewData["Godziny"])
+                {
+                    <option value=@g>@g.Substring(1):00</option>
+                }
+            </select>
+            @*<input type="time" step="3600" asp-for="Godzina" class="form-control" />*@
             <span asp-validation-for="Godzina" class="text-danger"></span>
         </div>
         <div class="mb-3">

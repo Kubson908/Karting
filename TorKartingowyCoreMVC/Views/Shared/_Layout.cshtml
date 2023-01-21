@@ -7,6 +7,7 @@
     <title>@ViewData["Title"] - TorKartingowyCoreMVC</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/bootswatchTheme.css"/>
+    <link rel="stylesheet" href="~/css/site.css"/>
     <link rel="stylesheet" href="~/TorKartingowyCoreMVC.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
@@ -74,7 +75,7 @@
         </div>
     </main>
         
-    <footer class="footer bg-primary" style="bottom:0;position:absolute;width:100%;height:60px;line-height:60px;">
+    <footer class="footer bg-primary text-light" style="bottom:0;position:absolute;width:100%;height:60px;line-height:60px;">
         <div class=container>
             <div class="nav-item d-inline-block">
                 &copy; 2023 - Karting - <a asp-area="" asp-controller="Home" asp-action="Privacy" class="nav-link d-inline">Privacy</a>
@@ -82,7 +83,7 @@
             @if (!User.Identity.IsAuthenticated)
             {
                 <div class="nav-item dropdown d-inline-block dropup" style="float: right">
-                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Panel pracownika</a>
+                    <a class="nav-link dropdown-toggle text-light" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Panel pracownika</a>
                     <div class="dropdown-menu" >
                         <a class="dropdown-item" style=""asp-area="" asp-controller="PracownikAccess" asp-action="Login">Zaloguj</a>
                     </div>
