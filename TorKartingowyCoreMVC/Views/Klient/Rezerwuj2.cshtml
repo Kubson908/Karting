@@ -1,6 +1,6 @@
 ﻿@model Rezerwacja
 
-<form method="post" asp-action="Rezerwuj">
+<form method="post" asp-action="Rezerwuj" style="width:80vw;">
     <input hidden asp-for="Numer" class="form-control" />
     <div class="border p-3 mt-4">
         <div class="row pb-2">
@@ -54,13 +54,14 @@
             <input asp-for="KlientNumer" class="form-control" hidden value=@User.Claims.FirstOrDefault(c => c.Type == "Numer").Value />
         </div>
     </div>
-    <button type="submit" class="btn btn-primary" style="width:150px">Zapisz</button>
+    
     <a asp-controller=@User.Claims.FirstOrDefault(c => c.Type == "Role").Value asp-action="Rezerwuj1" class="btn btn-secondary" style="width:150px">
         Wróć
     </a>
-    </div>
+    <button type="submit" class="btn btn-primary float-end" style="width:150px">Zapisz</button>
+    
 </form>
-
+<br />
 @section Scripts{
     @{
         <partial name="_ValidationScriptsPartial" />
