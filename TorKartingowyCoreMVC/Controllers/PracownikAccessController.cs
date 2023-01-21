@@ -4,8 +4,8 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using TorKartingowyCoreMVC.Models;
 using TorKartingowyCoreMVC.Data;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using System.Text;
+using System.Security.Cryptography;
 
 namespace TorKartingowyCoreMVC.Controllers
 {
@@ -16,6 +16,14 @@ namespace TorKartingowyCoreMVC.Controllers
         public PracownikAccessController(ApplicationDbContext db)
         {
             _db = db;
+        }
+
+        string hashPassword(string password)
+        {
+            var sha = SHA256.Create();
+            var asByteArray = Encoding.Default.GetBytes(password);
+            var hashedPassword = sha.ComputeHash(asByteArray);
+            return Convert.ToBase64String(hashedPassword);
         }
 
         //GET
@@ -36,9 +44,10 @@ namespace TorKartingowyCoreMVC.Controllers
         public async Task<IActionResult> Login(VMPracownik modelLogin)
         {
             var PracownikFromDb = _db.Pracownicy.Find(modelLogin.Id);
+            modelLogin.Haslo = hashPassword(modelLogin.Haslo);
             if (PracownikFromDb != null &&
                 PracownikFromDb.Id == modelLogin.Id &&
-                PracownikFromDb.Haslo == modelLogin.Haslo)
+                modelLogin.Haslo.Equals(PracownikFromDb.Haslo))
             {
                 modelLogin.Email = PracownikFromDb.Email;
                 modelLogin.Haslo = PracownikFromDb.Haslo;

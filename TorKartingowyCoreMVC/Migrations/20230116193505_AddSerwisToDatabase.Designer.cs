@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TorKartingowyCoreMVC.Data;
 
@@ -11,9 +12,10 @@ using TorKartingowyCoreMVC.Data;
 namespace TorKartingowyCoreMVC.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230116193505_AddSerwisToDatabase")]
+    partial class AddSerwisToDatabase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -322,31 +324,6 @@ namespace TorKartingowyCoreMVC.Migrations
                     b.ToTable("Pracownicy");
                 });
 
-            modelBuilder.Entity("TorKartingowyCoreMVC.Models.RejestrPrac", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime?>("Data")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("PracownikId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("WykonanaPraca")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PracownikId");
-
-                    b.ToTable("RejestrPrac");
-                });
-
             modelBuilder.Entity("TorKartingowyCoreMVC.Models.Rezerwacja", b =>
                 {
                     b.Property<int>("Numer")
@@ -508,17 +485,6 @@ namespace TorKartingowyCoreMVC.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("TorKartingowyCoreMVC.Models.RejestrPrac", b =>
-                {
-                    b.HasOne("TorKartingowyCoreMVC.Models.Pracownik", "Pracownik")
-                        .WithMany()
-                        .HasForeignKey("PracownikId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Pracownik");
                 });
 
             modelBuilder.Entity("TorKartingowyCoreMVC.Models.Rezerwacja", b =>

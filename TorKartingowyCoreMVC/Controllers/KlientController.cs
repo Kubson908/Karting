@@ -38,7 +38,7 @@ namespace TorKartingowyCoreMVC.Controllers
             if (permission())
             {
                 var klientId = Int32.Parse(User.Claims.FirstOrDefault(c => c.Type == "Numer").Value);
-                IEnumerable<Rezerwacja> rezerwacje = _db.Rezerwacje.Where(r => r.KlientNumer == klientId).AsNoTracking().ToList(); ;
+                IEnumerable<Rezerwacja> rezerwacje = _db.Rezerwacje.Where(r => r.KlientNumer == klientId).AsNoTracking().ToList();
                 return View(rezerwacje);
             }
             else return RedirectToAction("Login", "Access");

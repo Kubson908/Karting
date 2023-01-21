@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using TorKartingowyCoreMVC.Models;
 using TorKartingowyCoreMVC.Data;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace TorKartingowyCoreMVC.Controllers
 {
@@ -14,6 +16,14 @@ namespace TorKartingowyCoreMVC.Controllers
         public AccessController(ApplicationDbContext db)
         {
             _db = db;
+        }
+
+        string hashPassword (string password)
+        {
+            var sha = SHA256.Create();
+            var asByteArray = Encoding.Default.GetBytes(password);
+            var hashedPassword = sha.ComputeHash(asByteArray);
+            return Convert.ToBase64String(hashedPassword);
         }
 
         //GET
@@ -29,6 +39,16 @@ namespace TorKartingowyCoreMVC.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (_db.Klienci.Any(c => c.Email == obj.Email)) {
+                    TempData["error"] = "Podany e-mail jest już zarejestrowany";
+                    return View(obj);
+                }
+                if (_db.Klienci.Any(c => c.Telefon == obj.Telefon))
+                {
+                    TempData["error"] = "Podany numer telefonu jest już zarejestrowany";
+                    return View(obj);
+                }
+                obj.Haslo = hashPassword(obj.Haslo);
                 _db.Klienci.Add(obj);
                 _db.SaveChanges();
                 TempData["success"] = "Dodano klienta";
@@ -55,9 +75,10 @@ namespace TorKartingowyCoreMVC.Controllers
         public async Task<IActionResult> Login(VMLogin modelLogin)
         {
             var klientFromDb = _db.Klienci.Find(modelLogin.Numer);
+            modelLogin.Haslo = hashPassword(modelLogin.Haslo);
             if (klientFromDb != null && 
                 klientFromDb.Numer == modelLogin.Numer && 
-                klientFromDb.Haslo == modelLogin.Haslo)
+                modelLogin.Haslo.Equals(klientFromDb.Haslo))
             {
                 modelLogin.Email = klientFromDb.Email;
                 modelLogin.Imie = klientFromDb.Imie;
@@ -88,8 +109,7 @@ namespace TorKartingowyCoreMVC.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-
-            ViewData["ValidateMessage"] = "Nie znaleziono użytkownika";
+            ViewData["ValidateMessage"] = "Błędny email lub hasło";
             return View();
         }
     }

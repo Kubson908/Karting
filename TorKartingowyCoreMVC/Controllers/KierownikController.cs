@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography;
+using System.Text;
 using TorKartingowyCoreMVC.Data;
 using TorKartingowyCoreMVC.Models;
 
@@ -12,6 +14,14 @@ namespace TorKartingowyCoreMVC.Controllers
         public KierownikController(ApplicationDbContext db)
         {
             _db = db;
+        }
+
+        string hashPassword(string password)
+        {
+            var sha = SHA256.Create();
+            var asByteArray = Encoding.Default.GetBytes(password);
+            var hashedPassword = sha.ComputeHash(asByteArray);
+            return Convert.ToBase64String(hashedPassword);
         }
 
         public bool permission()
@@ -59,6 +69,7 @@ namespace TorKartingowyCoreMVC.Controllers
         {
             if (ModelState.IsValid)
             {
+                obj.Haslo = hashPassword(obj.Haslo);
                 _db.Pracownicy.Add(obj);
                 _db.SaveChanges();
                 TempData["success"] = "Dodano pracownika";

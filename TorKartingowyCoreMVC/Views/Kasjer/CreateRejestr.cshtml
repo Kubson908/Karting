@@ -1,0 +1,26 @@
+﻿@model RejestrPrac
+
+<form method="post">
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2 class="text-primary">Dodaj wpis w rejestrze prac</h2>
+            <hr />
+        </div>
+        <div class="mb-3">
+            <label asp-for="WykonanaPraca"></label>
+            <textarea asp-for="WykonanaPraca" class="form-control" ></textarea>
+            <span asp-validation-for="WykonanaPraca" class="text-danger"></span>
+        </div>
+        <input asp-for="PracownikId" value="@User.Claims.FirstOrDefault(c => c.Type == "Numer").Value" hidden />
+        <button type="submit" class="btn btn-primary" style="width:150px">Zapisz</button>
+        <a asp-controller="Kasjer" asp-action="ListaRejestr" class="btn btn-secondary" style="width:150px">
+            Wróć
+        </a>
+    </div>
+</form>
+
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}
