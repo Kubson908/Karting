@@ -1,6 +1,6 @@
 ﻿@using System.Security.Claims;
 <!DOCTYPE html>
-<html lang="en" class="h-100" >
+<html lang="en" style="position:relative;min-height:100% " >
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -11,74 +11,78 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 </head>
-<body class="h-100" style="background: url('../../img/bg.jpg') no-repeat center center fixed;background-size: cover;">
+<body class="bg-light" style="margin-bottom:60px;">
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark bg-info" style="font-size: 2vh">
             <div class="container-fluid">
-                <div class="collapse navbar-collapse" id="navbarColor01">
-                    <ul class="navbar-nav me-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller=@User.Claims.FirstOrDefault(c => c.Type == "Role").Value asp-action="Index">
-                                Panel główny
-                                <span class="visually-hidden">(current)</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Klient" asp-action="Index">Klient</a>
-                        </li>
-                        <li class="navbar-brand" style="position: absolute; left: 50%; transform: translate(-50%, -13%); font-size: 25px;">
-                            <b>Panel Pracownika</b>
-                        </li>
-                        @*<li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-                        <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <a class="dropdown-item" href="#">Something else here</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Separated link</a>
-                        </div>
-                        </li>*@
-                    </ul>
-                    <div class="d-flex">
-                        <ul class="navbar-nav me-auto">
-                            @if (User.Identity.IsAuthenticated)
-                            {
-                                <span class="text-white" style="padding: var(--bs-nav-link-padding-y) var(--bs-nav-link-padding-x);">Witaj @User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value</span>
-                                <li class="nav-item dropdown">
-                                    <a data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                                        <svg width="36" height="36" fill="White" class="bi bi-person-fill" viewBox="0 0 16 16" style="margin: 0 20">
-                                            <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
-                                        </svg>
-                                    </a>
-                                    <div class="dropdown-menu" style="left: -112%;top: 105%;">
-                                        <a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="LogOut">Wyloguj</a>
-                                        <a class="dropdown-item" href="#">Another action</a>
-                                        <a class="dropdown-item" href="#">Something else here</a>
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="#">Separated link</a>
-                                    </div>
-                                </li>
-                            }
-                        </ul>
-                    </div>
+                <div class="navbar-brand sticky-top mt-2" style="position: absolute;left:50%;transform:translateX(-50%)">
+                    
+                    <h3>Panel Pracownika</h3>
                 </div>
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <div class="navbar-nav me-auto">
+                            
+                        <a class="nav-link nav-item" asp-area="" asp-controller=@User.Claims.FirstOrDefault(c => c.Type == "Role").Value asp-action="Index">
+                            Panel główny
+                            <span class="visually-hidden">(current)</span>
+                        </a>
+                            
+                        
+                        <a class="nav-link nav-item" asp-area="" asp-controller="Klient" asp-action="Index">Klient</a>
+                        
+                        
+                    </div>
+                    
+                    <div class="navbar-nav ms-auto">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <div class="text-white" style="padding: var(--bs-nav-link-padding-y) var(--bs-nav-link-padding-x);">Witaj @User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value</div>
+                            <div class="nav-item dropdown">
+                                <a data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                                    <svg width="36" height="36" fill="White" class="bi bi-person-fill" viewBox="0 0 16 16" style="margin: 0 20">
+                                        <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+                                    </svg>
+                                </a>
+                                <div class="dropdown-menu" style="left: -112%;top: 105%;">
+                                    <a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="LogOut">Wyloguj</a>
+                                    <a class="dropdown-item" href="#">Another action</a>
+                                        
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    
+                </div>
+               
             </div>
         </nav>
     </header>
-    <div class="container h-100 w-100">
-        <main role="main" class="d-flex justify-content-center h-100">
-            <partial name="_Notification" />
-            <div class="bg-light justify-content-center" style="width: 90%;">
-                @RenderBody()
-            </div>
-        </main>
-    </div>
-
-    <footer class="text-light bg-dark p-3">
-        <div class="container">
-            &copy; 2023 - TorKartingowyCoreMVC - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <main role="main" class="container d-flex justify-content-center">
+        <partial name="_Notification" />
+        <div class=" justify-content-center pt-2">
+            @RenderBody()
         </div>
+    </main>
+
+    <footer class="footer bg-info" style="bottom:0;position:absolute;width:100%;height:60px;line-height:60px;">
+        <div class=container>
+            <div class="nav-item d-inline-block">
+                &copy; 2023 - Karting - <a asp-area="" asp-controller="Home" asp-action="Privacy" class="nav-link d-inline">Privacy</a>
+            </div>
+            @if (!User.Identity.IsAuthenticated)
+            {
+                <div class="nav-item dropdown d-inline-block dropup" style="float: right">
+                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Panel pracownika</a>
+                    <div class="dropdown-menu" >
+                        <a class="dropdown-item" style=""asp-area="" asp-controller="PracownikAccess" asp-action="Login">Zaloguj</a>
+                    </div>
+                </div>
+            }
+        </div>
+
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
