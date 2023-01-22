@@ -7,11 +7,13 @@
     <div class="row pt-4">
         <div class="col-6">
             <h2 class="text-primary">Lista rezerwacji</h2>
-            <b>@ViewData["DaneKlienta"] <br />
-            @ViewData["NumerKlienta"]</b>
+            <b>@ViewData["DaneKlienta"] @TempData["DaneKlienta"] <br />
+            @ViewData["NumerKlienta"] @TempData["NumerKlienta"]</b>
         </div>
     </div>
 </div>
+<a asp-action="ListaKlientow" class="btn btn-secondary">Wróć</a>
+<br />
 <div class="w-100 d-flex justify-content-center">
     <table class="table table-bordered table-striped bg-white" style="width: 90%;">
         <thead>

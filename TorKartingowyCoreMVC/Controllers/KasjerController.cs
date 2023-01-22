@@ -71,25 +71,8 @@ namespace TorKartingowyCoreMVC.Controllers
                 var klientFromDb = _db.Klienci.Find(idKlienta);
                 ViewData["DaneKlienta"] = "Klient: " + klientFromDb.Imie + " " + klientFromDb.Nazwisko; 
                 ViewData["NumerKlienta"]= "Numer klienta: " + klientFromDb.Numer;
-                IEnumerable<Rezerwacja> rezerwacje = _db.Rezerwacje.Where(x => x.KlientNumer == idKlienta);;
+                IEnumerable<Rezerwacja> rezerwacje = _db.Rezerwacje.Where(x => x.KlientNumer == idKlienta);
                 return View(rezerwacje);
-            }
-            else return RedirectToAction("Index", "Home");
-        }
-
-        public async Task<IActionResult> ListaRezerwacji(string searchFilter)
-        {
-            if (permission())
-            {
-                ViewData["GetRezerwacja"] = searchFilter;
-                var query = from x in _db.Klienci select x;
-                if (!String.IsNullOrEmpty(searchFilter))
-                {
-                    query = query.Where(x => string.Concat(x.Imie, " ", x.Nazwisko).Contains(searchFilter) ||
-                                        x.Numer.ToString().Contains(searchFilter) || x.Email.Contains(searchFilter) ||
-                                        x.Telefon.Contains(searchFilter));
-                }
-                return View(await query.AsNoTracking().ToListAsync());
             }
             else return RedirectToAction("Index", "Home");
         }
@@ -123,7 +106,10 @@ namespace TorKartingowyCoreMVC.Controllers
             {
                 _db.Rezerwacje.Update(obj);
                 _db.SaveChanges();
-                TempData["success"] = "Zrealizowano rezerwację nr " + obj.Numer;
+                TempData["success"] = "Zapisano rezerwację nr " + obj.Numer;
+                var klientFromDb = _db.Klienci.Find(obj.KlientNumer);
+                TempData["DaneKlienta"] = "Klient: " + klientFromDb.Imie + " " + klientFromDb.Nazwisko;
+                TempData["NumerKlienta"] = "Numer klienta: " + klientFromDb.Numer;
                 return RedirectToAction("ListaRezerwacji", "Kasjer", obj.KlientNumer);
             }
             return View(obj);

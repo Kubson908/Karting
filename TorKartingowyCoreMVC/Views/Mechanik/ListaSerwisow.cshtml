@@ -59,8 +59,10 @@
                         <td class="bg-danger">&#10060;</td>
                     }
                     <td>
-                        <a asp-controller=@User.Claims.FirstOrDefault(c => c.Type == "Role").Value asp-action="UpdateSerwis" asp-route-id="@obj.Id" class="btn btn-info">Aktualizuj</a>
-                        <a asp-controller=@User.Claims.FirstOrDefault(c => c.Type == "Role").Value asp-action="SerwisDetails" asp-route-id="@obj.Id" class="btn btn-info">Szczegóły</a>
+                        <div class="w-100 btn-group" role="group">
+                            <a asp-controller=@User.Claims.FirstOrDefault(c => c.Type == "Role").Value asp-action="UpdateSerwis" asp-route-id="@obj.Id" class="btn btn-info">Aktualizuj</a>&nbsp;
+                            <a asp-controller=@User.Claims.FirstOrDefault(c => c.Type == "Role").Value asp-action="SerwisDetails" asp-route-id="@obj.Id" class="btn btn-secondary">Szczegóły</a>
+                        </div>
                     </td>
                 </tr>
             }
