@@ -27,7 +27,7 @@ namespace TorKartingowyCoreMVC.Models
 
         [ForeignKey("Pracownik")]
         public int? InstruktorId { get; set; } = null;
-        public virtual Pracownik? Intruktor { get; set; } = null;
+        public virtual Pracownik? Instruktor { get; set; } = null;
 
         [ForeignKey("Pracownik")]
         public int? MechanikId { get; set; }

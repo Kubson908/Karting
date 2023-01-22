@@ -24,7 +24,13 @@
         </div>
         <div class="mb-3">
             <label asp-for="Stanowisko"></label>
-            <input asp-for="Stanowisko" class="form-control" />
+            <select asp-for="Stanowisko" class="form-control">
+                <option value="">--Wybierz--</option>
+                @foreach (string s in (IEnumerable<string>)ViewData["Stanowiska"])
+                {
+                    <option value=@s>@s</option>
+                }
+            </select>
             <span asp-validation-for="Stanowisko" class="text-danger"></span>
         </div>
         <div class="mb-3">

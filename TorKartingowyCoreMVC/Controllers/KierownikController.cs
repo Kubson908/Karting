@@ -57,6 +57,15 @@ namespace TorKartingowyCoreMVC.Controllers
         {
             if (permission())
             {
+                var stanowiska = new List<string>()
+                {
+                    "Kasjer",
+                    "Sprzętowiec",
+                    "Instruktor",
+                    "Mechanik",
+                    "Kierownik"
+                };
+                ViewData["Stanowiska"] = stanowiska;
                 return View();
             }
             else return RedirectToAction("Index", "Home");
@@ -93,7 +102,15 @@ namespace TorKartingowyCoreMVC.Controllers
                 {
                     return NotFound();
                 }
-
+                var stanowiska = new List<string>()
+                {
+                    "Kasjer",
+                    "Sprzętowiec",
+                    "Instruktor",
+                    "Mechanik",
+                    "Kierownik"
+                };
+                ViewData["Stanowiska"] = stanowiska;
                 return View(pracownikFromDb);
             }
             else return RedirectToAction("Index", "Home");

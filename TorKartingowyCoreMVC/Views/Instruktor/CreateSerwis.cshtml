@@ -8,7 +8,13 @@
         </div>
         <div class="mb-3">
             <label asp-for="GokartNumer"></label>
-            <input asp-for="GokartNumer" class="form-control" />
+            <select asp-for="GokartNumer" class="form-select">
+                <option value="">--Wybierz--</option>
+                @foreach (var n in (List<int>)ViewData["Numery"])
+                {
+                        <option value=@n>@n</option>
+                }
+            </select>
             <span asp-validation-for="GokartNumer" class="text-danger"></span>
         </div>
         <div class="mb-3">

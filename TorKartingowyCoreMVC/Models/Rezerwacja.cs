@@ -24,7 +24,7 @@ namespace TorKartingowyCoreMVC.Models
 
         [Required(ErrorMessage = "Podaj liczbę osób"), DisplayName("Liczba osób")]
         [Range(1, 20, ErrorMessage = "Dopuszczalna liczba osób to 1-20")]
-        public int LiczbaOsob { get; set; }
+		public int LiczbaOsob { get; set; }
 
         //Navigation Properties
         [Required]

@@ -9,8 +9,8 @@
         </div>
         <div class="mb-3">
             <label asp-for="Data"></label>
-            <input type="date" asp-for="Data" class="form-control" />
-            <span asp-validation-for="Data" class="text-danger"></span>
+            <input type="date" asp-for="Data" disabled class="form-control" />
+            <input type="date" asp-for="Data" hidden class="form-control" />
         </div>
         <div class="mb-3">
             <select disabled asp-for="TorId" class="form-control">
@@ -19,13 +19,11 @@
                 <option value="2">Odkryty</option>
             </select>
             <input hidden asp-for="TorId"/>
-            <span asp-validation-for="TorId" class="text-danger"></span>
         </div>
         <div class="mb-3">
             <label asp-for="LiczbaOsob"></label>
             <input disabled type="number" asp-for="LiczbaOsob" class="form-control" />
             <input hidden type="number" asp-for="LiczbaOsob" class="form-control" />
-            <span asp-validation-for="LiczbaOsob" class="text-danger"></span>
         </div>
         <div class="mb-3">
             <label asp-for="Godzina"></label>
