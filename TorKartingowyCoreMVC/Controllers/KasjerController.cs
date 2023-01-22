@@ -77,6 +77,23 @@ namespace TorKartingowyCoreMVC.Controllers
             else return RedirectToAction("Index", "Home");
         }
 
+        public async Task<IActionResult> ListaRezerwacji(string searchFilter)
+        {
+            if (permission())
+            {
+                ViewData["GetRezerwacja"] = searchFilter;
+                var query = from x in _db.Klienci select x;
+                if (!String.IsNullOrEmpty(searchFilter))
+                {
+                    query = query.Where(x => string.Concat(x.Imie, " ", x.Nazwisko).Contains(searchFilter) ||
+                                        x.Numer.ToString().Contains(searchFilter) || x.Email.Contains(searchFilter) ||
+                                        x.Telefon.Contains(searchFilter));
+                }
+                return View(await query.AsNoTracking().ToListAsync());
+            }
+            else return RedirectToAction("Index", "Home");
+        }
+
         //GET
         public IActionResult UpdateRezerwacja(int? id)
         {
@@ -107,7 +124,7 @@ namespace TorKartingowyCoreMVC.Controllers
                 _db.Rezerwacje.Update(obj);
                 _db.SaveChanges();
                 TempData["success"] = "Zrealizowano rezerwację nr " + obj.Numer;
-                return RedirectToAction("ListaKlientow", "Kasjer");
+                return RedirectToAction("ListaRezerwacji", "Kasjer", obj.KlientNumer);
             }
             return View(obj);
         }

@@ -126,6 +126,13 @@ namespace TorKartingowyCoreMVC.Controllers
         {
             if (permission())
             {
+                List<Gokart> gokarty = _db.Gokarty.ToList();
+                List<int> numery = new List<int>();
+                foreach (Gokart g in gokarty)
+                {
+                    numery.Add(g.Numer);
+                }
+                ViewData["Numery"] = numery;
                 return View();
             }
             else return RedirectToAction("Index", "Home");
@@ -161,6 +168,13 @@ namespace TorKartingowyCoreMVC.Controllers
                 {
                     return NotFound();
                 }
+                List<Gokart> gokarty = _db.Gokarty.ToList();
+                List<int> numery = new List<int>();
+                foreach (Gokart g in gokarty)
+                {
+                    numery.Add(g.Numer);
+                }
+                ViewData["Numery"] = numery;
                 var temp = serwisFromDb.DataUtworzenia.ToString();
                 ViewData["Data"] = temp.Substring(0, 10) ;
                 return View(serwisFromDb);

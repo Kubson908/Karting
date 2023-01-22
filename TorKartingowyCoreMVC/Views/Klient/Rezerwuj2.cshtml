@@ -1,6 +1,6 @@
 ﻿@model Rezerwacja
 
-<form method="post" asp-action="Rezerwuj">
+<form method="post" asp-action="Rezerwuj" style="width:80vw;">
     <input hidden asp-for="Numer" class="form-control" />
     <div class="border p-3 mt-4">
         <div class="row pb-2">
@@ -9,8 +9,8 @@
         </div>
         <div class="mb-3">
             <label asp-for="Data"></label>
-            <input type="date" asp-for="Data" class="form-control" />
-            <span asp-validation-for="Data" class="text-danger"></span>
+            <input type="date" asp-for="Data" disabled class="form-control" />
+            <input type="date" asp-for="Data" hidden class="form-control" />
         </div>
         <div class="mb-3">
             <select disabled asp-for="TorId" class="form-control">
@@ -19,23 +19,27 @@
                 <option value="2">Odkryty</option>
             </select>
             <input hidden asp-for="TorId"/>
-            <span asp-validation-for="TorId" class="text-danger"></span>
         </div>
         <div class="mb-3">
             <label asp-for="LiczbaOsob"></label>
             <input disabled type="number" asp-for="LiczbaOsob" class="form-control" />
             <input hidden type="number" asp-for="LiczbaOsob" class="form-control" />
-            <span asp-validation-for="LiczbaOsob" class="text-danger"></span>
         </div>
         <div class="mb-3">
             <label asp-for="Godzina"></label>
-            <input type="time" step="3600" asp-for="Godzina" class="form-control" />
+            <select asp-for="Godzina" class="form-select">
+                <option value="">--Godzina--</option>
+                @foreach (var g in (IEnumerable<string>)ViewData["Godziny"])
+                {
+                    <option value=@g>@g.Substring(1):00</option>
+                }
+            </select>
             <span asp-validation-for="Godzina" class="text-danger"></span>
         </div>
         <div class="mb-3">
             <label asp-for="Czas"></label>
-            <input asp-for="Czas" class="form-control" />
-            <span asp-validation-for="Czas" class="text-danger"></span>
+            <input asp-for="Czas" disabled class="form-control" />
+            <input asp-for="Czas" hidden class="form-control" />
         </div>
         <div class="mb-3">
             Czy chcesz wykupić dodatkowe szkolenia?
@@ -48,13 +52,14 @@
             <input asp-for="KlientNumer" class="form-control" hidden value=@User.Claims.FirstOrDefault(c => c.Type == "Numer").Value />
         </div>
     </div>
-    <button type="submit" class="btn btn-primary" style="width:150px">Zapisz</button>
+    
     <a asp-controller=@User.Claims.FirstOrDefault(c => c.Type == "Role").Value asp-action="Rezerwuj1" class="btn btn-secondary" style="width:150px">
         Wróć
     </a>
-    </div>
+    <button type="submit" class="btn btn-primary float-end" style="width:150px">Zapisz</button>
+    
 </form>
-
+<br />
 @section Scripts{
     @{
         <partial name="_ValidationScriptsPartial" />

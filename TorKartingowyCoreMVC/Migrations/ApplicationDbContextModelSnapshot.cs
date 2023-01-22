@@ -225,57 +225,44 @@ namespace TorKartingowyCoreMVC.Migrations
                     b.Property<string>("TorData")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("G08")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("G08")
+                        .HasColumnType("int");
 
-                    b.Property<string>("G09")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("G09")
+                        .HasColumnType("int");
 
-                    b.Property<string>("G10")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("G10")
+                        .HasColumnType("int");
 
-                    b.Property<string>("G11")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("G11")
+                        .HasColumnType("int");
 
-                    b.Property<string>("G12")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("G12")
+                        .HasColumnType("int");
 
-                    b.Property<string>("G13")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("G13")
+                        .HasColumnType("int");
 
-                    b.Property<string>("G14")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("G14")
+                        .HasColumnType("int");
 
-                    b.Property<string>("G15")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("G15")
+                        .HasColumnType("int");
 
-                    b.Property<string>("G16")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("G16")
+                        .HasColumnType("int");
 
-                    b.Property<string>("G17")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("G17")
+                        .HasColumnType("int");
 
-                    b.Property<string>("G18")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("G18")
+                        .HasColumnType("int");
 
-                    b.Property<string>("G19")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("G19")
+                        .HasColumnType("int");
 
-                    b.Property<string>("G20")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("G20")
+                        .HasColumnType("int");
 
                     b.HasKey("TorData");
 

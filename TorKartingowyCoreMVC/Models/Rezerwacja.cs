@@ -16,14 +16,15 @@ namespace TorKartingowyCoreMVC.Models
         public string Godzina { get; set; }
 
         [Required(ErrorMessage = "Wybierz długość trwania rezerwacji"), DisplayName("Czas jazdy")]
+        [Range(1, 10, ErrorMessage = "Dopuszczalna liczba godzin to 1-10")]
         public int Czas { get; set; }
 
         public bool DodatkoweSzkolenia { get; set; } = false;
         public bool Zaliczka { get; set; } = false;
 
         [Required(ErrorMessage = "Podaj liczbę osób"), DisplayName("Liczba osób")]
-        [Range(1, 40, ErrorMessage = "Dopuszczalna liczba osób to 1-40")]
-        public int LiczbaOsob { get; set; }
+        [Range(1, 20, ErrorMessage = "Dopuszczalna liczba osób to 1-20")]
+		public int LiczbaOsob { get; set; }
 
         //Navigation Properties
         [Required]

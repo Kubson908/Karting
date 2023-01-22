@@ -1,6 +1,5 @@
-﻿@model Rezerwacja
-
-<form method="post" asp-action="Rezerwuj2" class="w-75">
+@model Rezerwacja
+<form method="post" asp-action="Rezerwuj2"  style="width:80vw; ">
     <div class="border p-3 mt-4">
         <div class="row pb-2">
             <h2 class="text-primary">Utwórz rezerwację</h2>
@@ -12,7 +11,7 @@
             <span asp-validation-for="Data" class="text-danger"></span>
         </div>
         <div class="mb-3">
-            <select asp-for="TorId" class="form-control">
+            <select asp-for="TorId" class="form-select">
                 <option value="">--Tor--</option>
                 <option value="1">Kryty</option>
                 <option value="2">Odkryty</option>
@@ -24,11 +23,12 @@
             <input type="number" value="1" asp-for="LiczbaOsob" class="form-control" />
             <span asp-validation-for="LiczbaOsob" class="text-danger"></span>
         </div>
+        <div class="mb-3">
+            <label asp-for="Czas"></label> (liczba godzin)
+            <input type="number" value="1" asp-for="Czas" class="form-control" />
+            <span asp-validation-for="Czas" class="text-danger"></span>
+        </div>
         <input hidden asp-for="Godzina" value="8:00"/>
-        <span asp-validation-for="Godzina" class="text-danger"></span>
-
-        <input hidden asp-for="Czas" class="form-control" value="1"/>
-        <span asp-validation-for="Czas" class="text-danger"></span>
 
         <input hidden class="form-check-input" type="checkbox" asp-for="DodatkoweSzkolenia"/>
 
@@ -41,7 +41,7 @@
         </a>
         <button type="submit" class="btn btn-primary float-end" style="width:150px">Dalej</button>
 </form>
-
+<br/>
 @section Scripts{
     @{
         <partial name="_ValidationScriptsPartial" />

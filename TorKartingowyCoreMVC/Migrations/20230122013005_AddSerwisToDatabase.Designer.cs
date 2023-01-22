@@ -12,7 +12,7 @@ using TorKartingowyCoreMVC.Data;
 namespace TorKartingowyCoreMVC.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230116193505_AddSerwisToDatabase")]
+    [Migration("20230122013005_AddSerwisToDatabase")]
     partial class AddSerwisToDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -222,6 +222,55 @@ namespace TorKartingowyCoreMVC.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("TorKartingowyCoreMVC.Models.DostepneGodziny", b =>
+                {
+                    b.Property<string>("TorData")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("G08")
+                        .HasColumnType("int");
+
+                    b.Property<int>("G09")
+                        .HasColumnType("int");
+
+                    b.Property<int>("G10")
+                        .HasColumnType("int");
+
+                    b.Property<int>("G11")
+                        .HasColumnType("int");
+
+                    b.Property<int>("G12")
+                        .HasColumnType("int");
+
+                    b.Property<int>("G13")
+                        .HasColumnType("int");
+
+                    b.Property<int>("G14")
+                        .HasColumnType("int");
+
+                    b.Property<int>("G15")
+                        .HasColumnType("int");
+
+                    b.Property<int>("G16")
+                        .HasColumnType("int");
+
+                    b.Property<int>("G17")
+                        .HasColumnType("int");
+
+                    b.Property<int>("G18")
+                        .HasColumnType("int");
+
+                    b.Property<int>("G19")
+                        .HasColumnType("int");
+
+                    b.Property<int>("G20")
+                        .HasColumnType("int");
+
+                    b.HasKey("TorData");
+
+                    b.ToTable("DostepneGodziny");
+                });
+
             modelBuilder.Entity("TorKartingowyCoreMVC.Models.Gokart", b =>
                 {
                     b.Property<int>("Numer")
@@ -322,6 +371,31 @@ namespace TorKartingowyCoreMVC.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Pracownicy");
+                });
+
+            modelBuilder.Entity("TorKartingowyCoreMVC.Models.RejestrPrac", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime?>("Data")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("PracownikId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("WykonanaPraca")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PracownikId");
+
+                    b.ToTable("RejestrPrac");
                 });
 
             modelBuilder.Entity("TorKartingowyCoreMVC.Models.Rezerwacja", b =>
@@ -485,6 +559,17 @@ namespace TorKartingowyCoreMVC.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("TorKartingowyCoreMVC.Models.RejestrPrac", b =>
+                {
+                    b.HasOne("TorKartingowyCoreMVC.Models.Pracownik", "Pracownik")
+                        .WithMany()
+                        .HasForeignKey("PracownikId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Pracownik");
                 });
 
             modelBuilder.Entity("TorKartingowyCoreMVC.Models.Rezerwacja", b =>

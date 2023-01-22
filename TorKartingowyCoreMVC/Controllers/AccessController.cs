@@ -74,10 +74,10 @@ namespace TorKartingowyCoreMVC.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(VMLogin modelLogin)
         {
-            var klientFromDb = _db.Klienci.Find(modelLogin.Numer);
+            var klientFromDb = _db.Klienci.Where(o => o.Email == modelLogin.Email).FirstOrDefault();
             modelLogin.Haslo = hashPassword(modelLogin.Haslo);
             if (klientFromDb != null && 
-                klientFromDb.Numer == modelLogin.Numer && 
+                klientFromDb.Email == modelLogin.Email && 
                 modelLogin.Haslo.Equals(klientFromDb.Haslo))
             {
                 modelLogin.Email = klientFromDb.Email;

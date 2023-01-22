@@ -19,8 +19,7 @@ namespace TorKartingowyCoreMVC.Migrations
                     Wykonano = table.Column<bool>(type: "bit", nullable: false),
                     DataUtworzenia = table.Column<DateTime>(type: "datetime2", nullable: false),
                     GokartNumer = table.Column<int>(type: "int", nullable: false),
-                    InstruktorId = table.Column<int>(type: "int", nullable: false),
-                    IntruktorId = table.Column<int>(type: "int", nullable: true),
+                    InstruktorId = table.Column<int>(type: "int", nullable: true),
                     MechanikId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -34,7 +33,7 @@ namespace TorKartingowyCoreMVC.Migrations
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Serwisy_Pracownicy_IntruktorId",
-                        column: x => x.IntruktorId,
+                        column: x => x.InstruktorId,
                         principalTable: "Pracownicy",
                         principalColumn: "Id");
                     table.ForeignKey(
@@ -51,9 +50,9 @@ namespace TorKartingowyCoreMVC.Migrations
                 column: "GokartNumer");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Serwisy_IntruktorId",
+                name: "IX_Serwisy_InstruktorId",
                 table: "Serwisy",
-                column: "IntruktorId");
+                column: "InstruktorId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Serwisy_MechanikId",

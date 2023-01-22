@@ -1,0 +1,48 @@
+﻿@model Serwis
+
+<form method="post">
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2 class="text-primary">Dodaj serwis</h2>
+            <hr />
+        </div>
+        <div class="mb-3">
+            <label asp-for="GokartNumer"></label>
+            <select asp-for="GokartNumer" class="form-select">
+                <option value="">--Wybierz--</option>
+                @foreach (var n in (List<int>)ViewData["Numery"])
+                {
+                    <option value=@n>@n</option>
+                }
+            </select>
+            <span asp-validation-for="GokartNumer" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Usterka"></label>
+            <input asp-for="Usterka" class="form-control" />
+            <span asp-validation-for="Usterka" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Notatka"></label>
+            <textarea asp-for="Notatka" class="form-control"></textarea>
+            <span asp-validation-for="Notatka" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <select asp-for="Wykonano" class="form-select">
+                <option value=@false>W trakcie</option>
+                <option value=@true>Zakończony</option>
+            </select>
+        </div>
+        <input asp-for="MechanikId" value="@User.Claims.FirstOrDefault(c => c.Type == "Numer").Value" hidden />
+        <button type="submit" class="btn btn-primary" style="width:150px">Zapisz</button>
+        <a asp-controller=@User.Claims.FirstOrDefault(c => c.Type == "Role").Value asp-action="ListaSerwisow" class="btn btn-secondary" style="width:150px">
+            Wróć
+        </a>
+    </div>
+</form>
+
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}
