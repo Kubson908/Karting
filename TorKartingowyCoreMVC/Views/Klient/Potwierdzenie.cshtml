@@ -1,6 +1,6 @@
 ﻿@model Rezerwacja
 
-<form method="post" asp-action="Potwierdzenie" style="width:80vw;">
+<form id="payment-form" method="post" asp-action="Rezerwuj" style="width:80vw;">
     <input hidden asp-for="Numer" class="form-control" />
     <div class="border p-3 mt-4">
         <div class="row pb-2">
@@ -36,50 +36,55 @@
             <input hidden asp-for="Godzina" />
         </div>
         <div>
-            <select name="spalinowe" class="form-select">
-                <option value=0>--Spalinowe--</option>
-                @for (int i = 1; i <= (int)ViewData["Spalinowe"]; i++)
-                {
-                    <option value=@i>@i</option>
-                }
-            </select>
-            <select name="elektryczne" class="form-select">
-                <option value=0>--Elektryczne--</option>
-                @for (int j = 1; j <= (int)ViewData["Elektryczne"]; j++)
-                {
-                    <option value=@j>@j</option>
-                }
-            </select>
-            <select name="dla_dzieci" class="form-select">
-                <option value=0>--Dla dzieci--</option>
-                @for (int k = 1; k <= (int)ViewData["DlaDzieci"]; k++)
-                {
-                    <option value=@k>@k</option>
-                }
-            </select>
-            <input hidden value=@ViewData["Spalinowe"] name="s"/>
-            <input hidden value=@ViewData["Elektryczne"] name="e"/>
-            <input hidden value=@ViewData["DlaDzieci"] name="d"/>
+            <input disabled name="spalinowe" value=@ViewData["Spalinowe"] class="form-select" />
+            <input disabled name="elektryczne" value=@ViewData["Elektryczne"] class="form-select" />
+            <input disabled name="dla_dzieci" value=@ViewData["DlaDzieci"] class="form-select" />
         </div>
         <div class="mb-3">
-            Czy chcesz wykupić dodatkowe szkolenia?
-            <input class="form-check-input" type="checkbox" asp-for="DodatkoweSzkolenia" />
+            <label asp-for="DodatkoweSzkolenia"></label>
+            <input disabled class="form-check-input" type="checkbox" asp-for="DodatkoweSzkolenia" />
         </div><div class="mb-3">
-            Chcę wpłacić zaliczkę zamiast pełnej kwoty &nbsp;
-            <input class="form-check-input" type="checkbox" asp-for="Zaliczka" />
+            <label asp-for="Zaliczka"></label>
+            <input disabled class="form-check-input" type="checkbox" asp-for="Zaliczka" />
         </div>
-        <div class="mb-3">
-            <input asp-for="KlientNumer" class="form-control" hidden value=@User.Claims.FirstOrDefault(c => c.Type == "Numer").Value />
-        </div>
+        <input asp-for="KlientNumer" class="form-control" hidden value=@User.Claims.FirstOrDefault(c => c.Type == "Numer").Value />
     </div>
-
+    <section>
+        <div class="bt-drop-in-wrapper">
+            <div id="bt-dropin"></div>
+        </div>
+    </section>
+    <input hidden name="nonce" id="nonce" value=""/>
     <a asp-controller=@User.Claims.FirstOrDefault(c => c.Type == "Role").Value asp-action="Rezerwuj1" class="btn btn-secondary" style="width:150px">
         Powrót
     </a>
-    <button type="submit" class="btn btn-primary float-end" style="width:150px">Zapisz</button>
+    <button type="submit" class="btn btn-primary float-end" style="width:150px">Zapłać - @ViewData["Cena"]</button>
 
 </form>
 <br />
+<script src="https://js.braintreegateway.com/web/dropin/1.22.0/js/dropin.min.js"></script>
+<script>
+    var client_token = "@ViewBag.ClientToken";
+    var form = document.querySelector('#payment-form');
+
+    braintree.dropin.create({
+        authorization: client_token,
+        container: '#bt-dropin'
+    }, function (createErr, instance) {
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            instance.requestPaymentMethod(function (err, payload) {
+                if (err) {
+                    return;
+                }
+
+                document.querySelector('#nonce').value = payload.nonce;
+                form.submit();
+            });
+        });
+    });
+</script>
 @section Scripts{
     @{
         <partial name="_ValidationScriptsPartial" />

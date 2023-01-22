@@ -4,7 +4,7 @@ namespace TorKartingowyCoreMVC.Services
 {
     public interface IBraintreeService
     {
-        IBraintreeGateway CreatedGateway();
+        IBraintreeGateway CreateGateway();
         IBraintreeGateway GetGateway();
     }
 }

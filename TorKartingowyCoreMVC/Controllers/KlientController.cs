@@ -1,19 +1,23 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Braintree;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
 using System.Security.Claims;
 using System.Text.RegularExpressions;
 using TorKartingowyCoreMVC.Data;
 using TorKartingowyCoreMVC.Models;
+using TorKartingowyCoreMVC.Services;
 
 namespace TorKartingowyCoreMVC.Controllers
 {
     public class KlientController : Controller
     {
         private readonly ApplicationDbContext _db;
-        public KlientController(ApplicationDbContext db)
+        private readonly IBraintreeService _braintreeService;
+        public KlientController(ApplicationDbContext db, IBraintreeService braintreeService)
         {
             _db = db;
+            _braintreeService = braintreeService;
         }
 
         public bool permission()
@@ -158,15 +162,54 @@ namespace TorKartingowyCoreMVC.Controllers
                 if(spalinowe+elektryczne+dlaDzieci < obj.LiczbaOsob)
                 {
                     TempData["error"] = "Brak dostępnych gokartów o godzinie " + obj.Godzina;
-                    return Rezerwuj2(obj);
+                    return View("Rezerwuj2", obj);
                 }
                 return View(obj);
             } else
             {
                 TempData["error"] = "Wprowadź prawidłowe dane";
-                return Rezerwuj2(obj);
+                return View("Rezerwuj2", obj);
             }
 
+        }
+
+        //POST
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Potwierdzenie(Rezerwacja obj, int spalinowe, int elektryczne, int dla_dzieci, int s, int e, int d)
+        {
+            if (ModelState.IsValid)
+            {
+                if (spalinowe + elektryczne + dla_dzieci > obj.LiczbaOsob)
+                {
+                    TempData["error"] = "Ilość gokartów nie może być większa niż liczba osób";
+                    ViewData["Spalinowe"] = s;
+                    ViewData["Elektryczne"] = e;
+                    ViewData["DlaDzieci"] = d;
+                    return View("Rezerwuj3", obj);
+                }
+                var gateway = new BraintreeGateway()
+                {
+                    Environment = Braintree.Environment.SANDBOX,
+                    MerchantId = "mwvfb4wggzs9rxx6",
+                    PublicKey = "7793g3g2d5wnv895",
+                    PrivateKey = "5f70cad59e17666d2f18786c0d270819"
+                };
+                var clientToken = gateway.ClientToken.Generate();
+                ViewBag.ClientToken = clientToken;
+                ViewData["Spalinowe"] = spalinowe;
+                ViewData["Elektryczne"] = elektryczne;
+                ViewData["DlaDzieci"] = dla_dzieci;
+                ViewData["Cena"] = 20;
+                return View(obj);
+            } 
+            else
+            {
+                ViewData["Spalinowe"] = spalinowe;
+                ViewData["Elektryczne"] = elektryczne;
+                ViewData["DlaDzieci"] = dla_dzieci;
+                return View("Rezerwuj3", obj);
+            }
         }
 
         [HttpPost]
@@ -229,7 +272,10 @@ namespace TorKartingowyCoreMVC.Controllers
                 TempData["success"] = "Pomyślnie zarezerwowano";
                 return RedirectToAction("Index", "Home");
             }
-            return Rezerwuj3(obj);
+            ViewData["Spalinowe"] = s;
+            ViewData["Elektryczne"] = e;
+            ViewData["DlaDzieci"] = d;
+            return View("Rezerwuj3", obj);
         }
     }
 }

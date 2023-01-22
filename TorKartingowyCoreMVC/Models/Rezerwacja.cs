@@ -20,6 +20,8 @@ namespace TorKartingowyCoreMVC.Models
         public int Czas { get; set; }
 
         public bool DodatkoweSzkolenia { get; set; } = false;
+
+        [DisplayName("Zaliczka zamiast całej kwoty")]
         public bool Zaliczka { get; set; } = false;
 
         [Required(ErrorMessage = "Podaj liczbę osób"), DisplayName("Liczba osób")]

@@ -3,6 +3,9 @@ using TorKartingowyCoreMVC.Data;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Localization;
 using System.Globalization;
+using Braintree;
+using TorKartingowyCoreMVC.Services;
+using BraintreeService = TorKartingowyCoreMVC.Services.BraintreeService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +23,8 @@ builder.Services.AddAuthentication(
         option.LoginPath = "/Access/Login";
         option.ExpireTimeSpan = TimeSpan.FromMinutes(20);
     });
+
+builder.Services.AddTransient<IBraintreeService, BraintreeService>();
 
 var app = builder.Build();
 
