@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
 using System.Security.Claims;
+using System.Text.RegularExpressions;
 using TorKartingowyCoreMVC.Data;
 using TorKartingowyCoreMVC.Models;
 
@@ -122,12 +123,66 @@ namespace TorKartingowyCoreMVC.Controllers
             
         }
 
+        //POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Rezerwuj(Rezerwacja obj)
+        public IActionResult Rezerwuj3(Rezerwacja obj)
         {
             if (ModelState.IsValid)
             {
+                Tor tor = _db.Tory.Find(obj.TorId);
+                int spalinowe = tor.Pojemnosc;
+                int elektryczne = tor.Pojemnosc;
+                int dlaDzieci = tor.Pojemnosc;
+                List<Gokart> gokarty = _db.Gokarty.Where(g => g.Typ == "Spalinowy").ToList();
+                if (gokarty.Count <= tor.Pojemnosc) spalinowe = gokarty.Count - 2;
+                gokarty = _db.Gokarty.Where(g => g.Typ == "Elektryczny").ToList();
+                if (gokarty.Count <= tor.Pojemnosc) elektryczne = gokarty.Count - 2;
+                gokarty = _db.Gokarty.Where(g => g.Typ == "Dla dzieci").ToList();
+                if (gokarty.Count <= tor.Pojemnosc) dlaDzieci = gokarty.Count - 2;
+                gokarty.Clear();
+                string dataGodzina = obj.Data.Replace('-', '_') + "_" + obj.Godzina.Substring(1, 2);
+                if (_db.IloscGokartow.Any(o => o.DataGodzina == dataGodzina))
+                {
+                    IloscGokartow iloscGokartow = _db.IloscGokartow.Find(dataGodzina);
+                    spalinowe = spalinowe - iloscGokartow.Spalinowe;
+                    elektryczne = elektryczne - iloscGokartow.Elektryczne;
+                    dlaDzieci = dlaDzieci - iloscGokartow.DlaDzieci;
+                }
+                if (spalinowe > obj.LiczbaOsob) spalinowe = obj.LiczbaOsob;
+                if (elektryczne > obj.LiczbaOsob) elektryczne = obj.LiczbaOsob;
+                if (dlaDzieci > obj.LiczbaOsob) dlaDzieci = obj.LiczbaOsob;
+                ViewData["Spalinowe"] = spalinowe;
+                ViewData["Elektryczne"] = elektryczne;
+                ViewData["DlaDzieci"] = dlaDzieci;
+                if(spalinowe+elektryczne+dlaDzieci < obj.LiczbaOsob)
+                {
+                    TempData["error"] = "Brak dostępnych gokartów o godzinie " + obj.Godzina;
+                    return Rezerwuj2(obj);
+                }
+                return View(obj);
+            } else
+            {
+                TempData["error"] = "Wprowadź prawidłowe dane";
+                return Rezerwuj2(obj);
+            }
+
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Rezerwuj(Rezerwacja obj, int spalinowe, int elektryczne, int dla_dzieci, int s, int e, int d)
+        {
+            if (ModelState.IsValid)
+            {
+                if (spalinowe + elektryczne + dla_dzieci > obj.LiczbaOsob)
+                {
+                    TempData["error"] = "Ilość gokartów nie może być większa niż liczba osób";
+                    ViewData["Spalinowe"] = s;
+                    ViewData["Elektryczne"] = e;
+                    ViewData["DlaDzieci"] = d;
+                    return View("Rezerwuj3" ,obj);
+                }
                 obj.Godzina = obj.Godzina.Substring(1) + ":00";
                 _db.Rezerwacje.Add(obj);
                 _db.SaveChanges();
@@ -157,11 +212,24 @@ namespace TorKartingowyCoreMVC.Controllers
                         _db.Database.ExecuteSqlRaw("UPDATE DostepneGodziny SET " + name + " = " + name + " + " + obj.LiczbaOsob + " WHERE TorData = '" + key + "';");
                     }
                 }
+
+                string dataGodzina = obj.Data.Replace('-', '_') + "_" + obj.Godzina.Substring(0, 1);
+                if (_db.IloscGokartow.Any(o => o.DataGodzina == dataGodzina))
+                {
+                    _db.Database.ExecuteSqlRaw("UPDATE IloscGokartow SET Spalinowe = Spalinowe + " + spalinowe +
+                        ", Elektryczne = Elektryczne + " + elektryczne + ", DLaDzieci = DlaDzieci + " + dla_dzieci +
+                        " WHERE DataGodzina= '" + dataGodzina + "';");
+                }
+                else
+                {
+                    _db.Database.ExecuteSqlRaw("INSERT INTO IloscGokartow (DataGodzina, Spalinowe, Elektryczne, DlaDzieci) " +
+                        "VALUES ('" + dataGodzina + "', '" + spalinowe + "', '" + elektryczne + "', '" + dla_dzieci + "');");
+                }
                 _db.SaveChanges();
                 TempData["success"] = "Pomyślnie zarezerwowano";
                 return RedirectToAction("Index", "Home");
             }
-            return Rezerwuj2(obj);
+            return Rezerwuj3(obj);
         }
     }
 }

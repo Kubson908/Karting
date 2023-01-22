@@ -23,8 +23,8 @@
                 <th>Godzina</th>
                 <th>Liczba osób</th>
                 <th>Tor</th>
-                <th>Czas</th>
-                <th>Dodatkowe szkolenia</th>
+                <th>Czas jazdy</th>
+                <th width="10%">Dodatkowe szkolenia</th>
             </tr>
         </thead>
         <tbody>
@@ -51,16 +51,13 @@
                     <td>
                         @obj.Czas godziny
                     </td>
-                    <td>
                         @if(obj.DodatkoweSzkolenia == true) {
-                            <div>Tak</div>
+                            <td class="text-center">&#10004;</td>
                         }
                         else {
-                            <div>Nie</div>
+                            <td class="text-center">&#10060;</td>
                         }
-                    </td>
-                    
-                </tr>
+                    </tr>
             }
         </tbody>
     </table>

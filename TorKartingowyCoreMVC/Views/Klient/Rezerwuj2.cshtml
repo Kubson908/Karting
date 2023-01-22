@@ -1,6 +1,6 @@
 ﻿@model Rezerwacja
 
-<form method="post" asp-action="Rezerwuj" style="width:80vw;">
+<form method="post" asp-action="Rezerwuj3" style="width:80vw;">
     <input hidden asp-for="Numer" class="form-control" />
     <div class="border p-3 mt-4">
         <div class="row pb-2">
@@ -26,20 +26,20 @@
             <input hidden type="number" asp-for="LiczbaOsob" class="form-control" />
         </div>
         <div class="mb-3">
-            <label asp-for="Godzina"></label>
+            <label asp-for="Czas"></label>
+            <input asp-for="Czas" disabled class="form-control" />
+            <input asp-for="Czas" hidden class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label>Dostępne godziny</label>
             <select asp-for="Godzina" class="form-select">
-                <option value="">--Godzina--</option>
+                <option value="">--Wybierz--</option>
                 @foreach (var g in (IEnumerable<string>)ViewData["Godziny"])
                 {
                     <option value=@g>@g.Substring(1):00</option>
                 }
             </select>
             <span asp-validation-for="Godzina" class="text-danger"></span>
-        </div>
-        <div class="mb-3">
-            <label asp-for="Czas"></label>
-            <input asp-for="Czas" disabled class="form-control" />
-            <input asp-for="Czas" hidden class="form-control" />
         </div>
         <div class="mb-3">
             Czy chcesz wykupić dodatkowe szkolenia?
@@ -56,7 +56,7 @@
     <a asp-controller=@User.Claims.FirstOrDefault(c => c.Type == "Role").Value asp-action="Rezerwuj1" class="btn btn-secondary" style="width:150px">
         Wróć
     </a>
-    <button type="submit" class="btn btn-primary float-end" style="width:150px">Zapisz</button>
+    <button type="submit" class="btn btn-primary float-end" style="width:150px">Dalej</button>
     
 </form>
 <br />

@@ -4,7 +4,7 @@
 }
 
 <form method="post">
-    <div class="border p-3 mt-4">
+    <div class="border p-3 mt-4 mb-4">
         <div class="row pb-2">
             <h2 class="text-primary">Załóż konto</h2>
             <hr />
@@ -34,7 +34,7 @@
             <input asp-for="Haslo" class="form-control" />
             <span asp-validation-for="Haslo" class="text-danger"></span>
         </div>
-        <button type="submit" class="btn btn-primary" style="width:150px">Zapisz</button>
+        <button type="submit" class="btn btn-primary" style="width:150px">Utwórz</button>
         <a asp-controller="Klient" asp-action="Index" class="btn btn-secondary" style="width:150px">
             Wróć
         </a>
