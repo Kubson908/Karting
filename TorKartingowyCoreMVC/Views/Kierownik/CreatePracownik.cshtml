@@ -28,7 +28,7 @@
         </div>
         <div class="mb-3">
             <label asp-for="Stanowisko"></label>
-            <select asp-for="Stanowisko" class="form-control">
+            <select asp-for="Stanowisko" class="form-select">
                 <option value="">--Wybierz--</option>
                 @foreach (string s in (IEnumerable<string>)ViewData["Stanowiska"])
                 {

@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Drawing;
 using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
+using System.Xml.Linq;
 using TorKartingowyCoreMVC.Data;
 using TorKartingowyCoreMVC.Models;
 
@@ -47,7 +49,7 @@ namespace TorKartingowyCoreMVC.Controllers
         {
             if (permission())
             {
-                IEnumerable<Pracownik> objPracownikList = _db.Pracownicy;
+                IEnumerable<Pracownik> objPracownikList = _db.Pracownicy.Where(x => x.Stanowisko != "Kierownik").ToList();
                 return View(objPracownikList);
             }
             else return RedirectToAction("Index", "Home");
@@ -164,6 +166,10 @@ namespace TorKartingowyCoreMVC.Controllers
             {
                 return NotFound();
             }
+            _db.Database.ExecuteSqlRaw("UPDATE Rezerwacje SET PracownikId = " + User.Claims.FirstOrDefault(c => c.Type == "Numer").Value + " WHERE PracownikId = '" + obj.Id + "';");
+            _db.Database.ExecuteSqlRaw("UPDATE Serwisy SET InstruktorId = " + User.Claims.FirstOrDefault(c => c.Type == "Numer").Value + " WHERE InstruktorId = '" + obj.Id + "';");
+            _db.Database.ExecuteSqlRaw("UPDATE Serwisy SET MechanikId = " + User.Claims.FirstOrDefault(c => c.Type == "Numer").Value + " WHERE MechanikId = '" + obj.Id + "';");
+            _db.Database.ExecuteSqlRaw("UPDATE RejestrPrac SET PracownikId = " + User.Claims.FirstOrDefault(c => c.Type == "Numer").Value + " WHERE PracownikId = '" + obj.Id + "';");
             _db.Pracownicy.Remove(obj);
             _db.SaveChanges();
             TempData["success"] = "Usunięto pracownika";
