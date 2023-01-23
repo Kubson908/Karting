@@ -3,31 +3,42 @@
     ViewData["Title"] = "Cennik";
 }
 
-<div class="border p-3 mt-4 m-auto w-75">
+<div class="border p-3 mt-4 m-auto" style="width:250px;">
     <div class="row pb-2">
         <h2 class="text-primary">Cennik</h2>
         <hr />
     </div>
-    <a asp-controller="Kierownik" asp-action="EditCennik" asp-route-id=@Model.Id class="btn btn-secondary" style="width:150px">
-        Edytuj
-    </a>
-    <div >
-        <div>
-            Cena za gokart spalinowy: @Model.Spalinowy zł
-        </div>
-        <div>
-            Cena za gokart elektryczny: @Model.Elektryczny zł
-        </div>
-        <div>
-            Cena za gokart dla dzieci: @Model.DlaDzieci zł
-        </div>
-        <div>
-            Cena za dodatkowe szkolenia: @Model.DodatkoweSzkolenie zł
-        </div>
-    </div>
+
+
+    <table class="text-center">
+        <tr>
+            <th style="width:150px">Gokart/Usługa</th>
+            <th style="width:150px">Cena</th>
+        </tr>
+        <tr>
+            <td>gokart spalinowy</td>
+            <td>@Model.Spalinowy zł</td>
+        </tr>
+        <tr>
+            <td>gokart elektryczny</td>
+            <td>@Model.Elektryczny zł</td>
+        </tr>
+        <tr>
+            <td> gokart dla dzieci</td>
+            <td> @Model.DlaDzieci zł </td>
+        </tr>
+        <tr>
+            <td>dodatkowe szkolenia</td>
+            <td>@Model.DodatkoweSzkolenie zł</td>
+        </tr>
+    </table>
+
+
     <br />
-    <a asp-controller="Kierownik" asp-action="Index" class="btn btn-secondary" style="width:150px">
+    <a asp-controller="Kierownik" asp-action="Index" class="btn btn-secondary" style="width:100px;">
         Wróć
     </a>
+    <a asp-controller="Kierownik" asp-action="EditCennik" asp-route-id=@Model.Id class="btn btn-primary float-end" style="width:100px;">
+        Edytuj
+    </a>
 </div>
-
