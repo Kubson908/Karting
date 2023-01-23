@@ -41,5 +41,10 @@ namespace TorKartingowyCoreMVC.Models
 
         public int? PracownikId { get; set; }
         public virtual Pracownik? Pracownik { get; set; } = null;
+
+        [Required]
+        [ForeignKey("Platnosc")]
+        public int PlatnoscNumer { get; set; }
+        public virtual Platnosc? Platnosc { get; set; }
     }
 }
