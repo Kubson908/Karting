@@ -632,7 +632,7 @@ namespace TorKartingowyCoreMVC.Controllers
             if (permission())
             {
                 if(id!=1)return NotFound();
-                var cennik = _db.Cennik.Find(id);
+                var cennik = _db.Cennik.Find(1);
                 return View(cennik);
             } else return RedirectToAction("Index", "Home");
         }

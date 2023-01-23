@@ -138,13 +138,12 @@ namespace TorKartingowyCoreMVC.Controllers
                 int spalinowe = tor.Pojemnosc;
                 int elektryczne = tor.Pojemnosc;
                 int dlaDzieci = tor.Pojemnosc;
-                List<Gokart> gokarty = _db.Gokarty.Where(g => g.Typ == "Spalinowy").ToList();
-                if (gokarty.Count <= tor.Pojemnosc) spalinowe = gokarty.Count - 2;
-                gokarty = _db.Gokarty.Where(g => g.Typ == "Elektryczny").ToList();
-                if (gokarty.Count <= tor.Pojemnosc) elektryczne = gokarty.Count - 2;
-                gokarty = _db.Gokarty.Where(g => g.Typ == "Dla dzieci").ToList();
-                if (gokarty.Count <= tor.Pojemnosc) dlaDzieci = gokarty.Count - 2;
-                gokarty.Clear();
+                int gokarty = _db.Gokarty.Where(g => g.Typ == "Spalinowy").ToList().Count;
+                if (gokarty <= tor.Pojemnosc) spalinowe = gokarty - 2;
+                gokarty = _db.Gokarty.Where(g => g.Typ == "Elektryczny").ToList().Count;
+                if (gokarty <= tor.Pojemnosc) elektryczne = gokarty - 2;
+                gokarty = _db.Gokarty.Where(g => g.Typ == "Dla dzieci").ToList().Count;
+                if (gokarty <= tor.Pojemnosc) dlaDzieci = gokarty - 2;
                 string dataGodzina = obj.Data.Replace('-', '_') + "_" + obj.Godzina.Substring(1, 2);
                 if (_db.IloscGokartow.Any(o => o.DataGodzina == dataGodzina))
                 {
@@ -200,7 +199,11 @@ namespace TorKartingowyCoreMVC.Controllers
                 ViewData["Spalinowe"] = spalinowe;
                 ViewData["Elektryczne"] = elektryczne;
                 ViewData["DlaDzieci"] = dla_dzieci;
-                ViewData["Cena"] = 20;
+                Cennik cennik = _db.Cennik.First();
+                double suma = spalinowe * obj.Czas * cennik.Spalinowy + elektryczne * obj.Czas * cennik.Elektryczny + dla_dzieci * obj.Czas * cennik.DlaDzieci;
+                if (obj.DodatkoweSzkolenia) suma += cennik.DodatkoweSzkolenie;
+                if (obj.Zaliczka) suma -= 0.7 * suma;
+                ViewData["Cena"] = Math.Round(suma, 2, MidpointRounding.AwayFromZero);
                 return View(obj);
             } 
             else
@@ -227,8 +230,7 @@ namespace TorKartingowyCoreMVC.Controllers
                     return View("Rezerwuj3" ,obj);
                 }
                 obj.Godzina = obj.Godzina.Substring(1) + ":00";
-                _db.Rezerwacje.Add(obj);
-                _db.SaveChanges();
+                
                 string key = "T" + obj.TorId.ToString() + "_" + obj.Data.Replace('-', '_');
                 string godzina = obj.Godzina.Substring(0, 2);
                 if (!_db.DostepneGodziny.Any(o => o.TorData == key))
@@ -256,7 +258,7 @@ namespace TorKartingowyCoreMVC.Controllers
                     }
                 }
 
-                string dataGodzina = obj.Data.Replace('-', '_') + "_" + obj.Godzina.Substring(0, 1);
+                string dataGodzina = obj.Data.Replace('-', '_') + "_" + obj.Godzina.Substring(0, 2);
                 if (_db.IloscGokartow.Any(o => o.DataGodzina == dataGodzina))
                 {
                     _db.Database.ExecuteSqlRaw("UPDATE IloscGokartow SET Spalinowe = Spalinowe + " + spalinowe +
@@ -268,6 +270,17 @@ namespace TorKartingowyCoreMVC.Controllers
                     _db.Database.ExecuteSqlRaw("INSERT INTO IloscGokartow (DataGodzina, Spalinowe, Elektryczne, DlaDzieci) " +
                         "VALUES ('" + dataGodzina + "', '" + spalinowe + "', '" + elektryczne + "', '" + dla_dzieci + "');");
                 }
+                Cennik cennik = _db.Cennik.First();
+                Platnosc platnosc = new Platnosc();
+                double suma = spalinowe * obj.Czas * cennik.Spalinowy + elektryczne * obj.Czas * cennik.Elektryczny + dla_dzieci * obj.Czas * cennik.DlaDzieci;
+                if (obj.DodatkoweSzkolenia) suma += cennik.DodatkoweSzkolenie;
+                if (obj.Zaliczka) suma -= 0.3 * suma;
+                platnosc.Kwota = suma;
+                _db.Platnosci.Add(platnosc);
+                _db.SaveChanges();
+                int idPlatnosci = _db.Platnosci.OrderByDescending(p => p.Numer).FirstOrDefault().Numer;
+                obj.PlatnoscNumer = idPlatnosci;
+                _db.Rezerwacje.Add(obj);
                 _db.SaveChanges();
                 TempData["success"] = "Pomyślnie zarezerwowano";
                 return RedirectToAction("Index", "Home");

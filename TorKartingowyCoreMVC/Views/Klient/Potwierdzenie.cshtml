@@ -36,13 +36,17 @@
             <input hidden asp-for="Godzina" />
         </div>
         <div>
-            <input disabled name="spalinowe" value=@ViewData["Spalinowe"] class="form-select" />
-            <input disabled name="elektryczne" value=@ViewData["Elektryczne"] class="form-select" />
-            <input disabled name="dla_dzieci" value=@ViewData["DlaDzieci"] class="form-select" />
+            <input disabled value=@ViewData["Spalinowe"] class="form-select" />
+            <input disabled value=@ViewData["Elektryczne"] class="form-select" />
+            <input disabled value=@ViewData["DlaDzieci"] class="form-select" />
+            <input hidden name="spalinowe" value=@ViewData["Spalinowe"] />
+            <input hidden name="elektryczne" value=@ViewData["Elektryczne"] />
+            <input hidden name="dla_dzieci" value=@ViewData["DlaDzieci"]  />
         </div>
         <div class="mb-3">
             <label asp-for="DodatkoweSzkolenia"></label>
             <input disabled class="form-check-input" type="checkbox" asp-for="DodatkoweSzkolenia" />
+            <input hidden type="checkbox" asp-for="DodatkoweSzkolenia" />
         </div><div class="mb-3">
             <label asp-for="Zaliczka"></label>
             <input disabled class="form-check-input" type="checkbox" asp-for="Zaliczka" />
@@ -58,7 +62,7 @@
     <a asp-controller=@User.Claims.FirstOrDefault(c => c.Type == "Role").Value asp-action="Rezerwuj1" class="btn btn-secondary" style="width:150px">
         Powrót
     </a>
-    <button type="submit" class="btn btn-primary float-end" style="width:150px">Zapłać</button>
+    <button type="submit" class="btn btn-primary float-end" style="width:150px">Zapłać - @ViewData["Cena"] zł</button>
 
 </form>
 <br />
