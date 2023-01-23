@@ -616,6 +616,40 @@ namespace TorKartingowyCoreMVC.Controllers
             TempData["success"] = "Usunięto harmonogram";
             return RedirectToAction("ListaHarmonogram");
         }
+
+        public IActionResult Cennik()
+        {
+            if (permission())
+            {
+                Cennik cennik = _db.Cennik.Find(1);
+                return View(cennik);
+            }
+            else return RedirectToAction("Index", "Home");
+        }
+        //GET
+        public IActionResult EditCennik(int? id)
+        {
+            if (permission())
+            {
+                if(id!=1)return NotFound();
+                var cennik = _db.Cennik.Find(id);
+                return View(cennik);
+            } else return RedirectToAction("Index", "Home");
+        }
+        //POST  
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditCennik(Cennik cennik)
+        {
+            if(ModelState.IsValid)
+            {
+                _db.Cennik.Update(cennik);
+                _db.SaveChanges();
+                TempData["success"] = "Zaktualizowano cennik";
+                return RedirectToAction("Cennik", "Kierownik");
+            }
+            return View(cennik);
+        }
     }
 
 }

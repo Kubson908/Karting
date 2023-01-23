@@ -1,0 +1,49 @@
+﻿@model Cennik
+@{
+    ViewData["Title"] = "Zmiana cennika";
+}
+
+
+
+<form method="post">
+<input hidden asp-for="Id" />
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2 class="text-primary">Edytuj Cennik</h2>
+            <hr />
+        </div>
+        <div class="mb-3">
+            <label asp-for="Spalinowy"></label>
+            <input type="number" asp-for="Spalinowy" class="form-control"/>
+            <span asp-validation-for="Spalinowy" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Elektryczny"></label>
+            <input type="number" asp-for="Elektryczny" class="form-control" />
+            <span asp-validation-for="Elektryczny" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="DlaDzieci"></label>
+            <input type="number" asp-for="DlaDzieci" class="form-control" />
+            <span asp-validation-for="DlaDzieci" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="DodatkoweSzkolenie"></label>
+            <input type="number" asp-for="DodatkoweSzkolenie" class="form-control" />
+            <span asp-validation-for="DodatkoweSzkolenie" class="text-danger"></span>
+        </div>
+        
+        <button type="submit" class="btn btn-primary" style="width:150px">Zapisz</button>
+        <a asp-controller="Kierownik" asp-action="Cennik" class="btn btn-secondary" style="width:150px">
+            Wróć
+        </a>
+    </div>
+</form>
+
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}
+
+

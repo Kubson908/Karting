@@ -1,0 +1,33 @@
+﻿@model Cennik
+@{
+    ViewData["Title"] = "Cennik";
+}
+
+<div class="border p-3 mt-4 m-auto w-75">
+    <div class="row pb-2">
+        <h2 class="text-primary">Cennik</h2>
+        <hr />
+    </div>
+    <a asp-controller="Kierownik" asp-action="EditCennik" asp-route-id=@Model.Id class="btn btn-secondary" style="width:150px">
+        Edytuj
+    </a>
+    <div >
+        <div>
+            Cena za gokart spalinowy: @Model.Spalinowy zł
+        </div>
+        <div>
+            Cena za gokart elektryczny: @Model.Elektryczny zł
+        </div>
+        <div>
+            Cena za gokart dla dzieci: @Model.DlaDzieci zł
+        </div>
+        <div>
+            Cena za dodatkowe szkolenia: @Model.DodatkoweSzkolenie zł
+        </div>
+    </div>
+    <br />
+    <a asp-controller="Kierownik" asp-action="Index" class="btn btn-secondary" style="width:150px">
+        Wróć
+    </a>
+</div>
+
