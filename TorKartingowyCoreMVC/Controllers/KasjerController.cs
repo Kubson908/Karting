@@ -189,5 +189,24 @@ namespace TorKartingowyCoreMVC.Controllers
             }
             else return RedirectToAction("Index", "Home");
         }
+
+        public IActionResult Harmonogram()
+        {
+            if (permission())
+            {
+                string data = null;
+                foreach (Harmonogram h in _db.Harmonogram)
+                {
+                    if (data == null) data = h.OdKiedy;
+                    else if (DateOnly.Parse(h.OdKiedy) > DateOnly.Parse(data)) data = h.OdKiedy;
+                }
+                Harmonogram harmonogram = _db.Harmonogram.Find(data);
+                return View(harmonogram);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+        }
     }
 }

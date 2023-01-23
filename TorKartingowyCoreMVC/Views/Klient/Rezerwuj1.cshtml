@@ -36,7 +36,7 @@
 
         <input asp-for="KlientNumer" class="form-control" hidden value=@User.Claims.FirstOrDefault(c => c.Type == "Numer").Value />
     </div>
-        <a asp-controller=@User.Claims.FirstOrDefault(c => c.Type == "Role").Value asp-action="Index" class="btn btn-secondary" style="width:150px">
+        <a asp-controller="Home" asp-action="Index" class="btn btn-secondary" style="width:150px">
             Wróć
         </a>
         <button type="submit" class="btn btn-primary float-end" style="width:150px">Dalej</button>

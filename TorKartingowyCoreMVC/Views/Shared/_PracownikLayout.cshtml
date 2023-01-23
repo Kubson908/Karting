@@ -24,10 +24,12 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <div class="navbar-nav me-auto">
-                            
-                        <a class="nav-link nav-item text-white" asp-area="" asp-controller=@User.Claims.FirstOrDefault(c => c.Type == "Role").Value asp-action="Index">
+                        @{
+                            string role = @User.Claims.FirstOrDefault(c => c.Type == "Role").Value;
+                            if (role == "Sprzętowiec") role = "Sprzetowiec";
+                        }
+                        <a class="nav-link nav-item text-white" asp-area="" asp-controller=@role asp-action="Index">
                             Panel główny
-                            <span class="visually-hidden">(current)</span>
                         </a>
      
                     </div>
@@ -44,7 +46,6 @@
                                 </a>
                                 <div class="dropdown-menu" style="left: -112%;top: 105%;">
                                     <a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="LogOut">Wyloguj</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
                                         
                                 </div>
                             </div>

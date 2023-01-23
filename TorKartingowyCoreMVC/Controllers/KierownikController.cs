@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Drawing;
+using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
 using TorKartingowyCoreMVC.Data;
@@ -509,6 +511,105 @@ namespace TorKartingowyCoreMVC.Controllers
             else return RedirectToAction("Index", "Home");
         }
 
+        //----------------------Harmonogram-------------------------
+
+        public IActionResult ListaHarmonogram()
+        {
+            if (permission())
+            {
+                var culture = new CultureInfo("pl-PL");
+                ViewData["Culture"] = culture;
+                IEnumerable<Harmonogram> objHarmonogramList = _db.Harmonogram;
+                return View(objHarmonogramList);
+            }
+            else return RedirectToAction("Index", "Home");
+        }
+
+        //GET
+        public IActionResult CreateHarmonogram()
+        {
+            if (permission())
+            {
+                return View();
+            }
+            else return RedirectToAction("Index", "Home");
+        }
+
+        //POST
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateHarmonogram(Harmonogram obj)
+        {
+            if (obj.OdKiedy != null)
+            {
+                var files = HttpContext.Request.Form.Files;
+                if(files.Count() > 0)
+                {
+                    byte[] img = null;
+                    using(var filestream = files[0].OpenReadStream())
+                    {
+                        using (var memorystream = new MemoryStream())
+                        {
+                            filestream.CopyTo(memorystream);
+                            img = memorystream.ToArray();
+                        }
+                    }
+                    obj.ListaGodzin = img;
+                }
+                _db.Harmonogram.Add(obj);
+                await _db.SaveChangesAsync();
+                TempData["success"] = "Dodano harmonogram";
+                return RedirectToAction("ListaHarmonogram");
+            }
+            return View(obj);
+        }
+
+        public IActionResult HarmonogramDetails(string? data)
+        {
+            if (permission())
+            {
+                if (data == null) return NotFound();
+                Harmonogram harmonogram = _db.Harmonogram.Find(data);
+                return View(harmonogram);
+            }
+            return RedirectToAction("Index", "Home");
+        }
+
+        //GET
+        public IActionResult DeleteHarmonogram(string? data)
+        {
+            if (permission())
+            {
+                if (data == null)
+                {
+                    return NotFound();
+                }
+                var harmonogram = _db.Harmonogram.Find(data);
+
+                if (harmonogram == null)
+                {
+                    return NotFound();
+                }
+
+                return View(harmonogram);
+            }
+            else return RedirectToAction("Index", "Home");
+        }
+
+        //POST
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteHarmonogramPOST(Harmonogram obj)
+        {
+            if (obj == null)
+            {
+                return NotFound();
+            }
+            _db.Harmonogram.Remove(obj);
+            _db.SaveChanges();
+            TempData["success"] = "Usunięto harmonogram";
+            return RedirectToAction("ListaHarmonogram");
+        }
     }
 
 }

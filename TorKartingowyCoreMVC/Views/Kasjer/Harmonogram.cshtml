@@ -1,0 +1,20 @@
+﻿@model Harmonogram
+@{
+    ViewData["Title"] = "Harmonogram";
+}
+
+<div class="border p-3 mt-4 m-auto w-75">
+    <div class="row pb-2">
+        <h2 class="text-primary">Harmonogram od @Model.OdKiedy</h2>
+        <hr />
+    </div>
+    <div class="table-responsive" style="max-width:91vw">
+        @{var base64 = Convert.ToBase64String(Model.ListaGodzin);}
+        @{var img = string.Format("data:image/jpg;base64,{0}", base64);}
+        <img src="@img" />
+    </div>
+    <br />
+    <a asp-controller="Kasjer" asp-action="Index" class="btn btn-secondary" style="width:150px">
+        Wróć
+    </a>
+</div>

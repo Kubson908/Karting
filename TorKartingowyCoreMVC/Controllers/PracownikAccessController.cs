@@ -74,7 +74,9 @@ namespace TorKartingowyCoreMVC.Controllers
 
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
                     new ClaimsPrincipal(claimsIdentity), properties);
-                return RedirectToAction("Index", modelLogin.Stanowisko);
+                string stanowisko = modelLogin.Stanowisko;
+                if (stanowisko == "Sprzętowiec") stanowisko = "Sprzetowiec";
+                return RedirectToAction("Index", stanowisko);
             }
 
 

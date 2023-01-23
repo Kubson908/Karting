@@ -3,7 +3,6 @@ using TorKartingowyCoreMVC.Data;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Localization;
 using System.Globalization;
-using Braintree;
 using TorKartingowyCoreMVC.Services;
 using BraintreeService = TorKartingowyCoreMVC.Services.BraintreeService;
 

@@ -4,7 +4,7 @@
     <input hidden asp-for="Numer" class="form-control" />
     <div class="border p-3 mt-4">
         <div class="row pb-2">
-            <h2 class="text-primary">Utwórz rezerwację</h2>
+            <h2 class="text-primary">Podsumowanie rezerwacji</h2>
             <hr />
         </div>
         <div class="mb-3">
@@ -58,18 +58,19 @@
     <a asp-controller=@User.Claims.FirstOrDefault(c => c.Type == "Role").Value asp-action="Rezerwuj1" class="btn btn-secondary" style="width:150px">
         Powrót
     </a>
-    <button type="submit" class="btn btn-primary float-end" style="width:150px">Zapłać - @ViewData["Cena"]</button>
+    <button type="submit" class="btn btn-primary float-end" style="width:150px">Zapłać</button>
 
 </form>
 <br />
-<script src="https://js.braintreegateway.com/web/dropin/1.22.0/js/dropin.min.js"></script>
+<script src="https://js.braintreegateway.com/web/dropin/1.33.7/js/dropin.min.js"></script>
 <script>
     var client_token = "@ViewBag.ClientToken";
     var form = document.querySelector('#payment-form');
 
     braintree.dropin.create({
         authorization: client_token,
-        container: '#bt-dropin'
+        container: '#bt-dropin',
+        locale: 'pl_PL'
     }, function (createErr, instance) {
         form.addEventListener('submit', function (event) {
             event.preventDefault();

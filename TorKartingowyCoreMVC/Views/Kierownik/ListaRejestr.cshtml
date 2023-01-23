@@ -51,7 +51,11 @@
                         @obj.Data
                     </td>
                     <td>
-                        @{var text = obj.WykonanaPraca.Substring(0, 20) + "...";}
+                        @{
+                            var text = "";
+                            if (obj.WykonanaPraca.Length > 20) text = obj.WykonanaPraca.Substring(0, 20) + "...";
+                            else text = obj.WykonanaPraca;
+                        }
                         @text
                     </td>
                     <td>

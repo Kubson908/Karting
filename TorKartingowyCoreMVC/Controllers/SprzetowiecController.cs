@@ -18,13 +18,14 @@ namespace TorKartingowyCoreMVC.Controllers
         {
             if (HttpContext.User.Identity != null &&
                HttpContext.User.Identity.IsAuthenticated &&
-               User.Claims.FirstOrDefault(c => c.Type == "Role").Value == "Sprzetowiec") return true;
+               User.Claims.FirstOrDefault(c => c.Type == "Role").Value == "Sprzętowiec") return true;
             else return false;
         }
 
         public IActionResult Index()
         {
-            return View();
+            if (permission()) return View();
+            return RedirectToAction("Index", "Home");
         }
 
         //----------------REJESTR PRAC------------------------------
@@ -100,6 +101,25 @@ namespace TorKartingowyCoreMVC.Controllers
                 return View(RejestrFromDb);
             }
             else return RedirectToAction("Index", "Home");
+        }
+
+        public IActionResult Harmonogram()
+        {
+            if (permission())
+            {
+                string data = null;
+                foreach (Harmonogram h in _db.Harmonogram)
+                {
+                    if (data == null) data = h.OdKiedy;
+                    else if (DateOnly.Parse(h.OdKiedy) > DateOnly.Parse(data)) data = h.OdKiedy;
+                }
+                Harmonogram harmonogram = _db.Harmonogram.Find(data);
+                return View(harmonogram);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
         }
     }
 }

@@ -12,7 +12,7 @@
             <a asp-controller="Sprzetowiec" asp-action="Index" class="btn btn-secondary m-5" style="width:150px">
                 Wróć
             </a>
-            <a asp-controller=@User.Claims.FirstOrDefault(c => c.Type == "Role").Value asp-action="CreateRejestr" class="btn btn-primary">
+            <a asp-controller="Sprzetowiec" asp-action="CreateRejestr" class="btn btn-primary">
                 <i class="bi bi-plus-circle"></i> &nbsp; Dodaj wpis w rejestrze
             </a>
         </div>
@@ -47,7 +47,11 @@
                         @obj.Data
                     </td>
                     <td>
-                        @{var text = obj.WykonanaPraca.Substring(0, 20) + "...";}
+                        @{
+                            var text = "";
+                            if (obj.WykonanaPraca.Length > 20) text = obj.WykonanaPraca.Substring(0, 20) + "...";
+                            else text = obj.WykonanaPraca;
+                        }
                         @text
                     </td>
                     <td>

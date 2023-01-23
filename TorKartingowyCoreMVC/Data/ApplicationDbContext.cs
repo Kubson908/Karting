@@ -19,4 +19,5 @@ public class ApplicationDbContext :IdentityDbContext
 	public DbSet<RejestrPrac> RejestrPrac { get; set; }
 	public DbSet<DostepneGodziny> DostepneGodziny { get; set; }
 	public DbSet<IloscGokartow> IloscGokartow { get; set; }
+	public DbSet<Harmonogram> Harmonogram { get; set; }
 }
