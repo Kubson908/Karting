@@ -1,41 +1,44 @@
 ﻿@model Klient
-<form method="post" asp-action="UpdateSzkolenie" class="row">
-    <div class="col-md-6 p-0">
-        <table class="table table-bordered table-striped border-5 border-dark m-4" style="width: 80%;">
-            <tr>
-                <td>Numer Klienta</td>
-                <td>@Model.Numer</td>
-                <input asp-for="Numer" hidden />
-            </tr>
-            <tr>
-                <td>E-mail</td>
-                <td>@Model.Email</td>
-                <input asp-for="Email" hidden />
-            </tr>
-            <tr>
-                <td>Imię</td>
-                <td>@Model.Imie</td>
-                <input asp-for="Imie" hidden />
-            </tr>
-            <tr>
-                <td>Nazwisko</td>
-                <td>@Model.Nazwisko</td>
-                <input asp-for="Nazwisko" hidden />
-                <input asp-for="Haslo" hidden />
-            </tr>
-            <input hidden asp-for="Telefon" />
-            <input hidden asp-for="Rekord" />
-        </table>
-    </div>
-    <div class="col-md-6 pt-5">
-        <select asp-for="Szkolenie" class="form-select" style="width: 40%; font-size: 1vw; margin: 0 auto;">
-            <option value=@false>Nie ukończone</option>
-            <option value=@true>Ukończone</option>
-        </select>
-        <button type="submit" class="btn btn-primary" style="width:150px">Zapisz</button>
-    </div>
 
-</form>
+    <form method="post" asp-action="UpdateSzkolenie" class="row">
+    <div class="table-responsive" style="max-width:91vw">
+            <table class="table table-bordered table-striped border-5 border-dark m-4 text-center">
+                <tr>
+                    <td>Numer Klienta</td>
+                    <td>@Model.Numer</td>
+                    <input asp-for="Numer" hidden />
+                </tr>
+                <tr>
+                    <td>E-mail</td>
+                    <td>@Model.Email</td>
+                    <input asp-for="Email" hidden />
+                </tr>
+                <tr>
+                    <td>Imię</td>
+                    <td>@Model.Imie</td>
+                    <input asp-for="Imie" hidden />
+                </tr>
+                <tr>
+                    <td>Nazwisko</td>
+                    <td>@Model.Nazwisko</td>
+                    <input asp-for="Nazwisko" hidden />
+                    <input asp-for="Haslo" hidden />
+                </tr>
+                <input hidden asp-for="Telefon" />
+                <input hidden asp-for="Rekord" />
+            </table>
+        </div>
+        <div class="text-center">
+            <select asp-for="Szkolenie" class="form-select" style="width:20vh; font-size: 20px; margin: 0 auto;">
+                <option value=@false>Nie ukończone</option>
+                <option value=@true>Ukończone</option>
+            </select>
+            <button type="submit" class="btn btn-primary" style="width:150px;">Zapisz</button>
+        </div>
+
+    </form>
+
+
 
 
 

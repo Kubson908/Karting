@@ -15,50 +15,57 @@
             </div>
         </div>
     </div>
+    <div class="table-responsive" style="max-width:91vw;">
 
-    <table class="table table-bordered table-striped" style="width:100%">
-        <thead>
-            <tr>
-                <th>Data</th>
-                <th>Godzina</th>
-                <th>Liczba osób</th>
-                <th>Tor</th>
-                <th>Czas jazdy</th>
-                <th width="10%">Dodatkowe szkolenia</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var obj in Model)
-            {
+        <table class="table table-bordered table-striped">
+            <thead>
                 <tr>
-                    <td>
-                        @obj.Data
-                    </td>
-                    <td>
-                        @obj.Godzina
-                    </td>
-                    <td width="15%" class="m-0">
-                        @obj.LiczbaOsob
-                    </td>
-                    <td>
-                        @if(obj.TorId == 1) {
-                            <div>Kryty</div>
-                        }
-                        else {
-                            <div>Odkryty</div>
-                        }
-                    </td>
-                    <td>
-                        @obj.Czas godziny
-                    </td>
-                        @if(obj.DodatkoweSzkolenia == true) {
+                    <th>Data</th>
+                    <th>Godzina</th>
+                    <th>Liczba osób</th>
+                    <th>Tor</th>
+                    <th>Czas jazdy</th>
+                    <th width="10%">Dodatkowe szkolenia</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var obj in Model)
+                {
+                    <tr>
+                        <td>
+                            @obj.Data
+                        </td>
+                        <td>
+                            @obj.Godzina
+                        </td>
+                        <td width="15%" class="m-0">
+                            @obj.LiczbaOsob
+                        </td>
+                        <td>
+                            @if (obj.TorId == 1)
+                            {
+                                <div>Kryty</div>
+                            }
+                            else
+                            {
+                                <div>Odkryty</div>
+                            }
+                        </td>
+                        <td>
+                            @obj.Czas godziny
+                        </td>
+                        @if (obj.DodatkoweSzkolenia == true)
+                        {
                             <td class="text-center">&#10004;</td>
                         }
-                        else {
+                        else
+                        {
                             <td class="text-center">&#10060;</td>
                         }
                     </tr>
-            }
-        </tbody>
-    </table>
+                }
+            </tbody>
+        </table>
+    </div>
+    
 </div>

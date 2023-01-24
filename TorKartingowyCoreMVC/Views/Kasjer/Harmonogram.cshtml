@@ -3,12 +3,12 @@
     ViewData["Title"] = "Harmonogram";
 }
 
-<div class="border p-3 mt-4 m-auto w-75">
+<div class="border m-auto table-responsive" style="max-width:91vw">
     <div class="row pb-2">
         <h2 class="text-primary">Harmonogram od @Model.OdKiedy</h2>
         <hr />
     </div>
-    <div class="table-responsive" style="max-width:91vw">
+    <div>
         @{var base64 = Convert.ToBase64String(Model.ListaGodzin);}
         @{var img = string.Format("data:image/jpg;base64,{0}", base64);}
         <img src="@img" />
