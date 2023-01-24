@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
 using System.Security.Claims;
+using System.Security.Cryptography.X509Certificates;
 using System.Text.RegularExpressions;
 using TorKartingowyCoreMVC.Data;
 using TorKartingowyCoreMVC.Models;
@@ -292,6 +293,25 @@ namespace TorKartingowyCoreMVC.Controllers
             ViewData["Elektryczne"] = e;
             ViewData["DlaDzieci"] = d;
             return View("Rezerwuj3", obj);
+        }
+
+        public  IActionResult WyswietlKonto(int? id)
+        {
+            if (permission())
+            {
+                var dane = _db.Klienci.Find(id);
+                return View(dane);
+            }return RedirectToAction("Index", "Home");
+            
+        }
+
+        public IActionResult EdytujKonto(int? id)
+        {
+            if (permission())
+            {
+                var dane = _db.Klienci.Find(id);
+                return View(dane);
+            }return RedirectToAction("Index", "Home");
         }
     }
 }

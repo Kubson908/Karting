@@ -1,0 +1,42 @@
+﻿@model Klient
+@{
+    ViewData["Title"] = "Konto";
+}
+
+<h1>Konto</h1>
+<table>
+    <tr>
+        <td>Imię: </td>
+        <td>@Model.Imie</td>
+    </tr>
+    <tr>
+        <td>Nazwisko: </td>
+        <td>@Model.Nazwisko</td>
+    </tr>
+    <tr>
+        <td>email: </td>
+        <td>@Model.Email</td>
+    </tr>
+    <tr>
+        <td>telefon: </td>
+        <td>@Model.Telefon</td>
+    </tr>
+    <tr>
+        <td>Najlepszy czas: </td>
+        @if (Model.Rekord == null)
+            {
+            <td>Brak</td>
+        }else{
+            <td>Model.Rekord</td>
+        }
+
+        
+    </tr>
+</table>
+<a asp-controller="Klient" asp-action="EdytujKonto" asp-route-id="@User.Claims.FirstOrDefault(c => c.Type == "Numer").Value" class="btn btn-secondary" style="width:100px;">
+                Edytuj Dane
+</a>
+
+
+
+
