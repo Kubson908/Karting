@@ -274,7 +274,6 @@ namespace TorKartingowyCoreMVC.Controllers
                 Platnosc platnosc = new Platnosc();
                 double suma = spalinowe * obj.Czas * cennik.Spalinowy + elektryczne * obj.Czas * cennik.Elektryczny + dla_dzieci * obj.Czas * cennik.DlaDzieci;
                 if (obj.DodatkoweSzkolenia) suma += cennik.DodatkoweSzkolenie;
-                if (obj.Zaliczka) suma -= 0.3 * suma;
                 platnosc.Kwota = suma;
                 _db.Platnosci.Add(platnosc);
                 _db.SaveChanges();

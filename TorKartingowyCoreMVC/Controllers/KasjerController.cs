@@ -92,6 +92,10 @@ namespace TorKartingowyCoreMVC.Controllers
                 {
                     return NotFound();
                 }
+                double kwota = _db.Platnosci.Where(p => p.Numer == rezerwacjaFromDb.PlatnoscNumer).FirstOrDefault().Kwota;
+                if (rezerwacjaFromDb.Zaliczka) ViewData["DoZaplaty"] = 0.7 * kwota;
+                else ViewData["DoZaplaty"] = kwota;
+                ViewData["kwota"] = kwota;
                 return View(rezerwacjaFromDb);
             }
             else return RedirectToAction("Index", "Home");
@@ -112,6 +116,10 @@ namespace TorKartingowyCoreMVC.Controllers
                 TempData["NumerKlienta"] = "Numer klienta: " + klientFromDb.Numer;
                 return RedirectToAction("ListaRezerwacji", "Kasjer", obj.KlientNumer);
             }
+            double kwota = _db.Platnosci.Where(p => p.Numer == obj.PlatnoscNumer).FirstOrDefault().Kwota;
+            if (obj.Zaliczka) ViewData["DoZaplaty"] = 0.7 * kwota;
+            else ViewData["DoZaplaty"] = kwota;
+            ViewData["kwota"] = kwota;
             return View(obj);
         }
 

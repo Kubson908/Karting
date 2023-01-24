@@ -50,6 +50,7 @@
         </div><div class="mb-3">
             <label asp-for="Zaliczka"></label>
             <input disabled class="form-check-input" type="checkbox" asp-for="Zaliczka" />
+            <input hidden type="checkbox" asp-for="Zaliczka" />
         </div>
         <input asp-for="KlientNumer" class="form-control" hidden value=@User.Claims.FirstOrDefault(c => c.Type == "Numer").Value />
     </div>

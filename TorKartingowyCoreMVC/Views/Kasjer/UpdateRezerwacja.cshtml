@@ -40,17 +40,17 @@
                 <input asp-for="Zaliczka" hidden />
             </tr>
             <tr>
-                <td>Pozostała kwota</td>
-                <td></td>
+                <td>Kwota</td>
+                <td>@ViewData["Kwota"] zł</td>
             </tr>
             <tr>
                 <td>Liczba osób</td>
                 <td>@Model.LiczbaOsob</td>
-                    <input asp-for="LiczbaOsob" hidden/>
+                <input asp-for="LiczbaOsob" hidden/>
             </tr>
             <tr>
                 <td>Gokarty</td>
-                <td></td>
+                <td>@Model.Gokarty</td>
             </tr>
             <tr>
                 <td>Dodatkowe szkolenie</td>
@@ -62,9 +62,11 @@
                 <input asp-for="DodatkoweSzkolenia" hidden />
             </tr>
             <input asp-for="KlientNumer" hidden />
+            <input asp-for="PlatnoscNumer" hidden />
         </table>
     </div>
     <div class="col-md-6 pt-5">
+            <label>Do zapłaty: @ViewData["DoZaplaty"] zł</label>
             <select asp-for="PracownikId" class="form-select" style="width: 40%; font-size: 1vw; margin: 0 auto;">
                 <option value=@null>Nie zrealizowana</option>
                 <option value=@User.Claims.FirstOrDefault(c => c.Type == "Numer").Value>Zrealizowana</option>

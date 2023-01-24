@@ -28,6 +28,8 @@ namespace TorKartingowyCoreMVC.Models
         [Range(1, 20, ErrorMessage = "Dopuszczalna liczba osób to 1-20")]
 		public int LiczbaOsob { get; set; }
 
+        public string Gokarty { get; set; } = "";
+
         //Navigation Properties
         [Required]
         [ForeignKey("Klient")]
