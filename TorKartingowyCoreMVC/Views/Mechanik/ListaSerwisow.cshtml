@@ -15,15 +15,15 @@
         </div>
     </div>
 </div>
-<div class="w-100 text-center">
+<div class="text-center">
     <form method="get" asp-action="ListaSerwisow">
         <input type="search" placeholder="Wyszukaj" value="@ViewData["GetSerwis"]" name="searchFilter" class="form-control d-inline mt-3 w-25" />
-        <input type="submit" value="Wyszukaj" class="btn btn-primary" />
+        <input type="submit" value="Wyszukaj" class="btn btn-primary" /><br />
         <a asp-action="ListaSerwisow">Wszystkie serwisy</a>
     </form>
 </div>
-<div class="w-100 d-flex justify-content-center">
-    <table class="table table-bordered table-striped bg-white" style="width: 90%;">
+<div class="justify-content-center table-responsive" style="max-width:91vw;">
+    <table class="table table-bordered table-striped bg-white">
         <thead>
             <tr>
                 <th width="7%">Numer serwisu</th>

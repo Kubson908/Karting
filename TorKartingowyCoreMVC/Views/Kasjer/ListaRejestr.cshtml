@@ -7,27 +7,30 @@
     <div class="row pt-4">
         <div class="col-6">
             <h2 class="text-primary">Rejestr prac</h2>
-        </div>
-        <div class="col-6 text-end">
-            <a asp-controller="Kasjer" asp-action="Index" class="btn btn-secondary" style="width:150px">
+            <a asp-controller="Kasjer" asp-action="Index" class="btn btn-secondary" style="width:100px;">
                 Wróć
             </a>
-            <a asp-controller=@User.Claims.FirstOrDefault(c => c.Type == "Role").Value asp-action="CreateRejestr" class="btn btn-primary">
+        </div>
+        <div class="col-6 text-end">
+            
+            <a asp-controller=@User.Claims.FirstOrDefault(c => c.Type == "Role").Value asp-action="CreateRejestr" class="btn btn-primary" style="width:100px;">
                 <i class="bi bi-plus-circle"></i> &nbsp; Dodaj wpis w rejestrze
             </a>
         </div>
     </div>
 </div>
-<div class="w-100 text-center">
+
+<div class=" text-center">
     <form method="get" asp-action="ListaRejestr">
         <label>Data wpisu:</label>
         <input type="date" value="@ViewData["GetRejestr"]" name="searchFilter" class="form-control d-inline mt-3 w-25" />
-        <input type="submit" value="Wyszukaj" class="btn btn-primary" />
+        <input type="submit" value="Wyszukaj" class="btn btn-primary" /><br/>
         <a asp-action="ListaRejestr">Wszystkie wpisy</a>
     </form>
 </div>
-<div class="w-100 d-flex justify-content-center">
-    <table class="table table-bordered table-striped bg-white" style="width: 90%;">
+<div class="table-responsive justify-content-center" style="max-width:91vw;">
+    
+    <table class="table table-bordered table-striped bg-white">
         <thead>
             <tr>
                 <th width="7%">Numer wpisu</th>

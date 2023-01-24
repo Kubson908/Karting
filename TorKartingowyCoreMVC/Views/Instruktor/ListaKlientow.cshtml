@@ -12,16 +12,16 @@
         </div>
     </div>
 </div>
-<div class="w-100 text-center">
+<div class=" text-center">
     <form method="get" asp-action="ListaKlientow">
         <input type="search" placeholder="Wyszukaj" value="@ViewData[" GetKlient"]" name="searchFilter" class="form-control d-inline mt-3 w-25" />
-        <input type="submit" value="Wyszukaj" class="btn btn-primary" />
+        <input type="submit" value="Wyszukaj" class="btn btn-primary" /><br/>
         <a asp-action="ListaKlientow">Wszyscy klienci</a>
     </form>
 </div>
 <br />
-<div class="w-100 d-flex justify-content-center">
-    <table class="table table-bordered table-striped bg-white w-75">
+<div class="table-responsive justify-content-center" style="max-width:91vw;">
+    <table class="table table-bordered table-striped bg-white ">
         <thead>
             <tr>
                 <th>Numer klienta</th>
