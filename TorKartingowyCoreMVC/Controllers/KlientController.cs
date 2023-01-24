@@ -304,7 +304,7 @@ namespace TorKartingowyCoreMVC.Controllers
             }return RedirectToAction("Index", "Home");
             
         }
-
+        //GET
         public IActionResult EdytujKonto(int? id)
         {
             if (permission())
@@ -312,6 +312,20 @@ namespace TorKartingowyCoreMVC.Controllers
                 var dane = _db.Klienci.Find(id);
                 return View(dane);
             }return RedirectToAction("Index", "Home");
+        }
+        //POST
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EdytujKonto(Klient obj)
+        {
+            if (ModelState.IsValid)
+            {
+                _db.Klienci.Update(obj);
+                _db.SaveChanges();
+                TempData["success"] = "Zaktualizowano Twoje Dane";
+                return View("WyswietlKonto", obj);
+            }
+            return View(obj);
         }
     }
 }
