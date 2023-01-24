@@ -203,7 +203,8 @@ namespace TorKartingowyCoreMVC.Controllers
                 double suma = spalinowe * obj.Czas * cennik.Spalinowy + elektryczne * obj.Czas * cennik.Elektryczny + dla_dzieci * obj.Czas * cennik.DlaDzieci;
                 if (obj.DodatkoweSzkolenia) suma += cennik.DodatkoweSzkolenie;
                 if (obj.Zaliczka) suma -= 0.7 * suma;
-                ViewData["Cena"] = Math.Round(suma, 2, MidpointRounding.AwayFromZero);
+                suma = Math.Round(suma, 2, MidpointRounding.AwayFromZero);
+                ViewData["Cena"] = suma;
                 return View(obj);
             } 
             else
@@ -279,6 +280,9 @@ namespace TorKartingowyCoreMVC.Controllers
                 _db.SaveChanges();
                 int idPlatnosci = _db.Platnosci.OrderByDescending(p => p.Numer).FirstOrDefault().Numer;
                 obj.PlatnoscNumer = idPlatnosci;
+                obj.Gokarty = "Spalinowe: " + spalinowe + 
+                        "<br />Elektryczne: " + elektryczne +
+                        "<br />Dla dzieci: " + dla_dzieci;
                 _db.Rezerwacje.Add(obj);
                 _db.SaveChanges();
                 TempData["success"] = "Pomyślnie zarezerwowano";

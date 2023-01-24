@@ -1,34 +1,34 @@
 ﻿@model Rezerwacja
 <form method="post" asp-action="UpdateRezerwacja" class="row">
     <div class="col-md-6 p-0">
-        <table class="table table-bordered table-striped border-5 border-dark m-4" style="width: 80%;">
+        <table class="table table-bordered table-striped border-5 border-dark m-4" style="width: 90%;">
             <tr>
-                <td>Numer rezerwacji</td>
+                <td class="fw-bold">Numer rezerwacji</td>
                 <td>@Model.Numer</td>
                 <input asp-for="Numer" hidden />
             </tr>
             <tr>
-                <td>Numer klienta</td>
+                <td class="fw-bold">Numer klienta</td>
                 <td><input asp-for="KlientNumer" disabled class="form-control-plaintext p-0 m-0" style="line-height: 1; font-size: 16px" /></td>
             </tr>
             <tr>
-                <td>Tor</td>
+                <td class="fw-bold">Tor</td>
                 <td>@Model.TorId</td>
                 <input asp-for="TorId" hidden />
             </tr>
             <tr>
-                <td>Termin</td>
+                <td class="fw-bold">Termin</td>
                 <td>@Model.Data &nbsp; @Model.Godzina</td>
                 <input asp-for="Data" hidden />
                 <input asp-for="Godzina" hidden />
             </tr>
             <tr>
-                <td>Czas jazdy</td>
+                <td class="fw-bold">Czas jazdy</td>
                 <td>@Model.Czas h</td>
                 <input asp-for="Czas" hidden/> 
             </tr>
             <tr>
-                <td>Status płatności</td>
+                <td class="fw-bold">Status płatności</td>
                 @if (Model.Zaliczka == true)
                 {
                     <td>Zaliczka</td>
@@ -40,20 +40,21 @@
                 <input asp-for="Zaliczka" hidden />
             </tr>
             <tr>
-                <td>Kwota</td>
+                <td class="fw-bold">Kwota</td>
                 <td>@ViewData["Kwota"] zł</td>
             </tr>
             <tr>
-                <td>Liczba osób</td>
+                <td class="fw-bold">Liczba osób</td>
                 <td>@Model.LiczbaOsob</td>
                 <input asp-for="LiczbaOsob" hidden/>
             </tr>
             <tr>
-                <td>Gokarty</td>
-                <td>@Model.Gokarty</td>
+                <td class="fw-bold">Gokarty</td>
+                <td>@Html.Raw(Model.Gokarty)</td>
+                <input asp-for="Gokarty" hidden />
             </tr>
             <tr>
-                <td>Dodatkowe szkolenie</td>
+                <td class="fw-bold">Dodatkowe szkolenie</td>
                 @if(Model.DodatkoweSzkolenia) {
                     <td>&#10004;</td>
                 } else {
@@ -65,17 +66,25 @@
             <input asp-for="PlatnoscNumer" hidden />
         </table>
     </div>
-    <div class="col-md-6 pt-5">
+    <div class="col-md-6 pt-5 text-center">
+    @{
+        if (Model.PracownikId != null)
+        {
+            <label>Do zapłaty: 0 zł</label>
+        }
+        else
+        {
             <label>Do zapłaty: @ViewData["DoZaplaty"] zł</label>
-            <select asp-for="PracownikId" class="form-select" style="width: 40%; font-size: 1vw; margin: 0 auto;">
-                <option value=@null>Nie zrealizowana</option>
-                <option value=@User.Claims.FirstOrDefault(c => c.Type == "Numer").Value>Zrealizowana</option>
-            </select>
+        }
+    }
+        <select asp-for="PracownikId" class="form-select" style="width: 80%; font-size: 1vw; margin: 0 auto;">
+            <option value=@null>Nie zrealizowana</option>
+            <option value=@User.Claims.FirstOrDefault(c => c.Type == "Numer").Value>Zrealizowana</option>
+        </select><br />
         <button type="submit" class="btn btn-primary" style="width:150px">Aktualizuj</button>
     </div>
-    
 </form>
-
+<br />
 
 
 @section Scripts{
