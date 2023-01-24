@@ -22,4 +22,5 @@ public class ApplicationDbContext :IdentityDbContext
 	public DbSet<Harmonogram> Harmonogram { get; set; }
 	public DbSet<Platnosc> Platnosci { get; set; }
 	public DbSet<Cennik> Cennik { get; set;}
+	public DbSet<Magazyn> Magazyn { get; set;}
 }

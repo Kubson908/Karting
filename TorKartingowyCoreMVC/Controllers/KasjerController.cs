@@ -94,7 +94,7 @@ namespace TorKartingowyCoreMVC.Controllers
                 }
                 double kwota = _db.Platnosci.Where(p => p.Numer == rezerwacjaFromDb.PlatnoscNumer).FirstOrDefault().Kwota;
                 if (rezerwacjaFromDb.Zaliczka) ViewData["DoZaplaty"] = 0.7 * kwota;
-                else ViewData["DoZaplaty"] = kwota;
+                else ViewData["DoZaplaty"] = 0;
                 ViewData["kwota"] = kwota;
                 return View(rezerwacjaFromDb);
             }

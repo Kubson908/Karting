@@ -31,7 +31,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var obj in Model)
+            @foreach (var obj in Model.OrderByDescending(x => x.Data))
             {
                 <tr style="font-size: 20px;" class="align-middle text-center">
                     <td>

@@ -24,7 +24,12 @@ namespace TorKartingowyCoreMVC.Controllers
             if (claimUser.Identity != null &&
                 claimUser.Identity.IsAuthenticated &&
                 @User.Claims.FirstOrDefault(c => c.Type == "Role").Value != "Klient")
-                return RedirectToAction("Index", User.Claims.FirstOrDefault(c => c.Type == "Role").Value);
+            {
+                var role = User.Claims.FirstOrDefault(c => c.Type == "Role").Value;
+                if (role == "Sprzętowiec") role = "Sprzetowiec";
+                return RedirectToAction("Index", role);
+            }
+                
 
             return View();
         }

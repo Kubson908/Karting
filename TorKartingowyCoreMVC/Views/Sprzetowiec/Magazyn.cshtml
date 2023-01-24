@@ -1,0 +1,74 @@
+﻿@model IEnumerable<Magazyn>
+@{
+    ViewData["Title"] = "Magazyn";
+}
+
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">Magazyn</h2>
+        </div>
+        <div class="col-6 text-end">
+            <a asp-controller="Sprzetowiec" asp-action="Index" class="btn btn-secondary m-5" style="width:150px">
+                Wróć
+            </a>
+            <a asp-controller="Sprzetowiec" asp-action="CreateMagazyn" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i> &nbsp; Dodaj pozycję do magazynu
+            </a>
+        </div>
+    </div>
+</div>
+<br />
+<div>
+    <table class="table table-bordered table-striped bg-white w-100">
+        <thead>
+            <tr>
+                <th>Numer</th>
+                <th>Kategoria</th>
+                <th>Nazwa</th>
+                <th width="20%">Opis</t>
+                <th>W magazynie</th>
+                <th>Wypożyczono</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var obj in Model)
+            {
+                <tr style="font-size: 20px;" class="align-middle text-center">
+                    <td>
+                        @obj.Id
+                    </td>
+                    <td>
+                        @obj.Kategoria
+                    </td>
+                    <td>
+                        @obj.Nazwa
+                    </td>
+                    <td>
+                        @{
+                            var text = "";
+                            if (obj.Opis.Length > 40) text = obj.Opis.Substring(0, 20) + "...";
+                            else text = obj.Opis;
+                        }
+                        @text
+                    </td>
+                    <td>
+                        @obj.StanMagazynowy
+                    </td>
+                    <td>
+                        @obj.Wypozyczono
+                    </td>
+                    <td>
+                        <form method="get" asp-action="Wypozycz">
+                            <input type="number" name="ilosc" class="form-control d-inline" style="width:40%" />
+                            <input hidden value="@obj.Id" name="id" />
+                            <input type="submit" value="Wypożycz" class="btn btn-primary" />
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
