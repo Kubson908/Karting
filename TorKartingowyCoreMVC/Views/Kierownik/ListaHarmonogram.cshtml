@@ -4,21 +4,24 @@
 }
 
 <div class="container p-3">
-    <a asp-controller="Kierownik" asp-action="Index" class="btn btn-secondary" style="width:150px">
-        Wróć
-    </a>
+    
     <div class="row pt-4">
-        <div class="col-6">
-            <h2 class="text-primary">Lista harmonogramów</h2>
-        </div>
-        <div class="col-6 text-end">
-            <a asp-controller="Kierownik" asp-action="CreateHarmonogram" class="btn btn-primary">
+        <div >
+            <a asp-controller="Kierownik" asp-action="Index" class="btn btn-secondary" style="width:15vw;">
+                Wróć
+            </a>
+            <a asp-controller="Kierownik" asp-action="CreateHarmonogram" class="btn btn-primary float-end" style="width:150px;">
                 <i class="bi bi-plus-circle"></i> &nbsp; Nowy harmonogram
             </a>
         </div>
+        <div>
+            <h2 class="text-primary">Lista harmonogramów</h2>
+        </div>
+        
     </div>
 </div>
-<div class="w-100 d-flex justify-content-center text-center">
+
+<div class="d-flex table-responsive justify-content-center text-center"style="max-width:91vw;">
     <table class="table m-3 w-100 table-bordered table-striped">
         @foreach (var obj in Model)
         {
