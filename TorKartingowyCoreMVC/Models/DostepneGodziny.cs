@@ -8,7 +8,6 @@ namespace TorKartingowyCoreMVC.Models
     {
         [Key]
         public string TorData { get; set; }
-        public int G08 { get; set; } = 0;
         public int G09 { get; set; } = 0;
         public int G10 { get; set; } = 0;
         public int G11 { get; set; } = 0;

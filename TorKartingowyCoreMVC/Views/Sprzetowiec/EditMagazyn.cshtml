@@ -1,0 +1,42 @@
+﻿@model Magazyn
+@{
+    ViewData["Title"] = "Edycja elementu w magazynie";
+}
+
+<form method="post">
+    <input hidden asp-for="Id" />
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2 class="text-primary">Edytuj pozycję w magazynie</h2>
+            <hr />
+        </div>
+        <div class="mb-3">
+           <label asp-for="Kategoria"></label>
+            <select asp-for="Kategoria" class="form-select">
+                <option value="" class="form-select">--Kategoria--</option>
+                <option value="Wyposażenie" class="form-select">Wyposażenie</option>
+                <option value="Elementy serwisowe">Elementy Serwisowe</option>
+            </select>
+            <span asp-validation-for="Kategoria" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Nazwa"></label>
+            <input asp-for="Nazwa" class="form-control"/>
+            <span asp-validation-for="Nazwa" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Opis"></label>
+            <input asp-for="Opis" class="form-control" />
+            <span asp-validation-for="Opis" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="StanMagazynowy"></label>
+            <input type="number" asp-for="StanMagazynowy" class="form-control" />
+            <span asp-validation-for="StanMagazynowy" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:150px">Zapisz</button>
+        <a asp-controller="Sprzetowiec" asp-action="Magazyn" class="btn btn-secondary" style="width:150px">
+            Wróć
+        </a>
+    </div>
+</form>

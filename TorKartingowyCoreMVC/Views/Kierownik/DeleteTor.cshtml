@@ -9,14 +9,17 @@
         <div class="mb-3">
             <label asp-for="Id"></label>
             <input asp-for="Id" disabled class="form-control" />
+            <input asp-for="Id" hidden />
         </div>
         <div class="mb-3">
             <label asp-for="Rodzaj"></label>
             <input asp-for="Rodzaj" disabled class="form-control" />
+            <input asp-for="Rodzaj" hidden />
         </div>
         <div class="mb-3">
             <label asp-for="Pojemnosc"></label>
             <input asp-for="Pojemnosc" disabled class="form-control" />
+            <input asp-for="Pojemnosc" hidden />
         </div>
         <button type="submit" class="btn btn-danger" style="width:150px">Usuń</button>
         <a asp-controller="Kierownik" asp-action="ListaTorow" class="btn btn-secondary" style="width:150px">

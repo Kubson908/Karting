@@ -9,10 +9,10 @@
             <h2 class="text-primary">Magazyn</h2>
         </div>
         <div class="text-center">
-            <a asp-controller="Sprzetowiec" asp-action="Index" class="btn btn-secondary m-5" style="width:150px">
+            <a asp-controller="Kierownik" asp-action="Index" class="btn btn-secondary m-5" style="width:150px">
                 Wróć
             </a>
-            <a asp-controller="Sprzetowiec" asp-action="CreateMagazyn" class="btn btn-primary">
+            <a asp-controller="Kierownik" asp-action="CreateMagazyn" class="btn btn-primary">
                 <i class="bi bi-plus-circle"></i> &nbsp; Dodaj pozycję do magazynu
             </a>
         </div>
@@ -29,7 +29,6 @@
                 <th width="20%">Opis</t>
                 <th>W magazynie</th>
                 <th>Wydano</th>
-                <th style="min-width: 200px">Rotacja asortymentu</th>
                 <th></th>
             </tr>
         </thead>
@@ -60,18 +59,11 @@
                     <td>
                         @obj.Wypozyczono
                     </td>
-                    <td class="p-0">
-                        <form method="get" asp-action="Wypozycz">
-                            <input type="number" name="ilosc" class="form-control d-inline" style="width:40%" max="@obj.StanMagazynowy" min="-@obj.Wypozyczono"/>
-                            <input hidden value="@obj.Id" name="id" />
-                            <input type="submit" value="Rotacja" class="btn btn-info" />
-                        </form>
-                    </td>
                     <td style="min-width: 200px;">
-                        <a class="btn btn-success" asp-area="" asp-controller="Sprzetowiec" asp-action="EditMagazyn" asp-route-id="@obj.Id">
+                        <a class="btn btn-success" asp-area="" asp-controller="Kierownik" asp-action="EditMagazyn" asp-route-id="@obj.Id">
                             Edytuj
                         </a>
-                        <a class="btn btn-danger" asp-area="" asp-controller="Sprzetowiec" asp-action="DeleteMagazyn" asp-route-id="@obj.Id">
+                        <a class="btn btn-danger" asp-area="" asp-controller="Kierownik" asp-action="DeleteMagazyn" asp-route-id="@obj.Id">
                             Usuń
                         </a>
                     </td>

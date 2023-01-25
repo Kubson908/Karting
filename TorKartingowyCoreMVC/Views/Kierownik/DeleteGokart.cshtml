@@ -9,14 +9,17 @@
         <div class="mb-3">
             <label asp-for="Numer"></label>
             <input asp-for="Numer" disabled class="form-control" />
+            <input asp-for="Numer" hidden />
         </div>
         <div class="mb-3">
             <label asp-for="Typ"></label>
             <input asp-for="Typ" disabled class="form-control" />
+            <input asp-for="Typ" hidden />
         </div>
         <div class="mb-3">
             <label asp-for="Model"></label>
             <input asp-for="Model" disabled class="form-control" />
+            <input asp-for="Model" hidden />
         </div>
         <button type="submit" class="btn btn-danger" style="width:150px">Usuń</button>
         <a asp-controller="Kierownik" asp-action="ListaGokartow" class="btn btn-secondary" style="width:150px">

@@ -282,7 +282,7 @@ namespace TorKartingowyCoreMVC.Controllers
             return RedirectToAction("ListaGokartow");
         }
 
-        //TOR----------------------------------------------------------------------
+        //------------------------------TOR---------------------------------
         public IActionResult ListaTorow()
         {
             if (permission())
@@ -649,6 +649,106 @@ namespace TorKartingowyCoreMVC.Controllers
                 return RedirectToAction("Cennik", "Kierownik");
             }
             return View(cennik);
+        }
+
+        //------------------MAGAZYN---------------------------------
+        public IActionResult Magazyn()
+        {
+            if (!permission()) return RedirectToAction("Index", "Home");
+
+            IEnumerable<Magazyn> magazyn = _db.Magazyn;
+
+            return View(magazyn);
+        }
+
+        //GET
+        public IActionResult CreateMagazyn()
+        {
+            if (!permission()) return RedirectToAction("Index", "Home");
+
+            return View();
+        }
+
+        //POST
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CreateMagazyn(Magazyn obj)
+        {
+            if (ModelState.IsValid)
+            {
+                _db.Magazyn.Add(obj);
+                _db.SaveChanges();
+                TempData["success"] = "Dodano pozycję do magazynu";
+                return RedirectToAction("Magazyn");
+            }
+            return View(obj);
+        }
+
+        //GET
+        public IActionResult EditMagazyn(int? id)
+        {
+            if (!permission()) return RedirectToAction("Index", "Home");
+
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+            var element = _db.Magazyn.Find(id);
+            if (element == null)
+            {
+                return NotFound();
+            }
+            return View(element);
+        }
+
+        //POST
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditMagazyn(Magazyn obj)
+        {
+            if (ModelState.IsValid)
+            {
+                _db.Magazyn.Update(obj);
+                _db.SaveChanges();
+                TempData["success"] = "Zapisano pozycję nr " + obj.Id;
+                return RedirectToAction("Magazyn");
+            }
+            return View(obj);
+        }
+
+        //GET
+        public IActionResult DeleteMagazyn(int? id)
+        {
+            if (permission())
+            {
+                if (id == null || id == 0)
+                {
+                    return NotFound();
+                }
+                var magazyn = _db.Magazyn.Find(id);
+
+                if (magazyn == null)
+                {
+                    return NotFound();
+                }
+                return View(magazyn);
+            }
+            else return RedirectToAction("Index", "Home");
+        }
+
+        //POST
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteMagazynPOST(Magazyn obj)
+        {
+            if (obj == null)
+            {
+                return NotFound();
+            }
+            _db.Magazyn.Remove(obj);
+            _db.SaveChanges();
+            TempData["success"] = "Usunięto pozycję nr " + obj.Id;
+            return RedirectToAction("Magazyn");
         }
     }
 

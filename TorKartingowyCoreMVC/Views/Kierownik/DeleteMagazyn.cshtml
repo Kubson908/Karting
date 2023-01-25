@@ -1,0 +1,39 @@
+﻿@model Magazyn
+@{
+    ViewData["Title"] = "Usuwanie elementu z magazynu";
+}
+
+<form method="post" asp-action="DeleteMagazynPOST">
+    <input hidden asp-for="Id" />
+    <input hidden asp-for="Kategoria" />
+    <input hidden asp-for="Wypozyczono" />
+    <input hidden asp-for="Opis" />
+    <input hidden asp-for="Nazwa" />
+    <input hidden asp-for="StanMagazynowy" />
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2 class="text-primary">Edytuj pozycję w magazynie</h2>
+            <hr />
+        </div>
+        <div class="mb-3">
+            <label asp-for="Kategoria"></label>
+            <input disabled asp-for="Kategoria" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label asp-for="Nazwa"></label>
+            <input disabled asp-for="Nazwa" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label asp-for="Opis"></label>
+            <input disabled asp-for="Opis" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label asp-for="StanMagazynowy"></label>
+            <input disabled type="number" asp-for="StanMagazynowy" class="form-control" />
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:150px">Zapisz</button>
+        <a asp-controller="Kierownik" asp-action="Magazyn" class="btn btn-secondary" style="width:150px">
+            Wróć
+        </a>
+    </div>
+</form>
