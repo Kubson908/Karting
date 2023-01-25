@@ -6,6 +6,8 @@ using TorKartingowyCoreMVC.Models;
 using TorKartingowyCoreMVC.Data;
 using System.Security.Cryptography;
 using System.Text;
+using MimeKit;
+using MailKit.Net.Smtp;
 
 namespace TorKartingowyCoreMVC.Controllers
 {
@@ -35,26 +37,62 @@ namespace TorKartingowyCoreMVC.Controllers
         //POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Register(Klient obj)
+        public IActionResult Register2(Klient obj)
         {
             if (ModelState.IsValid)
             {
                 if (_db.Klienci.Any(c => c.Email == obj.Email)) {
                     TempData["error"] = "Podany e-mail jest już zarejestrowany";
-                    return View(obj);
+                    return View("Register", obj);
                 }
                 if (_db.Klienci.Any(c => c.Telefon == obj.Telefon))
                 {
                     TempData["error"] = "Podany numer telefonu jest już zarejestrowany";
                     return View(obj);
                 }
+                Random random = new Random();
+                int activateCode = random.Next(111111, 999999);
+
+                string mailFrom = "kartinghappywheels@gmail.com";
+                var message = new MimeMessage();
+                message.From.Add(new MailboxAddress("Test", mailFrom));
+                message.To.Add(new MailboxAddress(obj.Email, obj.Email));
+                message.Subject = "Aktywacja konta - Klub Kartingowy Happy Wheels";
+
+                var body = new BodyBuilder();
+                body.HtmlBody = "<b>Kod aktywacyjny do konta: </b>" +
+                                "<div style='font-size:32px;color:blue;'>" + activateCode + "</div>";
+                message.Body = body.ToMessageBody();
+                using (var client = new SmtpClient())
+                {
+                    client.Connect("smtp.gmail.com", 587, false);
+                    client.Authenticate(mailFrom, "affpkqulzykvaima");
+                    client.Send(message);
+                    client.Disconnect(true);
+                }
+                TempData["Code"] = activateCode;
+                return View(obj);
+            }
+            return View("Register", obj);
+        }
+
+        //POST
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Register3(Klient obj, int code)
+        {
+            int validCode = (int)TempData["Code"];
+            if (ModelState.IsValid && code == validCode)
+            {
                 obj.Haslo = hashPassword(obj.Haslo);
                 _db.Klienci.Add(obj);
                 _db.SaveChanges();
-                TempData["success"] = "Dodano klienta";
+                TempData["success"] = "Zarejestrowano";
                 return RedirectToAction("Login");
             }
-            return View(obj);
+            TempData["error"] = "Błędny kod";
+            TempData["Code"] = validCode;
+            return View("Register2", obj);
         }
 
         //GET

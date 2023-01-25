@@ -2,8 +2,6 @@
 @{
     ViewData["Title"] = "Lista serwisow";
 }
-<div class="table-responsive" style="max-width:91vw">
-
 
 <div>
     <div>
@@ -17,12 +15,12 @@
 </div>
 <div class=" text-center">
     <form method="get" asp-action="ListaSerwisow">
-        <input type="search" placeholder="Wyszukaj" value="@ViewData["GetSerwis"]" name="searchFilter" class="form-control d-inline mt-3 w-25" />
+        <input type="search" placeholder="Wyszukaj" value="@ViewData["GetSerwis"]" name="searchFilter" class="form-control d-inline mt-3" style="width: 25vh;" />
         <input type="submit" value="Wyszukaj" class="btn btn-primary" /><br/>
         <a asp-action="ListaSerwisow">Wszystkie serwisy</a>
     </form>
 </div>
-<div class="justify-content-center" >
+<div class=" table-responsive" style="max-width:91vw" >
     <table class="table table-bordered" >
         <thead>
             <tr>

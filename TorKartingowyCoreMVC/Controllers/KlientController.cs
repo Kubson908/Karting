@@ -55,11 +55,9 @@ namespace TorKartingowyCoreMVC.Controllers
         //GET
         public IActionResult Rezerwuj1()
         {
-            if (permission())
-            {
-                return View();
-            }
-            else return RedirectToAction("Login", "Access");
+            if (!permission()) return RedirectToAction("Login", "Access");
+
+            return View();
             
         }
 

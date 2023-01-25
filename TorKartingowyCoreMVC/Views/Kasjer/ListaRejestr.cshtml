@@ -23,10 +23,10 @@
 <div class=" text-center">
     <form method="get" asp-action="ListaRejestr">
         <label>Data wpisu:</label>
-        <input type="date" value="@ViewData["GetRejestr"]" name="searchFilter" class="form-control d-inline mt-3 w-25" />
+        <input type="date" value="@ViewData["GetRejestr"]" name="searchFilter" class="form-control d-inline mt-3 mb-2" style="width:25vh"/>
         <input type="submit" value="Wyszukaj" class="btn btn-primary" /><br/>
         <a asp-action="ListaRejestr">Wszystkie wpisy</a>
-    </form>
+    </form><br />
 </div>
 <div class="table-responsive justify-content-center" style="max-width:91vw;">
     
