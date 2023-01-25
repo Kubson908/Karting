@@ -26,12 +26,13 @@
         <td>@Model.Stanowisko</td>
     </tr>
 </table>
-<div class="text-center">
-    <a class="btn btn-secondary m-2 float-start w-25 p-2 pt-3 pb-3" asp-action="Index">Wróć</a>
-    <a class="btn btn-secondary m-2 w-25" asp-action="ChangePassword" asp-route-id="@Model.Numer" style="line-height:normal;">Zmiana hasła</a>
-    <a asp-controller="Klient" asp-action="EdytujKonto" asp-route-id="@Model.Numer" class="btn btn-primary m-2 float-end w-25" style="width:100px; line-height:normal;">
-        Edytuj Dane
-    </a>
+<div>
+    @{
+        var stanowisko = Model.Stanowisko;
+        if (stanowisko == "Sprzętowiec") stanowisko = "Sprzetowiec";
+    }
+    <a class="btn btn-secondary m-2 float-start w-25 p-2 pt-3 pb-3" asp-controller="@stanowisko" asp-action="Index">Wróć</a>
+    <a class="btn btn-info m-2 w-25 float-end" asp-action="ChangePassword" asp-route-id="@Model.Id" style="line-height:normal;">Zmiana hasła</a>
 </div>
 
 

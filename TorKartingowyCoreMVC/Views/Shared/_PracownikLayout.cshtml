@@ -45,8 +45,9 @@
                                     </svg>
                                 </a>
                                 <div class="dropdown-menu" style="left: -112%;top: 105%;">
-                                    <a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="LogOut">Wyloguj</a>
-                                        
+                                    <a class="dropdown-item" asp-area="" asp-controller="PracownikAccess" asp-action="WyswietlKonto" asp-route-id=@User.Claims.FirstOrDefault(c => c.Type == "Numer").Value>Twoje dane</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="LogOut">Wyloguj</a>  
                                 </div>
                             </div>
                         }
