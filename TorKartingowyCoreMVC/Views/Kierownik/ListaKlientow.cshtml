@@ -5,11 +5,21 @@
 
 <div class="container p-3">
     <div class="row pt-4">
+        <a asp-controller="Kierownik" asp-action="Index" class="btn btn-secondary m-1">
+            Wróć
+        </a>
         <div class="col-6">
             <h2 class="text-primary">Lista klientów</h2>
         </div>
         
     </div>
+</div>
+<div class="w-100 text-center">
+    <form method="get" asp-action="ListaKlientow">
+        <input type="search" placeholder="Wyszukaj" value="@ViewData["GetKlient"]" name="searchFilter" class="form-control d-inline mt-3" style="width:25vh;"/>
+        <input type="submit" value="Wyszukaj" class="btn btn-primary" /><br />
+        <a asp-action="ListaKlientow">Wszyscy klienci</a>
+    </form><br />
 </div>
 <div class="table-responsive" style="max-width:91vw;">
     <table class="table table-bordered table-striped">

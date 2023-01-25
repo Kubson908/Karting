@@ -357,7 +357,7 @@ namespace TorKartingowyCoreMVC.Controllers
             {
                 bool confirm = pass1.Equals(pass2);
                 if (hashPassword(pass).Equals(obj.Haslo) && confirm
-                    && hashPassword(pass1) != obj.Haslo && pass1.Length >= 6)
+                    && hashPassword(pass1) != obj.Haslo && pass1.Length >= 8)
                 {
                     _db.Database.ExecuteSqlRaw("UPDATE Klienci SET Haslo = '" + hashPassword(pass1) + "' WHERE Numer = '" + obj.Numer + "';");
                     TempData["success"] = "Zaktualizowano hasło";
@@ -366,7 +366,7 @@ namespace TorKartingowyCoreMVC.Controllers
                 else if (!hashPassword(pass).Equals(obj.Haslo)) TempData["error"] = "Błędne hasło";
                 else if (!confirm) TempData["error"] = "Hasła nie są takie same";
                 else if (hashPassword(pass1) == obj.Haslo) TempData["error"] = "Nowe hasło nie może być takie jak stare";
-                else if (pass1.Length < 6) TempData["error"] = "Hasło jest za krótkie";
+                else if (pass1.Length < 8) TempData["error"] = "Hasło jest za krótkie";
                 
                 return View(obj);
             }

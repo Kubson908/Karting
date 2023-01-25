@@ -59,8 +59,35 @@ namespace TorKartingowyCoreMVC.Controllers
 			else return RedirectToAction("Index", "Home");
 		}
 
-		//GET
-		public IActionResult CreateSerwis()
+        //GET
+        public IActionResult SerwisDetails(int? id)
+        {
+            if (permission())
+            {
+                if (id == null || id == 0)
+                {
+                    return NotFound();
+                }
+                var serwis = _db.Serwisy.Find(id);
+
+                if (serwis == null)
+                {
+                    return NotFound();
+                }
+                Pracownik Instruktor = null;
+                Pracownik Mechanik = null;
+                if (serwis.InstruktorId != null) Instruktor = _db.Pracownicy.Where(x => x.Id == serwis.InstruktorId).First();
+                if (serwis.MechanikId != null) Mechanik = _db.Pracownicy.Where(x => x.Id == serwis.MechanikId).First();
+                if (Instruktor != null) ViewData["Tworca"] = Instruktor.Imie + " " + Instruktor.Nazwisko;
+                else ViewData["Tworca"] = Mechanik.Imie + " " + Mechanik.Nazwisko;
+                if (Mechanik != null) ViewData["Mechanik"] = Mechanik.Imie + " " + Mechanik.Nazwisko;
+                return View(serwis);
+            }
+            else return RedirectToAction("Index", "Home");
+        }
+
+        //GET
+        public IActionResult CreateSerwis()
 		{
 			if (permission())
 			{

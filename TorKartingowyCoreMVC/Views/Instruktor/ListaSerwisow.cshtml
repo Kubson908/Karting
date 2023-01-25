@@ -7,7 +7,10 @@
     <div>
         <h2 class="text-primary">Lista serwisów</h2>
         <div>
-            <a asp-controller=@User.Claims.FirstOrDefault(c => c.Type == "Role").Value asp-action="CreateSerwis" class="btn btn-primary">
+            <a asp-controller="Instruktor" asp-action="Index" class="btn btn-secondary m-1">
+                Wróć
+            </a>
+            <a asp-controller="Instruktor" asp-action="CreateSerwis" class="btn btn-primary m-1 float-end">
                 <i class="bi bi-plus-circle"></i> &nbsp; Dodaj serwis
             </a>
         </div>
@@ -56,7 +59,7 @@
                         <td>&#10060;</td>
                     }
                     <td>
-                        <a asp-controller=@User.Claims.FirstOrDefault(c => c.Type == "Role").Value asp-action="UpdateSerwis" asp-route-id="@obj.Id" class="btn btn-info">Aktualizuj</a>
+                        <a asp-controller="Instruktor" asp-action="UpdateSerwis" asp-route-id="@obj.Id" class="btn btn-info">Aktualizuj</a>
                     </td>
                 </tr>
             }

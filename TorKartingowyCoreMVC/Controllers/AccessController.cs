@@ -39,9 +39,10 @@ namespace TorKartingowyCoreMVC.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Register2(Klient obj)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && obj.Haslo.Length >= 8)
             {
-                if (_db.Klienci.Any(c => c.Email == obj.Email)) {
+                if (_db.Klienci.Any(c => c.Email == obj.Email))
+                {
                     TempData["error"] = "Podany e-mail jest już zarejestrowany";
                     return View("Register", obj);
                 }
@@ -55,7 +56,7 @@ namespace TorKartingowyCoreMVC.Controllers
 
                 string mailFrom = "kartinghappywheels@gmail.com";
                 var message = new MimeMessage();
-                message.From.Add(new MailboxAddress("Test", mailFrom));
+                message.From.Add(new MailboxAddress("Klub Kartingowy Happy Wheels", mailFrom));
                 message.To.Add(new MailboxAddress(obj.Email, obj.Email));
                 message.Subject = "Aktywacja konta - Klub Kartingowy Happy Wheels";
 
@@ -73,6 +74,7 @@ namespace TorKartingowyCoreMVC.Controllers
                 TempData["Code"] = activateCode;
                 return View(obj);
             }
+            else if (obj.Haslo.Length < 8) TempData["error"] = "Hasło musi mieć co najmniej 8 znaków";
             return View("Register", obj);
         }
 

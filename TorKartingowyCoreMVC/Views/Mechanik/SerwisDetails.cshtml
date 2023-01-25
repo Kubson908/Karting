@@ -1,0 +1,20 @@
+﻿@model Serwis
+@{
+    ViewData["Title"] = "Szczegóły serwisu";
+}
+
+<div class="border p-3 mt-4 m-auto w-100">
+    <div class="row pb-2">
+        <h2 class="text-primary">Serwis numer @Model.Id</h2>
+        <hr />
+    </div>
+    <div class="mb-3">
+        <b>Usterka:</b> @Model.Usterka <br />
+        <b>Utworzony przez:</b> @ViewData["Tworca"] <br />
+        <b>Mechanik:</b> @ViewData["Mechanik"]
+    </div>
+    <br />
+    <a asp-controller="Mechanik" asp-action="ListaRejestr" class="btn btn-secondary" style="width:150px">
+        Wróć
+    </a>
+</div>

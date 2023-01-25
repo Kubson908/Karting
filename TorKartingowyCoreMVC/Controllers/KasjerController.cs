@@ -93,7 +93,7 @@ namespace TorKartingowyCoreMVC.Controllers
                     return NotFound();
                 }
                 double kwota = _db.Platnosci.Where(p => p.Numer == rezerwacjaFromDb.PlatnoscNumer).FirstOrDefault().Kwota;
-                if (rezerwacjaFromDb.Zaliczka) ViewData["DoZaplaty"] = 0.7 * kwota;
+                if (rezerwacjaFromDb.Zaliczka) ViewData["DoZaplaty"] = Math.Round(0.7 * kwota, 2, MidpointRounding.AwayFromZero);
                 else ViewData["DoZaplaty"] = 0;
                 ViewData["kwota"] = kwota;
                 return View(rezerwacjaFromDb);
@@ -114,10 +114,11 @@ namespace TorKartingowyCoreMVC.Controllers
                 var klientFromDb = _db.Klienci.Find(obj.KlientNumer);
                 TempData["DaneKlienta"] = "Klient: " + klientFromDb.Imie + " " + klientFromDb.Nazwisko;
                 TempData["NumerKlienta"] = "Numer klienta: " + klientFromDb.Numer;
-                return RedirectToAction("ListaRezerwacji", "Kasjer", obj.KlientNumer);
+                var lista = _db.Rezerwacje.Where(x => x.KlientNumer == klientFromDb.Numer);
+                return View("ListaRezerwacji", lista);
             }
             double kwota = _db.Platnosci.Where(p => p.Numer == obj.PlatnoscNumer).FirstOrDefault().Kwota;
-            if (obj.Zaliczka) ViewData["DoZaplaty"] = 0.7 * kwota;
+            if (obj.Zaliczka) ViewData["DoZaplaty"] = Math.Round(0.7 * kwota, 2, MidpointRounding.AwayFromZero);
             else ViewData["DoZaplaty"] = kwota;
             ViewData["kwota"] = kwota;
             return View(obj);

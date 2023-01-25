@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using TorKartingowyCoreMVC.Data;
 using TorKartingowyCoreMVC.Models;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace TorKartingowyCoreMVC.Controllers
 {
@@ -72,6 +73,15 @@ namespace TorKartingowyCoreMVC.Controllers
                 var klientFromDb = _db.Klienci.Find(idKlienta);
                 ViewData["DaneKlienta"] = "Klient: " + klientFromDb.Imie + " " + klientFromDb.Nazwisko;
                 ViewData["NumerKlienta"] = "Numer klienta: " + klientFromDb.Numer;
+                if (klientFromDb.Rekord != null)
+                {
+                    int charLocation = klientFromDb.Rekord.IndexOf(":", StringComparison.Ordinal);
+                    if (charLocation > 0)
+                    {
+                        ViewData["Minutes"] = klientFromDb.Rekord.Substring(0, charLocation);
+                        ViewData["Seconds"] = klientFromDb.Rekord.Substring(charLocation + 1);
+                    }
+                }
                 return View(klientFromDb);
             }
             else return RedirectToAction("Index", "Home");
@@ -82,15 +92,13 @@ namespace TorKartingowyCoreMVC.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult UpdateKlient(Klient obj, int minutes, int seconds)
         {
-            if (ModelState.IsValid)
-            {
-                obj.Rekord = minutes.ToString() + ":" + seconds.ToString();
-                _db.Klienci.Update(obj);
-                _db.SaveChanges();
-                TempData["success"] = "Zaktualizowano informacje klienta nr " + obj.Numer;
-                return RedirectToAction("ListaKlientow", "Instruktor");
-            }
-            return View(obj);
+            string sec = seconds.ToString();
+            if (seconds < 10) sec = 0 + sec;
+            obj.Rekord = minutes.ToString() + ":" + sec;
+            _db.Klienci.Update(obj);
+            _db.SaveChanges();
+            TempData["success"] = "Zaktualizowano informacje klienta nr " + obj.Numer;
+            return RedirectToAction("ListaKlientow", "Instruktor");
         }
 
         public IActionResult ListaSerwisow()

@@ -517,6 +517,24 @@ namespace TorKartingowyCoreMVC.Controllers
             else return RedirectToAction("Index", "Home");
         }
 
+        [HttpGet]
+        public async Task<IActionResult> ListaKlientow(string searchFilter)
+        {
+            if (permission())
+            {
+                ViewData["GetKlient"] = searchFilter;
+                var query = from x in _db.Klienci select x;
+                if (!String.IsNullOrEmpty(searchFilter))
+                {
+                    query = query.Where(x => string.Concat(x.Imie, " ", x.Nazwisko).Contains(searchFilter) ||
+                                        x.Numer.ToString().Contains(searchFilter) || x.Email.Contains(searchFilter) ||
+                                        x.Telefon.Contains(searchFilter));
+                }
+                return View(await query.AsNoTracking().ToListAsync());
+            }
+            else return RedirectToAction("Index", "Home");
+        }
+
         //----------------------Harmonogram-------------------------
 
         public IActionResult ListaHarmonogram()

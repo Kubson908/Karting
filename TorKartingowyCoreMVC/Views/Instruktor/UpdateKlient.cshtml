@@ -3,33 +3,35 @@
     <div class="row pt-4">
             <h2 class="text-primary">Aktualizacja statusu klienta</h2>
     </div>
+    <a asp-controller="Instruktor" asp-action="Index" class="btn btn-secondary m-1">
+        Wróć
+    </a>
 </div>
 <form method="post" asp-action="UpdateKlient" class="row">
+    <input asp-for="Numer" hidden />
+    <input asp-for="Email" hidden />
+    <input asp-for="Imie" hidden />
+    <input asp-for="Nazwisko" hidden />
+    <input asp-for="Haslo" hidden />
+    <input hidden asp-for="Telefon" />
 <div class="table-responsive" style="max-width:91vw">
         <table class="table table-bordered table-striped border-5 border-dark mt-4 text-center">
             <tr>
                 <td style="font-weight: bold;">Numer Klienta</td>
                 <td>@Model.Numer</td>
-                <input asp-for="Numer" hidden />
             </tr>
             <tr>
                 <td style="font-weight: bold;">E-mail</td>
                 <td>@Model.Email</td>
-                <input asp-for="Email" hidden />
             </tr>
             <tr>
                 <td style="font-weight: bold;">Imię</td>
                 <td>@Model.Imie</td>
-                <input asp-for="Imie" hidden />
             </tr>
             <tr>
                 <td style="font-weight: bold;">Nazwisko</td>
                 <td>@Model.Nazwisko</td>
-                <input asp-for="Nazwisko" hidden />
-                <input asp-for="Haslo" hidden />
             </tr>
-            <input hidden asp-for="Telefon" />
-                
         </table>
     </div>
     <div class="text-center">
@@ -40,11 +42,10 @@
         </select>
         <br />
         <label asp-for="Rekord" style="font-weight: bold;"></label><br />
-        <input type="number" name="minutes" class="form-control d-inline" style="width:50px; padding: 4px 0;" max="59" min="0" onchange="if(parseInt(this.value,10)<10)this.value='0'+this.value;" /> :
-        <input type="number" name="seconds" class="form-control d-inline" style="width:50px; padding: 4px 0;" max="59" min="0" onchange="if(parseInt(this.value,10)<10)this.value='0'+this.value;" />
+        <input type="number" name="minutes" class="form-control d-inline" style="width:50px; padding: 4px 0;" max="59" min="0" onchange="if(parseInt(this.value,10)<10)this.value='0'+this.value;" value="@ViewData["Minutes"]" /> :
+        <input type="number" name="seconds" class="form-control d-inline" style="width:50px; padding: 4px 0;" max="59" min="0" onchange="if(parseInt(this.value,10)<10)this.value='0'+this.value;" value="@ViewData["Seconds"]" />
         <br /><br /><button type="submit" class="btn btn-primary" style="width:150px;">Zapisz</button>
     </div>
-
 </form>
 <br />
 
