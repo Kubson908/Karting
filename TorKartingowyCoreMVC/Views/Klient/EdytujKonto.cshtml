@@ -1,0 +1,22 @@
+﻿@model Klient
+@{
+    ViewData["Title"] = "EdytujKonto";
+}
+
+<h1>EdytujKonto</h1>
+<form method="post" asp-action="EdytujKonto">
+    <input hidden asp-for="Numer" />
+    
+    <label asp-for="Email"></label>
+    <input asp-for="Email" >
+    
+    <input hidden asp-for="Haslo" />
+    <input hidden asp-for="Imie" />
+    <input hidden asp-for="Nazwisko" />
+    <label asp-for="Telefon"></label>
+    <input asp-for="Telefon">
+    <input hidden asp-for="Szkolenie" />
+    <input hidden asp-for="Rekord" />
+    <input type="submit" />
+
+</form>

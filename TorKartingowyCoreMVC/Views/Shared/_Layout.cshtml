@@ -43,6 +43,7 @@
                                     </svg>
                                 </a>
                                 <div class="dropdown-menu" style="left: -112%;top: 105%;">
+                                    <a class="dropdown-item" asp-controller="Klient" asp-action="WyswietlKonto" asp-route-id="@User.Claims.FirstOrDefault(c => c.Type == "Numer").Value">Moje Dane</a>
                                     <a class="dropdown-item" asp-controller="Klient" asp-action="Rezerwuj1">Rezerwuj</a>
                                     <a class="dropdown-item" asp-controller="Klient" asp-action="ListaRezerwacji">Moje Rezerwacje</a>
                                     <div class="dropdown-divider"></div>
