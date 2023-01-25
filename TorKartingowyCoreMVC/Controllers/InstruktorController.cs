@@ -61,7 +61,7 @@ namespace TorKartingowyCoreMVC.Controllers
         }
 
         //GET
-        public IActionResult UpdateSzkolenie(int? idKlienta)
+        public IActionResult UpdateKlient(int? idKlienta)
         {
             if (permission())
             {
@@ -80,13 +80,14 @@ namespace TorKartingowyCoreMVC.Controllers
         //POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult UpdateSzkolenie(Klient obj)
+        public IActionResult UpdateKlient(Klient obj, int minutes, int seconds)
         {
             if (ModelState.IsValid)
             {
+                obj.Rekord = minutes.ToString() + ":" + seconds.ToString();
                 _db.Klienci.Update(obj);
                 _db.SaveChanges();
-                TempData["success"] = "Zaktualizowano szkolenie klienta nr " + obj.Numer;
+                TempData["success"] = "Zaktualizowano informacje klienta nr " + obj.Numer;
                 return RedirectToAction("ListaKlientow", "Instruktor");
             }
             return View(obj);

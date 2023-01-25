@@ -17,7 +17,7 @@ namespace TorKartingowyCoreMVC.Models
         public string Nazwisko { get; set; }
         public string Telefon { get; set; }
         public bool? Szkolenie { get; set; }
-        public float? Rekord { get; set; }
+        public string? Rekord { get; set; }
         public bool KeepLoggedIn { get; set; }
     }
 }

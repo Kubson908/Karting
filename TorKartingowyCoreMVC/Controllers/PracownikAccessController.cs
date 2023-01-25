@@ -78,10 +78,31 @@ namespace TorKartingowyCoreMVC.Controllers
                 if (stanowisko == "Sprzętowiec") stanowisko = "Sprzetowiec";
                 return RedirectToAction("Index", stanowisko);
             }
-
-
             ViewData["ValidateMessage"] = "Nie znaleziono użytkownika";
             return View();
+        }
+
+        public IActionResult WyswietlKonto(int? id)
+        {
+            ClaimsPrincipal claimUser = HttpContext.User;
+
+            if (claimUser.Identity != null &&
+               claimUser.Identity.IsAuthenticated &&
+               User.Claims.FirstOrDefault(c => c.Type == "Role").Value != "Klient")
+            {
+                if (id == null || id == 0)
+                {
+                    return NotFound();
+                }
+
+                var pracownik = _db.Pracownicy.Find(id);
+                if (pracownik == null)
+                {
+                    return NotFound();
+                }
+                return View(pracownik);
+            }
+            return RedirectToAction("Index", "Home");
         }
     }
 }

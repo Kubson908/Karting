@@ -1,9 +1,12 @@
 ﻿using Braintree;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Newtonsoft.Json.Linq;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
+using System.Text;
 using System.Text.RegularExpressions;
 using TorKartingowyCoreMVC.Data;
 using TorKartingowyCoreMVC.Models;
@@ -19,6 +22,14 @@ namespace TorKartingowyCoreMVC.Controllers
         {
             _db = db;
             _braintreeService = braintreeService;
+        }
+
+        string hashPassword(string password)
+        {
+            var sha = SHA256.Create();
+            var asByteArray = Encoding.Default.GetBytes(password);
+            var hashedPassword = sha.ComputeHash(asByteArray);
+            return Convert.ToBase64String(hashedPassword);
         }
 
         public bool permission()
@@ -297,33 +308,69 @@ namespace TorKartingowyCoreMVC.Controllers
 
         public  IActionResult WyswietlKonto(int? id)
         {
-            if (permission())
-            {
-                var dane = _db.Klienci.Find(id);
-                return View(dane);
-            }return RedirectToAction("Index", "Home");
+            if (!permission()) return RedirectToAction("Index", "Home");
+
+            var dane = _db.Klienci.Find(id);
+            return View(dane);
             
         }
         //GET
         public IActionResult EdytujKonto(int? id)
         {
-            if (permission())
-            {
-                var dane = _db.Klienci.Find(id);
-                return View(dane);
-            }return RedirectToAction("Index", "Home");
+            if (!permission()) return RedirectToAction("Index", "Home");
+
+            var dane = _db.Klienci.Find(id);
+            return View(dane);
         }
         //POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult EdytujKonto(Klient obj)
+        public IActionResult EdytujKonto(Klient obj, string pass)
         {
             if (ModelState.IsValid)
             {
-                _db.Klienci.Update(obj);
-                _db.SaveChanges();
-                TempData["success"] = "Zaktualizowano Twoje Dane";
-                return View("WyswietlKonto", obj);
+                if (hashPassword(pass).Equals(obj.Haslo))
+                {
+                    _db.Klienci.Update(obj);
+                    _db.SaveChanges();
+                    TempData["success"] = "Zaktualizowano Twoje Dane";
+                    return View("WyswietlKonto", obj);
+                }
+                TempData["error"] = "Błędne hasło";
+                return View(obj);
+            }
+            return View(obj);
+        }
+
+        //GET
+        public IActionResult ChangePassword(int? id)
+        {
+            if (!permission()) return RedirectToAction("Index", "Home");
+
+            var dane = _db.Klienci.Find(id);
+            return View(dane);
+        }
+        //POST
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult ChangePassword(Klient obj, string pass, string pass1, string pass2)
+        {
+            if (ModelState.IsValid)
+            {
+                bool confirm = pass1.Equals(pass2);
+                if (hashPassword(pass).Equals(obj.Haslo) && confirm
+                    && hashPassword(pass1) != obj.Haslo && pass1.Length >= 6)
+                {
+                    _db.Database.ExecuteSqlRaw("UPDATE Klienci SET Haslo = '" + hashPassword(pass1) + "' WHERE Numer = '" + obj.Numer + "';");
+                    TempData["success"] = "Zaktualizowano hasło";
+                    return View("WyswietlKonto", obj);
+                }
+                else if (!hashPassword(pass).Equals(obj.Haslo)) TempData["error"] = "Błędne hasło";
+                else if (!confirm) TempData["error"] = "Hasła nie są takie same";
+                else if (hashPassword(pass1) == obj.Haslo) TempData["error"] = "Nowe hasło nie może być takie jak stare";
+                else if (pass1.Length < 6) TempData["error"] = "Hasło jest za krótkie";
+                
+                return View(obj);
             }
             return View(obj);
         }

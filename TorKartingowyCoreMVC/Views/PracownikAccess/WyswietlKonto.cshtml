@@ -1,4 +1,4 @@
-﻿@model Klient
+﻿@model Pracownik
 @{
     ViewData["Title"] = "Konto";
 }
@@ -22,15 +22,8 @@
         <td>@Model.Telefon </td>
     </tr>
     <tr>
-        <td class="text-end">Najlepszy czas: &nbsp;</td>
-        @if (Model.Rekord == null)
-            {
-            <td>Brak</td>
-        }else{
-            <td>@Model.Rekord </td>
-        }
-
-        
+        <td class="text-end">Stanowisko: &nbsp;</td>
+        <td>@Model.Stanowisko</td>
     </tr>
 </table>
 <div class="text-center">

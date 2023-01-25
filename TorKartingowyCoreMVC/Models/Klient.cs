@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
+using System.Numerics;
 
 namespace TorKartingowyCoreMVC.Models
 {
@@ -25,7 +26,7 @@ namespace TorKartingowyCoreMVC.Models
         public string Telefon { get; set; }
         
         public bool? Szkolenie { get; set; } = false;
-        public float? Rekord { get; set; }
+        public string? Rekord { get; set; }
 
         //Navigation Properties
         public List<Rezerwacja> Rezerwacje { get; set; } = new List<Rezerwacja>();

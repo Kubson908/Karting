@@ -8,8 +8,6 @@
         <div class="col-6">
             <h2 class="text-primary">Lista klientów</h2>
         </div>
-        <div class="col-6 text-end">
-        </div>
     </div>
 </div>
 <div class=" text-center">
@@ -62,7 +60,7 @@
                         <td class="text-center">&#10060;</td>
                     }
                     <td class="text-center">
-                        <a class="btn btn-secondary" asp-controller="Instruktor" asp-action="UpdateSzkolenie" asp-route-idKlienta="@obj.Numer">Zrealizuj szkolenie</a>
+                        <a class="btn btn-secondary" disabled asp-controller="Instruktor" asp-action="UpdateKlient" asp-route-idKlienta="@obj.Numer">Aktualizuj informacje</a>
                     </td>
                 </tr>
             }
