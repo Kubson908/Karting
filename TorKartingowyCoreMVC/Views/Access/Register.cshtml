@@ -31,8 +31,8 @@
         </div>
         <div class="mb-3">
             <label asp-for="Haslo"></label>
-            <input asp-for="Haslo" class="form-control" />
-            <span type="password" asp-validation-for="Haslo" class="text-danger"></span>
+            <input type="password"  asp-for="Haslo" class="form-control" />
+            <span asp-validation-for="Haslo" class="text-danger"></span>
         </div>
         <button type="submit" class="btn btn-primary" style="width:150px">Utwórz</button>
         <a asp-controller="Home" asp-action="Index" class="btn btn-secondary" style="width:150px">

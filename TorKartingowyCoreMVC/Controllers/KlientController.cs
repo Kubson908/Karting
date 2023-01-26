@@ -187,7 +187,7 @@ namespace TorKartingowyCoreMVC.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Potwierdzenie(Rezerwacja obj, int spalinowe, int elektryczne, int dla_dzieci, int s, int e, int d)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && (spalinowe > 0 || elektryczne > 0 || dla_dzieci > 0))
             {
                 if (spalinowe + elektryczne + dla_dzieci > obj.LiczbaOsob)
                 {
@@ -224,9 +224,10 @@ namespace TorKartingowyCoreMVC.Controllers
             } 
             else
             {
-                ViewData["Spalinowe"] = spalinowe;
-                ViewData["Elektryczne"] = elektryczne;
-                ViewData["DlaDzieci"] = dla_dzieci;
+                TempData["error"] = "Wybierz gokarty";
+                ViewData["Spalinowe"] = s;
+                ViewData["Elektryczne"] = e;
+                ViewData["DlaDzieci"] = d;
                 return View("Rezerwuj3", obj);
             }
         }
