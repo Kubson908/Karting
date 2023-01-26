@@ -56,6 +56,17 @@ namespace TorKartingowyCoreMVC.Controllers
         public IActionResult Rezerwuj1()
         {
             if (!permission()) return RedirectToAction("Login", "Access");
+            List<Tor> tory = _db.Tory.ToList();
+            List<int> numery = new List<int>();
+            List<string> rodzaje = new List<string>();
+            foreach (var obj in tory)
+            {
+                numery.Add(obj.Id);
+                rodzaje.Add(obj.Rodzaj);
+            }
+
+            ViewBag.Numery = numery;
+            ViewBag.Rodzaje = rodzaje;
 
             return View();
             

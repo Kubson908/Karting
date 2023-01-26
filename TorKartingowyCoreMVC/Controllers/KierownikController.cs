@@ -385,6 +385,11 @@ namespace TorKartingowyCoreMVC.Controllers
             {
                 return NotFound();
             }
+            if(_db.Rezerwacje.Any(x => x.TorId == obj.Id))
+            {
+                TempData["error"] = "W bazie występują rezerwacje na usuwany tor";
+                return RedirectToAction("ListaTorow");
+            }
             _db.Tory.Remove(obj);
             _db.SaveChanges();
             TempData["success"] = "Usunięto tor";

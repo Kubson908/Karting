@@ -8,11 +8,7 @@
         </div>
         <div class="mb-3">
             <label asp-for="Rodzaj"></label>
-            <select asp-for="Rodzaj" class="form-control">
-                <option value="">--Rodzaj--</option>
-                <option value="Kryty">Kryty</option>
-                <option value="Odkryty">Odkryty</option>
-            </select>
+            <input asp-for="Rodzaj" class="form-control" />
             <span asp-validation-for="Rodzaj" class="text-danger"></span>
         </div>
         <div class="mb-3">

@@ -13,8 +13,10 @@
         <div class="mb-3">
             <select asp-for="TorId" class="form-select">
                 <option value="">--Tor--</option>
-                <option value="1">Kryty</option>
-                <option value="2">Odkryty</option>
+            @for (int i = 0; i < ViewBag.Numery.Count; i++)
+            {
+                <option value="@ViewBag.Numery[i]">@ViewBag.Rodzaje[i]</option>
+            }
             </select>
             <span asp-validation-for="TorId" class="text-danger"></span>
         </div>
