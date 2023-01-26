@@ -113,15 +113,7 @@ namespace TorKartingowyCoreMVC.Controllers
         //POST
         [HttpPost]
         public async Task<IActionResult> Login(VMLogin modelLogin)
-        {
-            if (modelLogin.Email == "" || modelLogin.Haslo == ""
-                || modelLogin.Email == null || modelLogin.Haslo == null)
-            {
-                TempData["error"] = "Wprowadź dane";
-                return View();
-            }
-                
-                
+        { 
             var klientFromDb = _db.Klienci.Where(o => o.Email == modelLogin.Email).FirstOrDefault();
             modelLogin.Haslo = hashPassword(modelLogin.Haslo);
             if (klientFromDb != null && 
