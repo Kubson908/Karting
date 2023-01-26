@@ -23,7 +23,7 @@ builder.Services.AddAuthentication(
         option.ExpireTimeSpan = TimeSpan.FromMinutes(20);
     });
 
-builder.Services.AddTransient<IBraintreeService, BraintreeService>();
+builder.Services.AddSingleton<IBraintreeService, BraintreeService>();
 
 var app = builder.Build();
 

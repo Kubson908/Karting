@@ -197,15 +197,20 @@ namespace TorKartingowyCoreMVC.Controllers
                     ViewData["DlaDzieci"] = d;
                     return View("Rezerwuj3", obj);
                 }
-                var gateway = new BraintreeGateway()
-                {
-                    Environment = Braintree.Environment.SANDBOX,
-                    MerchantId = "mwvfb4wggzs9rxx6",
-                    PublicKey = "7793g3g2d5wnv895",
-                    PrivateKey = "5f70cad59e17666d2f18786c0d270819"
-                };
+                //var gateway = new BraintreeGateway()
+                //{
+                //    Environment = Braintree.Environment.SANDBOX,
+                //    MerchantId = "n3zd856n7vrbjwtn",
+                //    PublicKey = "rwzqtwp6n7tg355z",
+                //    PrivateKey = "8957c88b577dc9baa99982710937375c"
+                //};
+                //var clientToken = gateway.ClientToken.Generate();
+                //ViewBag.ClientToken = clientToken;
+
+                var gateway = _braintreeService.GetGateway();
                 var clientToken = gateway.ClientToken.Generate();
                 ViewBag.ClientToken = clientToken;
+
                 ViewData["Spalinowe"] = spalinowe;
                 ViewData["Elektryczne"] = elektryczne;
                 ViewData["DlaDzieci"] = dla_dzieci;
@@ -228,10 +233,10 @@ namespace TorKartingowyCoreMVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Rezerwuj(Rezerwacja obj, int spalinowe, int elektryczne, int dla_dzieci, int s, int e, int d)
+        public IActionResult Rezerwuj(Rezerwacja obj, int spalinowe, int elektryczne, int dla_dzieci, int s, int e, int d, string nonce)
         {
             if (ModelState.IsValid)
-            {
+            {   
                 if (spalinowe + elektryczne + dla_dzieci > obj.LiczbaOsob)
                 {
                     TempData["error"] = "Ilość gokartów nie może być większa niż liczba osób";
@@ -286,18 +291,43 @@ namespace TorKartingowyCoreMVC.Controllers
                 double suma = spalinowe * obj.Czas * cennik.Spalinowy + elektryczne * obj.Czas * cennik.Elektryczny + dla_dzieci * obj.Czas * cennik.DlaDzieci;
                 if (obj.DodatkoweSzkolenia) suma += cennik.DodatkoweSzkolenie;
                 platnosc.Kwota = suma;
-                _db.Platnosci.Add(platnosc);
-                _db.SaveChanges();
-                int idPlatnosci = _db.Platnosci.OrderByDescending(p => p.Numer).FirstOrDefault().Numer;
-                obj.PlatnoscNumer = idPlatnosci;
-                obj.Gokarty = "Spalinowe: " + spalinowe + 
-                        "<br />Elektryczne: " + elektryczne +
-                        "<br />Dla dzieci: " + dla_dzieci;
-                _db.Rezerwacje.Add(obj);
-                _db.SaveChanges();
-                TempData["success"] = "Pomyślnie zarezerwowano";
-                return RedirectToAction("Index", "Home");
+                var pay = suma;
+                if (obj.Zaliczka) pay = 0.3 * suma;
+
+                string nonceFromtheClient = nonce;
+                var gateway = _braintreeService.GetGateway();
+                var request = new TransactionRequest
+                {
+                    Amount = Convert.ToDecimal(pay),
+                    PaymentMethodNonce = nonceFromtheClient,
+                    OrderId = "55501",
+                    Options = new TransactionOptionsRequest
+                    {
+                        SubmitForSettlement = true
+                    }
+                };
+
+                Result<Transaction> result = gateway.Transaction.Sale(request);
+                if(result.Target.ProcessorResponseText == "Approved")
+                {
+                    _db.Platnosci.Add(platnosc);
+                    _db.SaveChanges();
+                    int idPlatnosci = _db.Platnosci.OrderByDescending(p => p.Numer).FirstOrDefault().Numer;
+                    obj.PlatnoscNumer = idPlatnosci;
+                    obj.Gokarty = "Spalinowe: " + spalinowe + 
+                            "<br />Elektryczne: " + elektryczne +
+                            "<br />Dla dzieci: " + dla_dzieci;
+                    _db.Rezerwacje.Add(obj);
+                    _db.SaveChanges();
+                    TempData["success"] = "Pomyślnie zarezerwowano";
+                    return RedirectToAction("Index", "Home");
+                }
+                ViewData["Spalinowe"] = s;
+                ViewData["Elektryczne"] = e;
+                ViewData["DlaDzieci"] = d;
+                return View("Potwierdzenie", obj);
             }
+            TempData["error"] = "Błąd płatności";
             ViewData["Spalinowe"] = s;
             ViewData["Elektryczne"] = e;
             ViewData["DlaDzieci"] = d;

@@ -49,7 +49,7 @@ namespace TorKartingowyCoreMVC.Controllers
                 if (_db.Klienci.Any(c => c.Telefon == obj.Telefon))
                 {
                     TempData["error"] = "Podany numer telefonu jest już zarejestrowany";
-                    return View(obj);
+                    return View("Register", obj);
                 }
                 Random random = new Random();
                 int activateCode = random.Next(111111, 999999);

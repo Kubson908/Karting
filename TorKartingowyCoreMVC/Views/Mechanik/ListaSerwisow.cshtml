@@ -50,8 +50,12 @@
                     <td>
                         @obj.DataUtworzenia
                     </td>
+                    @{
+                        string usterka = obj.Usterka;
+                        if (obj.Usterka.Length > 20) usterka = usterka.Substring(0, 20) + "...";
+                    }
                     <td>
-                        @obj.Usterka
+                        @usterka
                     </td>
                     @if (obj.Wykonano == true)
                     {

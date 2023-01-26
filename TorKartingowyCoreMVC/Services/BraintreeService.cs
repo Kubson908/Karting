@@ -4,29 +4,33 @@ namespace TorKartingowyCoreMVC.Services
 {
     public class BraintreeService : IBraintreeService
     {
-        private readonly IConfiguration _config;
+        private IBraintreeGateway BraintreeGateway { get; set; }
 
-        public BraintreeService(IConfiguration config)
-        {
-            _config = config;
-        }
+        //private readonly IConfiguration _config;
+
+        //public BraintreeService(IConfiguration config)
+        //{
+        //    _config = config;
+        //}
 
         public IBraintreeGateway CreateGateway()
         {
-            var newGateway = new BraintreeGateway()
+            return new BraintreeGateway()
             {
                 Environment = Braintree.Environment.SANDBOX,
-                MerchantId = "mwvfb4wggzs9rxx6",
-                PublicKey = "7793g3g2d5wnv895",
-                PrivateKey = "5f70cad59e17666d2f18786c0d270819"
+                MerchantId = "n3zd856n7vrbjwtn",
+                PublicKey = "k7b8f2k6cxsmrtd4",
+                PrivateKey = "8a3f79a7e3ee5e4b2062ac65b8802eca"
             };
-
-            return newGateway;
         }
 
         public IBraintreeGateway GetGateway()
         {
-            return CreateGateway();
+            if (BraintreeGateway == null)
+            {
+                BraintreeGateway = CreateGateway();
+            }
+            return BraintreeGateway;
         }
     }
 }

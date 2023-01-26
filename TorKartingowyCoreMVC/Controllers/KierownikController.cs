@@ -679,6 +679,24 @@ namespace TorKartingowyCoreMVC.Controllers
             return View(magazyn);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Magazyn(string searchFilter)
+        {
+            if (permission())
+            {
+                ViewData["GetMagazyn"] = searchFilter;
+                var query = from x in _db.Magazyn select x;
+                if (!String.IsNullOrEmpty(searchFilter))
+                {
+                    query = query.Where(x => string.Concat(x.Kategoria, " ", x.Nazwa).Contains(searchFilter) ||
+                                        x.Opis.Contains(searchFilter) || x.Nazwa.Contains(searchFilter) ||
+                                        x.Kategoria.Contains(searchFilter));
+                }
+                return View(await query.AsNoTracking().ToListAsync());
+            }
+            else return RedirectToAction("Index", "Home");
+        }
+
         //GET
         public IActionResult CreateMagazyn()
         {
