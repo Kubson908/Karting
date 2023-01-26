@@ -6,15 +6,15 @@
 
 <div class="card-body p-2">
     <div class="d-flex flex-row justify-content-center">
-        <div style="margin: auto; width:30vw;" class="text-center">
+        <div style="margin: auto;" class="text-center">
             <br />
             <br />
             <h1>Zaloguj</h1>
             <br />
             <form asp-controller="Access" asp-action="Login" method="post">
-                <input type="text" placeholder="Email" asp-for="Email" class="form-control m-1 w-100 d-flex" />
+                <input type="text" placeholder="Email" asp-for="Email" class="form-control m-1 d-flex" style="width:25vh;" />
                 <span asp-validation-for="Email" class="text-danger"></span>
-                <input type="password" placeholder="Hasło" asp-for="Haslo" class="form-control w-100 m-1" />
+                <input type="password" placeholder="Hasło" asp-for="Haslo" class="form-control m-1" style="width:25vh;" />
 
                 <label>
                     <input class="form-check-input" type="checkbox" asp-for="KeepLoggedIn" />
