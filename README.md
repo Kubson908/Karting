@@ -32,4 +32,8 @@ The first stand-alone web application project created while attending university
 [MSSQLServer-url]: https://www.microsoft.com/en-us/sql-server
 
 ##
-
+<div align="center">
+  <img src="screenshots/home-page.png" width="90%"/>
+  <img src="screenshots/reservation.png" width="90%"/>
+  <img src="screenshots/service.png" width="90%"/>
+</div>
